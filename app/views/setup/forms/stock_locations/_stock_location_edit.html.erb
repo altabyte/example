@@ -1,0 +1,54 @@
+<script type="text/javascript">
+    var stock_location_id = '<%= stock_location.id %>';
+</script>
+<a id="back" href="#" class="btn btn-inverse back_button"><%= t('.back') %></a>
+
+<h4 id="save_message"></h4>
+<div id="stock_location_tabs">
+  <ul>
+    <li data-link="stock_locations_basic_details_tab">
+      <a id="btn_stock_locations_basic_details_tab"><%= t('.basic_details') %></a></li>
+    <li data-link="user_access"><a id="btn_user_access"><%= t('.user_access') %></a></li>
+  </ul>
+
+  <div>
+
+    <div id="stock_locations_basic_details_tab">
+      <%= semantic_form_for stock_location, :url => "/stock_locations/#{stock_location.id}/update", :remote => true, :html => {:method => "post", :id => 'stock_locations_basic_details_form', :class => "form-horizontal"} do |f| %>
+          <div style="width:100%;">
+            <div id="basic-form-area">
+              <%= f.semantic_errors %>
+              <%= f.inputs do %>
+                  <%= f.input :name, :label => t('.name') %>
+                  <%= f.input :reference, :label => t('.reference') %>
+                  <%= f.input :stock_only, :label => t('.stock_only') %>
+                  <%= f.input :enable_scale_integration, :label => t('.enable_scale_integration') %>
+              <% end %>
+              <%= maintenance_toolbar_save %>
+      <% end %>
+      </div>
+      </div>
+    </div>
+
+    <div id="user_access">
+      <div>
+        <table id="stock_location_users_table" class="display" data-source="<%= "/stock_locations/#{stock_location.id}/list_stock_location_users" %>">
+          <thead>
+          <tr>
+            <th><%= t('.name') %></th>
+            <th><%= t('.email') %></th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="new_stock_location_user_dialog" title="<%= t('.new_stock_location_user') %>"></div>
+
+

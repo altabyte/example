@@ -1,0 +1,19 @@
+<%= javascript_include_tag 'spectrum' %>
+<%= stylesheet_link_tag 'spectrum' %>
+
+<table id="channel_shipping_services" class="display" data-source="<%= "/channels/#{@channel.id}/list_channel_shipping_services" %>">
+  <thead>
+  <tr>
+    <th><%= t('.shipping_text') %></th>
+    <th><%= t('.shipping_service') %></th>
+    <th><%= t('.useable_text') %></th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+
+  </tbody>
+</table>
+<div id="edit_channel_shipping_service_dialog" title="<%= t('.edit_channel_shipping_service') %>"></div>
+

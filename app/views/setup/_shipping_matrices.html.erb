@@ -1,0 +1,45 @@
+<div style="float: right;">
+  <img id='download_file' src=<%= asset_path('icons/cloud_downloadx2.png') %>>
+  <img id='upload_file' src=<%= asset_path('icons/cloud_uploadx2.png') %>>
+</div>
+<div id='import_dialog' title='<%= t('.import_matrices') %>'>
+
+  <%= form_tag '/shipping_matrices/import_file.json', multipart: true, :id => "import_matrix_form", :remote => true do %>
+      <div id='import_error'></div>
+      <div style="color: #ff0000"> <%= t('.import_warning') %></div>
+      <br>
+
+      <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">
+                        Browse&hellip; <input type="file" name="file" id="file">
+                    </span>
+                </span>
+        <span class="file_display"></span>
+      </div>
+      <br/>
+      <%= submit_tag t('.import_file'), :class => 'btn_submit btn', :style => 'margin-top:20px' %>
+  <% end %>
+
+</div>
+<br/><br/>
+<div id="shipping_matrices_select_pane">
+
+  <table id="shipping_matrices_table" class="display" data-source="/shipping_matrices.json">
+    <thead>
+    <tr>
+      <th><%= t('.country') %></th>
+      <th><%= t('.next_day') %></th>
+      <th><%= t('.order_subtotal_from') %></th>
+      <th><%= t('.order_subtotal_to') %></th>
+      <th><%= t('.weight_from') %></th>
+      <th><%= t('.weight_to') %></th>
+      <th><%= t('.shipping_cost') %></th>
+      <th><%= t('.shipping_service') %></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>

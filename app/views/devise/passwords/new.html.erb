@@ -1,0 +1,22 @@
+<div id="sign-in" xmlns="http://www.w3.org/1999/html">
+  <%= image_tag('om_logo.png') %> <br>
+
+  <div id="reset-password-container">
+    <h4>Reset Password</h4>
+
+    <div id="signinlogo">
+      <%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => {:method => :post}) do |f| %>
+          <%= devise_error_messages! %>
+          <div id="reset-pass-area">
+          </div>
+          <fieldset>                                                                         </br>
+            <div><%= f.label :email %>
+              <%= f.email_field :email, {:placeholder => 'enter email address'} %></div>
+            </br>
+            <div id="reset-password">
+              <%= f.submit "Reset my password", :class => 'btn btn-primary' %></div>
+          </fieldset>
+          </div>
+      <% end %>
+      </div>
+</div>

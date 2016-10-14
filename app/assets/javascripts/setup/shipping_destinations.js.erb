@@ -1,0 +1,74 @@
+var delete_button_id;
+
+function setupShippingDestinations() {
+
+    $('#shipping_destinations').dataTable({
+        "sPaginationType": "full_numbers",
+        bJQueryUI: true,
+        bProcessing: true,
+        bServerSide: true,
+        sAjaxSource: $('#shipping_destinations').data('source'),
+        bFilter: true,
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [4]},
+            {"sWidth": "5%", "aTargets": [4]}
+        ]
+    }).fnSetFilteringDelay();
+
+    $("#shipping_destinations_filter").append("<img id='new_shipping_destination' src='" + new_button_src + "' class='new-button'/>")
+
+    $('#shipping_destinations .delete-button').live('click', function (event) {
+        delete_button_id = this.id;
+        delete_shipping_dest_row(delete_button_id);
+    });
+
+
+    $('#shipping_destination_new_dialog_form').live("ajax:success", function (evt, data, status, xhr) {
+        $('#shipping_destination_new_dialog_form').html(xhr.responseText);
+        $('#shipping_destination_new_dialog').dialog('close');
+    }).live("ajax:error", function (evt, xhr, status, error) {
+        $('#shipping_destination_new_dialog_form').html(xhr.responseText);
+    });
+
+    $('#shipping_destination_new_dialog').live("dialogclose", function () {
+        $('#shipping_destinations').dataTable().fnDraw();
+    });
+
+    $('#new_shipping_destination').live('click', function (event) {
+        var url = '/shipping_destinations/new'
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#shipping_destination_new_dialog').html(data);
+                $('#shipping_destination_new_dialog').dialog('open');
+                update_packing_type_name();
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+    $('#shipping_destination_new_dialog').dialog({
+        height: 'auto',
+        width: '600px',
+        modal: true,
+        autoOpen: false
+    });
+}
+
+function delete_shipping_dest_row(id) {
+    var url = '/shipping_destinations/destroy/' + id;
+    url = url.replace('delete_shipping_destination_', '');
+
+    var options = {
+        url: url,
+        text: "Are you sure you want to delete this shipping destination?",
+        on_completed: function () {
+            $('#shipping_destinations').dataTable().fnDraw();
+        }
+    };
+    delete_dialog(options);
+}
+
+

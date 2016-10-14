@@ -1,0 +1,5 @@
+<% if @tracking_info and @tracking_info['checkpoints'] and @tracking_info['checkpoints'].length > 0 %>
+    <%= aftership_checkpoints_to_table(@tracking_info['checkpoints']).html_safe %>
+<% else %>
+    No tracking events to display
+<% end %>

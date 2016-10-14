@@ -1,0 +1,1653 @@
+---
+en:
+  breadcrumbs:
+    company_logs: Company Logs
+    customers: Customers
+    dispatch_console: Dispatch Console
+    home: Home
+    items: Items
+    orders: Orders
+    order_picks: Order Fulfilment
+    order_shipments: Order Shipments
+    reports: Documents
+    shipping_methods: Shipping Methods
+    stock_locations: Stock Locations
+    system_settings: System Settings
+    unopened_reports: Unopened Documents
+    users: Users
+    order_weighing: Order Weighing
+    packaging_types: Packaging Types
+    shipping_destinations: Shipping Destinations
+    fedex_shipments: Fedex Shipments
+    setup: Setup
+    companies: Companies
+    pending_orders: Pending Orders
+    shipment_check: Shipment Check
+  channel_shipping_services:
+    edit:
+      edit: Edit
+    form:
+      channel: Channel
+      shipping_service: Shipping Service
+      shipping_text: Shipping Text
+      useable_text: Useable Text
+      highlight_colour: Highlight Colour
+      next_day: Next Day
+      font_colour: Font Colour
+    index:
+      channel: Channel
+      listing: Listing
+      new: New
+      shipping_service: Shipping Service
+      shipping_text: Shipping Text
+      useable_text: Useable Text
+    new:
+      new: New
+    show:
+      channel: Channel
+      channel_id: Channel ID
+      shipping_service: Shipping Service
+      shipping_service_id: Shipping Service ID
+      shipping_text: Shipping Text
+      show: Show
+      useable_text: Useable Text
+      highlight_colour: Highlight Colour
+      font_colour: Font Colour
+      next_day: Next Day
+    new_services_panel:
+      new_shipping_services_found: New Shipping Services Found
+      please_update_these_before_continuing: Please Update These Before Continuing
+      channel: Channel
+      shipping_text: Shipping Text
+      shipping_service: Shipping Service
+  channel_statuses:
+    edit:
+      edit: Edit Channel Status
+    form:
+      channel_name: Channel Name
+      outbound_status: Outbound Status
+      status: System Status
+      status_name: Status Name
+    index:
+      channel_name: Channel Name
+      listing: Listing Channel Statuses
+      new: New
+      status: System Status
+      status_name: Status Name
+    new:
+      new: New Channel Status
+    show:
+      channel_name: Channel Name
+      outbound_status: Outbound Status
+      show: Showing Channel Status
+      status: System Status
+      status_name: Status Name
+  channels:
+    edit:
+      edit: Edit Channel
+    form:
+      address_1: Address 1
+      address_2: Address 2
+      channel_id: Channel
+      channel_name: Channel Name
+      channel_status: Channel Status
+      company_id: Company ID
+      connection_1: Connection 1
+      connection_2: Connection 2
+      connection_3: Connection 3
+      connection_4: Connection 4
+      connection_5: Connection 5
+      country: Country
+      county: County
+      email: Email
+      logo: Logo
+      'no': 'No'
+      post_code: Post Code
+      return_name: Return Name
+      status: Status
+      system_channel: System Channel
+      system_status: System Status
+      telephone: Telephone
+      town: Town
+      'yes': 'Yes'
+      download_overlap_minutes: Download overlap minutes
+      terms_pdf: Terms pdf
+    index:
+      channel_name: Channel Name
+      connection_1: Connection 1
+      connection_2: Connection 2
+      connection_3: Connection 3
+      connection_4: Connection 4
+      connection_5: Connection 5
+      listing: Listing Channels
+      new: New
+      system_channel: System Channel
+    new:
+      new: New Channel
+    show:
+      address_1: Address 1
+      address_2: Address 2
+      channel_id: Channel
+      channel_name: Channel Name
+      channel_status: Channel Status
+      company_id: Company ID
+      connection_1: Connection 1
+      connection_2: Connection 2
+      connection_3: Connection 3
+      connection_4: Connection 4
+      connection_5: Connection 5
+      country: Country
+      county: County
+      email: Email
+      'no': 'No'
+      post_code: Post Code
+      return_name: Return Name
+      show: Showing Channel
+      system_channel: System Channel
+      system_status: System Status
+      telephone: Telephone
+      town: Town
+      'yes': 'Yes'
+  comfirm_pick: Comfirm Pick
+  companies:
+    edit:
+      edit: Edit
+    form:
+      address_1: Address 1
+      address_2: Address 2
+      channel_id: Channel ID
+      county: County
+      email: Email
+      fax: Fax
+      logo: Logo
+      name: Name
+      post_code: Post Code
+      telephone: Telephone
+      town: Town
+      terms_pdf: Terms pdf
+    index:
+      channel_id: Channel ID
+      listing: Listing
+      name: Name
+      new_company: New Company
+      address: Address
+      delete: Delete Company
+      delete_message: Are you sure you want to delete this company?
+    show:
+      address_1: Address 1
+      address_2: Address 2
+      channel_id: Channel ID
+      country: Country
+      county: County
+      email: Email
+      fax: Fax
+      name: Name
+      post_code: Post Code
+      show: Show
+      telephone: Telephone
+      town: Town
+    new:
+      new: New
+    new_company:
+      name: Name
+  company_logs:
+    index:
+      clear_logs: Clear ALL Logs
+      clear_logs_confirmation: Are you sure you want to clear ALL logs for your company?
+      date_time: Date Time
+      log_level: Log Level
+      log_level_filter: Log Level Filter
+      mark_all_as_read: Mark ALL as read
+      mark_logs_as_read_confirmation: Are you sure you want to mark ALL logs for your
+        company as read?
+      message: Message
+  confirm_dispatch: Are you sure you want to dispatch the selected orders?
+  customers:
+    edit:
+      edit: Edit
+    form:
+      address_1: Address 1
+      address_2: Address 2
+      address_type: Address Type
+      addresses: Addresses
+      back: Back
+      basic_details: Basic Details
+      bill_address: Bill Address
+      billing_address: Billing Address
+      channel_id: Channel ID
+      country: Country
+      county: County
+      email: Email
+      first_name: First Name
+      name: Name
+      order_history: Order History
+      post_code: Post Code
+      shipping_address: Shipping Address
+      surname: Surname
+      telephone: Telephone
+      telephone_1: Telephone 1
+      town: Town
+    forms:
+      customer_address:
+        address_1: Address 1
+        address_2: Address 2
+        address_type: Address Type
+        country: Country
+        county: County
+        post_code: Post Code
+        telephone: Telephone
+        town: Town
+        company: Company
+        name: Name
+    index:
+      channel: Channel
+      channel_id: Channel ID
+      edit: Edit
+      email: Email
+      first_name: First Name
+      listing: Listing
+      listing_customers: Listing Customers
+      name: Name
+      new: New
+      surname: Surname
+      close: Close
+    new:
+      new: New
+    show:
+      address_1: Address 1
+      address_2: Address 2
+      channel_id: Channel ID
+      country: Country
+      county: County
+      email: Email
+      first_name: First Name
+      name: Name
+      post_code: Post Code
+      show: Show
+      surname: Surname
+      telephone: Telephone
+      telephone_1: Telephone 1
+      town: Town
+      type: Type
+    tabs:
+      addresses:
+        address_type: Address Type
+        country: Country
+        edit: Edit
+        edit_customer_address: Edit Customer Address
+        post_code: Post Code
+        town: Town
+      basic_details:
+        company: Company
+        email: Email
+        merchandise_group: Merchandise Group
+        name: Name
+        phone_number: Phone Number
+      billing_address:
+        address_1: Address 1
+        address_2: Address 2
+        country: Country
+        county: County
+        phone: Phone
+        post_code: Post Code
+        town: Town
+      order_history:
+        date: Date
+        order_id: Order ID
+        order_information: Order Information
+        value: Value
+        status: Status
+      shipping_address:
+        address_1: Address 1
+        address_2: Address 2
+        country: Country
+        county: County
+        phone: Phone
+        post_code: Post Code
+        town: Town
+  date:
+    abbr_day_names:
+    - Sun
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
+    abbr_month_names:
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - May
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Oct
+    - Nov
+    - Dec
+    day_names:
+    - Sunday
+    - Monday
+    - Tuesday
+    - Wednesday
+    - Thursday
+    - Friday
+    - Saturday
+    formats:
+      default: ! '%d-%m-%Y'
+      long: ! '%d %B, %Y'
+      short: ! '%d %b'
+    month_names:
+    - January
+    - February
+    - March
+    - April
+    - May
+    - June
+    - July
+    - August
+    - September
+    - October
+    - November
+    - December
+    order:
+    - :day
+    - :month
+    - :year
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: about 1 hour
+        other: about %{count} hours
+      about_x_months:
+        one: about 1 month
+        other: about %{count} months
+      about_x_years:
+        one: about 1 year
+        other: about %{count} years
+      almost_x_years:
+        one: almost 1 year
+        other: almost %{count} years
+      half_a_minute: half a minute
+      less_than_x_minutes:
+        one: less than a minute
+        other: less than %{count} minutes
+      less_than_x_seconds:
+        one: less than 1 second
+        other: less than %{count} seconds
+      over_x_years:
+        one: over 1 year
+        other: over %{count} years
+      x_days:
+        one: 1 day
+        other: ! '%{count} days'
+      x_minutes:
+        one: 1 minute
+        other: ! '%{count} minutes'
+      x_months:
+        one: 1 month
+        other: ! '%{count} months'
+      x_seconds:
+        one: 1 second
+        other: ! '%{count} seconds'
+    prompts:
+      day: Day
+      hour: Hour
+      minute: Minute
+      month: Month
+      second: Seconds
+      year: Year
+  devise:
+    confirmations:
+      confirmed: Your account was successfully confirmed. You are now signed in.
+      send_instructions: You will receive an email with instructions about how to
+        confirm your account in a few minutes.
+      send_paranoid_instructions: If your e-mail exists on our database, you will
+        receive an email with instructions about how to confirm your account in a
+        few minutes.
+    failure:
+      already_authenticated: You are already signed in.
+      inactive: Your account was not activated yet.
+      invalid: Invalid email or password.
+      invalid_token: Invalid authentication token.
+      locked: Your account is locked.
+      timeout: Your session expired, please sign in again to continue.
+      unauthenticated: You need to sign in or sign up before continuing.
+      unconfirmed: You have to confirm your account before continuing.
+    invalid_captcha: The captcha input is not valid!
+    mailer:
+      confirmation_instructions:
+        subject: Confirmation instructions
+      reset_password_instructions:
+        subject: Reset password instructions
+      unlock_instructions:
+        subject: Unlock Instructions
+    omniauth_callbacks:
+      failure: Could not authorize you from %{kind} because "%{reason}".
+      success: Successfully authorized from %{kind} account.
+    password_expired:
+      change_required: Your password is expired. Please renew your password!
+      updated: Your new password is saved.
+    passwords:
+      send_instructions: You will receive an email with instructions about how to
+        reset your password in a few minutes.
+      send_paranoid_instructions: If your e-mail exists on our database, you will
+        receive a password recovery link on your e-mail
+      updated: Your password was changed successfully. You are now signed in.
+      updated_not_active: Your password was changed successfully.
+    registrations:
+      destroyed: Bye! Your account was successfully cancelled. We hope to see you
+        again soon.
+      signed_up: Welcome! You have signed up successfully.
+      signed_up_but_inactive: You have signed up successfully. However, we could not
+        sign you in because your account is not yet activated.
+      signed_up_but_locked: You have signed up successfully. However, we could not
+        sign you in because your account is locked.
+      signed_up_but_unconfirmed: A message with a confirmation link has been sent
+        to your email address. Please open the link to activate your account.
+      updated: You updated your account successfully.
+    sessions:
+      new:
+        email_placeholder: enter email or username
+        login: Login
+        password_placeholder: enter your password
+        resend_unlock: Resend Unlock?
+        reset_password: Reset Password?
+        sign_in_to: ! 'Sign in to:'
+      signed_in: Signed in successfully.
+      signed_out: Signed out successfully.
+    unlocks:
+      send_instructions: You will receive an email with instructions about how to
+        unlock your account in a few minutes.
+      send_paranoid_instructions: If your account exists, you will receive an email
+        with instructions about how to unlock it in a few minutes.
+      unlocked: Your account was successfully unlocked. You are now signed in.
+  errors:
+    messages:
+      already_confirmed: was already confirmed, please try signing in
+      expired: has expired, please request a new one
+      not_found: not found
+      not_locked: was not locked
+      not_saved:
+        ! '@taguri': x-private:null
+        str: ''
+  general:
+    save_successful: Save Successful
+    maintenance_forms:
+      edit_tooltip: Edit Tooltip
+      show_tooltip: Show Tooltip
+      delete_confirmation: Delete?
+      delete_button_ok: OK
+      delete_button_cancel: Cancel
+      delete_tooltip: Delete
+      print_tooltip: Print
+      clone_tooltip: Clone
+    are_you_sure: Are you sure?
+    negative: 'No'
+    positive: 'Yes'
+  helpers:
+    select:
+      prompt: Please select
+    submit:
+      create: Create %{model}
+      submit: Save %{model}
+      update: Update %{model}
+  home:
+    index:
+      life_time_orders: Life Time Order
+      pending_orders: Pending Orders
+      new_orders: New Orders
+      customers: Customers
+      todays_order_count: Todays Order Count
+      weeks_order_count: Weeks Order Count
+      months_order_count: Months Order Count
+      todays_order_value: Todays Order Value
+      weeks_order_value: Weeks Order Value
+      months_order_value: Months Order Value
+    set_location:
+      location: Location
+    dashboard:
+      life_time_orders: Life Time Orders
+      new_orders: New Orders
+      customers: Customers
+      pending_orders: Pending Orders
+      todays_order_count: Todays Order Count
+      weeks_order_count: Weeks Order Count
+      months_order_count: Months Order Count
+      todays_order_value: Todays Order Value
+      weeks_order_value: Weeks Order Value
+      months_order_value: Months Order Value
+  items:
+    form:
+      back: Back
+    index:
+      colour: Colour
+      items: Items
+      name: Name
+      size: Size
+      sku: Sku
+  layouts:
+    footer:
+      version_number: Version
+    navigation:
+      version_number: Version Number
+  maintenance:
+    accept: Accept
+    back: Back
+    edit: Edit
+    new: New
+    save: Save
+  number:
+    currency:
+      format:
+        delimiter: ! ','
+        format: ! '%u%n'
+        precision: 2
+        separator: .
+        significant: false
+        strip_insignificant_zeros: false
+        unit: £
+    format:
+      delimiter: ! ','
+      precision: 3
+      separator: .
+      significant: false
+      strip_insignificant_zeros: false
+    human:
+      decimal_units:
+        format: ! '%n %u'
+        units:
+          billion: Billion
+          million: Million
+          quadrillion: Quadrillion
+          thousand: Thousand
+          trillion: Trillion
+          unit: ''
+      format:
+        delimiter: ''
+        precision: 3
+        significant: true
+        strip_insignificant_zeros: true
+      storage_units:
+        format: ! '%n %u'
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: KB
+          mb: MB
+          tb: TB
+    percentage:
+      format:
+        delimiter: ''
+    precision:
+      format:
+        delimiter: ''
+  orders:
+    pending_orders:
+      orders_queued_for_retry: Orders Queued For Retry
+    order_information_tabs:
+      order_information_tabs:
+        order_information: Order Information
+        shipping_address_map: Shipping Address Map
+        items: Items
+        shipments: Shipments
+        sage_pay: Sage Pay
+        linked_orders: Linked Orders
+      order_information_tab:
+        order_manager_id: Order Manager ID
+        order_reference: Order Reference
+        order_source: Order Source
+        customer: Customer
+        order_total: Order Total
+        order_status: Order Status
+        order_date: Order Date
+        payment_information: Payment Information
+        default_shipping_service: Default Shipping Service
+        actual_shipping_service: Actual Shipping Service
+        billing_address: Billing Address
+        shipping_address: Shipping Address
+        tracking_information: Tracking Information
+        aftership_status: Aftership Status
+        aftership_url: Aftership Url
+        errors: Errors
+        process: Process
+        error: Error
+      order_items:
+        order_items: Order Items
+        sku: Sku
+        name: Name
+        size: Size
+        colour: Colour
+        qty_ordered: Qty Ordered
+        qty_picked: Qty Picked
+        stock: Stock
+      shipments:
+        shipments: Shipments
+        sku: Sku
+        qty_shipped: Qty Shipped
+        picking_user: Picking User
+      sagepay:
+        sage_pay_information: Sage Pay Information
+        CV2: CV2
+        address: Address
+        post_code: Post Code
+        3d_secure: 3d Secure
+        third_man: Third Man
+      linked_orders:
+        linked_orders: Linked Orders
+        order_id: Order ID
+        order_number: Order Number
+        created_date: Created Date
+        status: Status
+        more_info: More Info
+    index:
+      select_all: Select Pickable
+      select_none: Select None
+      expand_new: Expand New
+      collapse_all: Collapse All
+      pick_selected: Pick Selected
+      submit: Submit
+      order_date: Order Date
+      channel_order: Channel Order
+      customer: Customer
+      CV2: CV2
+      ADD: ADD
+      PC: PC
+      3D: 3D
+      3RD: 3RD
+      status: Status
+      info: Info
+      close: Close
+      confirm_action: Confirm Action
+      comfirm_pick: Are you sure you want to pick the selected order(s)?
+      confirm_dispatch: Are you sure you want to dispatch the selected order(s)?
+      status_change_confirmation: Are you sure you want to change the status of this
+        order?
+      display_new: Display New
+      display_pickable: Display Pickable
+      display_in_progress: Display In Progress
+      pick_order: Pick Order
+      expand: Expand
+    shipment_check:
+      shipment_id: Shipment ID
+      tracking_number: Tracking Number
+      channel_order_id: Channel Order ID
+      shipment_date: Shipment Date
+      failed_attempts: Failed Attempts
+      order_id: Order Id
+    header_info:
+      order_id: Order ID
+      channel_order_id: Channel Order ID
+      destination: Destination
+      default_courier: Default Courier
+      default_shipping_service: Default Shipping Service
+  order_picks:
+    form:
+      channel_order_id: Channel Order ID
+      order_id: Order ID
+      order_not_found: Order Not Found
+      order_not_found_or_status_not_picking: Order Not Found Or Status Not Picking
+      pick_all: Pick All
+      quantity_ordered: Quantity Ordered
+      quantity_picked: Quantity Picked
+      save_order: Save Order
+      save_successful: Save Successful
+      please_check_item_weights: Please check item weights (cannot be more than 10kg)
+      ! 'save_successful ': ! 'Save Successful '
+      scan_sku: Scan Sku
+      sku: Sku
+      sku_not_found: Sku Not Found
+      submit: Submit
+      country_of_origin: Country Of Origin
+      harmonization_code: Harmonization Code
+      item_weight: Item Weight (kg)
+      please_check_missing_information: Please Check Missing Information
+      quantity_required: Quantity Required
+      save_shipment: Save Shipment
+      shipment_not_found: Shipment Not Found
+    index:
+      3D: 3D
+      3RD: 3RD
+      ADD: ADD
+      CV2: CV2
+      PC: PC
+      channel_order: Channel Order
+      customer: Customer
+      dispatch_selected: Dispatch Selected
+      listing: Listing
+      new: New
+      order_date: Order Date
+      order_id: Order ID
+      order_number: Order Number
+      picking_console: Fulfillment
+      picking_orders: Picking Orders
+      print_pick_notes: Print Pick Notes
+      quantity_picked: Quantity Picked
+      save_successful: Save Successful
+      select_all: Select All
+      select_none: Select None
+      show: Show
+      sku: Sku
+      status: Status
+      user_id: User ID
+      shipment_id: Shipment ID
+    edit:
+      edit: Edit
+    new:
+      new: New
+    show:
+      show: Show
+      order_id: Order
+      user_id: User
+      sku: Sku
+      quantity_picked: Quantity picked
+  order_shipments:
+    dispatch:
+      order_id: Order ID
+      order_not_found: Order Not Found
+      order_not_found_or_already_shipped: Order Not Found Or Already Shipped
+      save_successful: Save Successful
+      tracking_details: Tracking Details
+      shipment_not_found: Shipment Not Found
+      shipment_id: Shipment ID
+    dispatch_console:
+      dispatch_console: Dispatch Console
+      order_number: Order Number
+      picking_console: Picking Console
+      tracking_console: Tracking Console
+      shipment_id: Shipment ID
+      order_id: Order ID
+    index:
+      action: Action
+      change_delivery_service: Change Delivery Service
+      channel_order: Channel Order
+      close: Close
+      confirm_dispatch: Are you sure you want to dispatch the selected orders?
+      confirm_pick: Are you sure you want to pick the selected orders?
+      confirm_service_change: Are you sure you want to change the shipping service
+        for the selected orders?
+      courier: Courier
+      customer: Customer
+      destination: Destination
+      dispatch_selected: Dispatch Selected
+      listing: Listing
+      new: New
+      order_date: Order Date
+      order_id: Order ID
+      order_shipping: Order Shipping
+      order_value: Order Value
+      pick_selected: Pick Selected
+      quantity_shipped: Quantity Shipped
+      select_all: Select All
+      select_none: Select None
+      service: Service
+      shipment_error: Shipment Error
+      shipping_method: Shipping Method
+      shipping_method_id: Shipping Method ID
+      shipping_services: Shipping Services
+      sku: Sku
+      status: Status
+      submit: Submit
+      tracking_details: Tracking Details
+      user_id: User ID
+      weight: Weight
+      confirm_action: Confirm Action
+    form:
+      order_id: Order
+      user_id: User
+      shipping_method_id: Shipping method
+      sku: Sku
+      quantity_shipped: Quantity shipped
+      tracking_details: Tracking details
+    edit:
+      edit: Edit
+    new:
+      new: New
+    show:
+      show: Show
+      order_id: Order
+      user_id: User
+      shipping_method_id: Shipping method
+      sku: Sku
+      quantity_shipped: Quantity shipped
+      tracking_details: Tracking details
+  report_type_filter: Report Type Filter
+  reports:
+    address_block_telephone: Tel
+    index:
+      close: Close
+      date_time: Date Time
+      listing: Listing
+      listing_reports: Listing Reports
+      new: New
+      opened_flag: Opened Flag
+      report_file: Report File
+      report_type: Report Type
+      report_type_filter: Report Type Filter
+      show: Show
+      user: User
+      user_role_filter: User Role Filter
+    order_reports:
+      order_shipment:
+        customer: Customer
+        order_id: Order ID
+        order_numer: Order Numer
+        order_reference: Order Reference
+        return_address: Return To
+        sender: Sender
+        source: Source
+        table:
+          colour: Colour
+          description: Description
+          picked_by: Picked By
+          qty: Qty
+          qty_picked: Qty Picked
+          size: Size
+          sku: SKU
+        telephone: Tel
+        title: Pick Note
+        total_items: Total Items
+      pick_note:
+        customer: Customer
+        location: Location
+        order_id: Order ID
+        order_numer: Order Numer
+        order_reference: Order Reference
+        printed_by: Printed By
+        printed_date: Printed Date
+        return_address: Return To
+        sender: Sender
+        source: Source
+        table:
+          colour: Colour
+          description: Description
+          order_id: Order ID
+          shipment_id: Shipment ID
+          picked_by: Picked By
+          qty: Qty
+          qty_picked: Qty Picked
+          size: Size
+          sku: SKU
+        telephone: Tel
+        title: Pick Note
+        total_items: Total Items
+      shipment:
+        customer: Customer
+        order_date: Order Date
+        order_id: Order ID
+        order_reference: Order Reference
+        payment_method: Payment Method
+        return_address: Return Address
+        shipping_service: Shipping Service
+        source: Source
+        table:
+          description: Description
+          picked_by: Picked By
+          qty: Qty
+          qty_picked: Qty Picked
+          sku: Sku
+          qty_ordered: Qty Ordered
+        title: Shipping Note
+        total_items: Total Items
+        payment)method: Payment)Method
+        shipment_id: Shipment ID
+    show:
+      date_time: Date Time
+      opened_flag: Opened Flag
+      report_file: Report File
+      report_type: Report Type
+      show: Show
+  service_reference: Service Reference
+  shared:
+    information:
+      errors_detected: Errors Detected
+      for_your_information: For Your Information
+      new_orders_found: New Orders Found
+      new_shipping_services_found: New Shipping Services Found
+      order(s)_without_tracking_information_found: Order(s) Without Tracking Information
+        Found
+      order_without_tracking_information_found: Order Without Tracking Information
+        Found
+      unopened_reports: Unopened Documents
+      fedex_shipments: Fedex Shipments
+      pending_orders: Pending Orders
+    navigation:
+      change_location: Change Location
+      channel_shipping_services: Channel Shipping Services
+      channel_status: Channel Statuses
+      channels: Channels
+      companies: Companies
+      current_loc: Current Loc
+      current_location: Current Location
+      customers: Customers
+      dispatch_console: Dispatch Console
+      edit_users: Edit Users
+      home: Home
+      items: Items
+      location: Location
+      version: Version
+      logout: Log Out
+      logs: Logs
+      orders: Orders
+      pick_orders: Fulfillment
+      please_signin: Please Login
+      release_notes: Release Notes
+      reports: Documents
+      setup: Setup
+      ship_orders: Ship Orders
+      shipping_methods: Shipping Methods
+      shipping_orderrides: Shipping Orderrides
+      shipping_overrides: Shipping Overrides
+      stock_locations: Stock Locations
+      support: Support
+      system_setting: System Setting
+      system_settings: System Settings
+      system_status: System Statuses
+      tracking_console: Tracking Console
+      user: User
+      users: Users
+      weigh_orders: Weigh Orders
+      fedex_settings: Fedex Settings
+      shipping_matrices: Shipping Matrices
+      packaging_types: Packaging Types
+      shipping_destinations: Shipping Destinations
+      system: System
+      help: Help
+      knowledgebase: Knowledgebase
+      google_app: Google App
+      shipment_check: Shipment Check
+  shipping_methods:
+    edit:
+      edit: Edit
+    form:
+      account_number: Account Number
+      back: Back
+      class: Class
+      customers_dec_required: Customers Dec Required
+      delete_shipping_service: Delete Shipping Service
+      delete_shipping_service_prompt: Are you sure you want to delete this shipping
+        service?
+      edit_shipping_service: Edit Shipping Service
+      enhancement: Enhancement
+      format: Format
+      integration_identifier: Integration Identifier
+      location: Location
+      name: Name
+      service: Service
+      service_name: Service Name
+      system_status: System Status
+      tracked: Tracked
+      tracking_information: Tracking Information
+      weight_required: Weight Required
+      service_type: Service Type
+      package_type: Package Type
+    index:
+      listing: Listing
+      name: Name
+      new: New
+      tracked: Tracked
+    new:
+      new: New
+    shipping_service:
+      account_number: Account Number
+      enhancement: Enhancement
+      format: Format
+      integration_identifier: Integration Identifier
+      location: Location
+      name: Name
+      service: Service
+      service_class: Service Class
+      service_reference: Service Reference
+      tacked: Tacked
+      service_type: Service Type
+      package_type: Package Type
+      package_height: Package Height
+      package_width: Package Width
+      package_length: Package Length
+      default_weight: Default Weight
+    show:
+      account_number: Account Number
+      customs_dec_recquired: Customs Dec Recquired
+      integration_identifier: Integration Identifier
+      name: Name
+      service_name: Service Name
+      show: Show
+      tracked: Tracked
+      tracking_information: Tracking Information
+      weight_required: Weight Required
+  shipping_overrides:
+    edit:
+      edit: Edit
+    form:
+      channel: Channel
+      channel_id: Channel ID
+      item_value: Item Value
+      order_attribute: Order Attribute
+      order_value: Order Value
+      qualifier: Qualifier
+      shipping_service: Shipping Service
+      sku: Sku
+      value: Value
+    index:
+      channel: Channel
+      listing: Listing
+      new: New
+      order_attribute: Order Attribute
+      qualifier: Qualifier
+      shipping_service: Shipping Service
+      value: Value
+    new:
+      new: New
+    show:
+      channel: Channel
+      channel_id: Channel ID
+      item_value: Item Value
+      order_attribute: Order Attribute
+      order_value: Order Value
+      qualifier: Qualifier
+      show: Show
+      sku: Sku
+      value: Value
+      shipping_service: Shipping service
+  statuses:
+    new: NEW
+    pending: PENDING
+    picking: PICKING
+    part_picked: PART PICKED
+    picked: PICKED
+    part_dispatched: PART DISPATCHED
+    dispatched: DISPATCHED
+    complete: COMPLETE
+    cancelled: CANCELLED
+    refunded: REFUNDED
+    awaiting_tracking: AWAITING TRACKING
+    awaiting_integration_info: AWAITING INTEGRATION INFO
+    weighed: WEIGHED
+    delivered: DELIVERED
+    on_hold: ON HOLD
+    complete_with_error: COMPLETE WITH ERROR
+    shipment_attempt_fail: ! 'SHIPMENT: ATTEMPT FAIL'
+    shipment_delivered: ! 'SHIPMENT: DELIVERED'
+    shipment_in_transit: ! 'SHIPMENT: IN TRANSIT'
+    shipment_pending: ! 'SHIPMENT: PENDING'
+    shipment_expired: ! 'SHIPMENT: EXPIRED'
+    shipment_exception: ! 'SHIPMENT: EXCEPTION'
+    shipment_info_received: ! 'SHIPMENT: INFO RECEIVED'
+    shipment_out_for_delivery: ! 'SHIPMENT: OUT FOR DELIVERY'
+    in_progress: IN PROGRESS
+  stock_locations:
+    edit:
+      edit: Edit
+    form:
+      back: Back
+      company: Company
+      delete_shipping_service: Delete Shipping Service
+      email: Email
+      ftp_password: Ftp Password
+      ftp_server_address: Ftp Server Address
+      scale_ip_address: Scale IP Address
+      ftp_server_port: Ftp Server Port
+      ftp_username: Ftp Username
+      name: Name
+      new_stock_location_user: New Stock Location User
+      reference: Reference
+      user: User
+      user_id: User ID
+      enable_scale_integration: Enable Scale Integration
+      basic_details: Basic Details
+      user_access: User Access
+      delete_stock_location_user: Delete Stock Location User
+    index:
+      edit: Edit
+      listing: Listing
+      location: Location
+      name: Name
+      new: New
+      new_stock_location: New Stock Location
+      reference: Reference
+    set_stock_location: Please select your current stock location
+    show:
+      name: Name
+      show: Show
+      user_id: User ID
+    stock_location:
+      ftp_password: Ftp Password
+      ftp_server_address: Ftp Server Address
+      ftp_server_port: Ftp Server Port
+      ftp_username: Ftp Username
+      location: Location
+      name: Name
+      reference: Reference
+    stock_location_user:
+      name: Name
+  stock_takes:
+    update_confirm: Update Confirm
+  support:
+    array:
+      last_word_connector: ! ', and '
+      two_words_connector: ! ' and '
+      words_connector: ! ', '
+  system_settings:
+    edit:
+      edit: Edit
+    form:
+      group: Group
+      'no': 'No'
+      setting_code: Setting Code
+      setting_description: Setting Description
+      value: Value
+      'yes': 'Yes'
+    index:
+      edit_system_setting: Edit System Setting
+      group: Group
+      group_filter: Group Filter
+      listing: Listing
+      setting_code: Setting Code
+      setting_description: Setting Description
+      value: Value
+    show:
+      group: Group
+      'no': 'No'
+      setting_code: Setting Code
+      setting_description: Setting Description
+      show: Show
+      value: Value
+      'yes': 'Yes'
+  time:
+    am: am
+    formats:
+      default: ! '%d-%m-%Y %H:%M'
+      long: ! '%d %B, %Y %H:%M'
+      short: ! '%d %b %H:%M'
+    pm: pm
+  users:
+    authentication_token: Authentication Token
+    account_not_updated: Account Not Updated
+    account_updated: Account Updated
+    company: Company
+    created_at: Created At
+    current_password: Current Password (we need your current password to confirm your
+      changes)
+    edit_user: Editing User
+    email: email
+    form:
+      back: Back
+    forms:
+      new_user:
+        landing_pages:
+          home: Home
+          orders: Orders
+          pick_orders: Pick Orders
+          ship_orders: Ship Orders
+          dashboard: Dashboard
+    index:
+      delete: Delete
+      delete_user: Delete User
+      edit: Edit
+      email: Email
+      email_address: Email Address
+      listing: Listing
+      locations: Locations
+      name: Name
+      new_user: New User
+      role: Role
+      roles: Roles
+      unlock: Unlock
+    landing_page: Landing Page
+    last_sign_in: Last Signed In At
+    name: Name
+    new: New User
+    password: Password
+    password_confirmation: Password Confirmation
+    password_not_correct: The password you entered is incorrect
+    roles: Roles
+    sign_in_count: Sign In Count
+    stock_locations: Stock Locations
+    tabs:
+      basic_details:
+        landing_pages:
+          home: Dashboard!
+          orders: Orders
+          pick_orders: Pick Orders
+          ship_orders: Ship Orders
+    user: Showing User
+    user_fields:
+      landing_pages:
+        home: Home
+        orders: Orders
+        pick_orders: Pick Orders
+        ship_orders: Ship Orders
+    users: Users
+    your_account: Your Account
+    role: Role
+  order_weighing:
+    index:
+      order_number: Order Number
+      shipment_id: Shipment ID
+      order_id: Order ID
+    form:
+      default_courier: Default Courier
+      default_shipping_service: Default Shipping Service
+      order_not_found_or_status_not_picked: Order not found or order no picked
+      save_successful: Save Successful
+      order_id: Order ID
+      channel_order_id: Channel Order ID
+      save_order: Save Order
+      shipping_weight: Shipping Weight (kg)
+      override_shipping_service_id: Override Shipping Service ID
+      save_shipment: Save Shipment
+      shipment_not_found: Shipment Not Found
+    edit:
+      edit: Edit
+    new:
+      new: New
+    show:
+      show: Show
+      order_id: Order
+      user_id: User
+      sku: Sku
+      quantity_picked: Quantity picked
+  fedex_settings:
+    index:
+      listing: Listing
+      new: New
+      company_id: Company ID
+      key: Key
+      password: Password
+      account_number: Account Number
+      meter: Meter
+      mode: Mode
+    new:
+      new: New
+    form:
+      company_id: Company ID
+      key: Key
+      password: Password
+      account_number: Account Number
+      meter: Meter
+      mode: Mode
+      label_type: Label Type
+    show:
+      show: Show
+      company_id: Company ID
+      key: Key
+      password: Password
+      account_number: Account Number
+      meter: Meter
+      mode: Mode
+      label_type: Label Type
+    edit:
+      edit: Edit
+  shipping_matrices:
+    import:
+      import_successful: Import Successful
+      import_error: Import Error
+      no_file_selected: No File Selected
+    index:
+      download_file: Download File
+      shipping_matrices: Shipping Matrices
+      country: Country
+      next_day: Next Day
+      order_subtotal_from: Order Subtotal From
+      order_subtotal_to: Order Subtotal To
+      weight_from: Weight From
+      weight_to: Weight To
+      shipping_cost: Shipping Cost
+      shipping_service: Shipping Service
+      import_matrices: Import Matrices
+      import_warning: ! 'WARNING: This will replace all existing shipping matrices'
+      import_file: Import File
+  company_packaging_types:
+    index:
+      name: Name
+      delete: Delete
+      add_packaging_type: Add Packaging Type
+      delete_packaging_type: Delete Packaging Type
+      size: Size (W/H/L)
+    form:
+      company_id: Company ID
+      packaging_type_id: Packaging Type ID
+      packaging_type: Packaging Type
+      name: Name
+      width: Width(CM)
+      height: Height(CM)
+      length: Length(CM)
+  packaging_types:
+    custom: Custom
+    ad_hoc: AdHoc
+    fedex_10kg_box: Fedex 10KG Box
+    fedex_25kg_box: Fedex 25KG Box
+    fedex_box: Fedex Box
+    fedex_envelope: Fedex Envelope
+    fedex_Pak: Fedex Pax
+    fedex_tube: Fedex Tube
+    fedex_pak: Fedex Pak
+    your_packaging: Your Packaging
+  shipping_destinations:
+    index:
+      name: Name
+      size: Size
+      delete: Delete
+      add_packaging_type: Add Packaging Type
+      delete_packaging_type: Delete Packaging Type
+      country_code: Country Code
+      item_weight_required: Item Weight Required
+      item_county_of_origin_required: Item County Of Origin Required
+      harmonization_code_required: Harmonization Code Required
+      new: New
+    form:
+      company_id: Company ID
+      county_code: Country Code
+      item_weight_required: Item Weight Required
+      item_county_of_origin_required: Item County Of Origin Required
+      harmonization_code_required: Harmonization Code Required
+      country_code: Country Code
+    show:
+      show: Show
+      company_id: Company ID
+      county_code: Country Code
+      item_weight_required: Item Weight Required
+      item_county_of_origin_required: Item County Of Origin Required
+      harmonization_code_required: Harmonization Code Required
+      country_code: Country code
+    edit:
+      edit: Edit
+    new:
+      new: New
+  fedex_shipments:
+    index:
+      order_id: Order ID
+      date_created: Date Created
+      filter: Filter
+      printed: Printed
+      open: Open
+      close: Close
+  order_attributes:
+    order_value: Order value
+    sku: Sku
+    item_value: Item value
+  system_channels:
+    edit:
+      edit: Edit
+    index:
+      listing: Listing
+      new: New
+      are_you_sure: Are you sure?
+    new:
+      new: New
+    show:
+      show: Show
+  setup:
+    index:
+      basic_details_tab: Basic Details
+      users_tab: Users
+      stock_locations_tab: Stock Locations
+      shipping_methods_tab: Shipping Methods
+      packaging_types_tab: Packaging Types
+      shipping_destinations_tab: Shipping Destinations
+      fedex_settings_tab: Fedex Settings
+      system_settings_tab: System Settings
+      shipping_matrices_tab: Shipping Matrices
+      channels_tab: Channels
+      erase_data_tab: Erase Data
+      back: Back
+      bulk_status_change: Bulk Status Change
+      exchange_rates: Exchange Rates
+    basic_details:
+      name: Name
+      address_1: Address 1
+      address_2: Address 2
+      town: Town
+      county: County
+      post_code: Post Code
+      telephone: Telephone
+      fax: Fax
+      email: Email
+      logo: Logo
+      terms_pdf: Terms Pdf
+      aftership_api_key: Aftership Api Key
+      base_currency: Base Currency
+    users:
+      name: Name
+      email_address: Email Address
+      roles: Roles
+      edit: Edit
+      unlock: Unlock
+      delete: Delete
+      new_user: New User
+      delete_user: Delete User
+    stock_locations:
+      location: Location
+      reference: Reference
+      edit: Edit
+      new_stock_location: New Stock Location
+      system_channel: System Channel
+      channel_name: Channel Name
+      new: New
+      delete: Delete
+      delete_message: Delete Message
+    channels:
+      system_channel: System Channel
+      channel_name: Channel Name
+      new: New
+      delete: Delete
+      delete_message: Delete Message
+    shipping_methods:
+      name: Name
+    packaging_types:
+      name: Name
+      size: Size
+      delete: Delete
+      new: New
+      delete_message: Delete Message
+    shipping_destinations:
+      country_code: Country Code
+      item_weight_required: Item Weight Required
+      item_county_of_origin_required: Item County Of Origin Required
+      harmonization_code_required: Harmonization Code Required
+      delete: Delete
+      new: New
+      delete_message: Delete Message
+    fedex_settings:
+      key: Key
+      password: Password
+      account_number: Account Number
+      meter: Meter
+      mode: Mode
+      label_type: Label Type
+    system_settings:
+      group: Group
+      setting_code: Setting Code
+      setting_description: Setting Description
+      value: Value
+      edit_system_setting: Edit System Setting
+    erase_data:
+      select_date: Select Date
+      enter_user_password: Enter User Password
+    forms:
+      stock_locations:
+        stock_location_edit:
+          back: Back
+          basic_details: Basic Details
+          user_access: User Access
+          name: Name
+          reference: Reference
+          enable_scale_integration: Enable Scale Integration
+          scale_ip_address: Scale Ip Address
+          email: Email
+          delete_stock_location_user: Delete Stock Location User
+          new_stock_location_user: New Stock Location User
+          com_port: Com Port
+          baud_rate: Baud Rate
+          parity: Parity
+          csize: Csize
+          flow: Flow
+          stop: Stop
+          stock_only: Stock Only
+        stock_location_user:
+          name: Name
+        stock_location:
+          name: Name
+          reference: Reference
+          stock_only: Stock Only
+      channel:
+        channel_edit:
+          back: Back
+          channel_basic_details_tab: Channel Basic Details
+          channel_status_tab: Channel Status
+          channel_shipping_services_tab: Channel Shipping Services
+          channel_logs: Channel Logs
+          reload_log: Reload Log
+        channel_basic_details:
+          system_channel: System Channel
+          channel_name: Channel Name
+          connection_1: Connection 1
+          connection_2: Connection 2
+          connection_3: Connection 3
+          connection_4: Connection 4
+          connection_5: Connection 5
+          download_overlap_minutes: Download Overlap Minutes
+          logo: Logo
+          terms_pdf: Terms Pdf
+          return_name: Return Name
+          address_1: Address 1
+          address_2: Address 2
+          town: Town
+          county: County
+          post_code: Post Code
+          country: Country
+          telephone: Telephone
+          email: Email
+        channel_shipping_services:
+          shipping_text: Shipping Text
+          shipping_service: Shipping Service
+          useable_text: Useable Text
+          edit_channel_shipping_service: Edit Channel Shipping Service
+          delete_channel_shipping_service: Delete Channel Shipping Service
+          delete_message: Delete Message
+        channel_status:
+          channel_status: Channel Status
+          system_status: System Status
+          edit_channel_status: Edit Channel Status
+          delete_channel_status: Delete Channel Status
+          delete_message: Delete Message
+        new_channel:
+          system_channel: System Channel
+          name: Name
+        channel_shipping_service_edit:
+          shipping_service: Shipping Service
+          useable_text: Useable Text
+          highlight_colour: Highlight Colour
+          font_colour: Font Colour
+          next_day: Next Day
+        channel_log:
+          no_log_data_to_display: No Log Data To Display
+        channel_status_edit:
+          status: Status
+      shipping_methods:
+        shipping_methods_edit:
+          back: Back
+          name: Name
+          location: Location
+          integration_identifier: Integration Identifier
+          tracked: Tracked
+          account_number: Account Number
+          edit_shipping_service: Edit Shipping Service
+          delete_shipping_service: Delete Shipping Service
+          delete_shipping_service_prompt: Delete Shipping Service Prompt
+          service: Service
+          class: Class
+          format: Format
+          enhancement: Enhancement
+          service_type: Service Type
+          package_type: Package Type
+        shipping_service:
+          name: Name
+          location: Location
+          service_reference: Service Reference
+          service: Service
+          service_class: Service Class
+          format: Format
+          enhancement: Enhancement
+          default_weight: Default Weight
+          service_type: Service Type
+          package_type: Package Type
+          package_height: Package Height
+          package_width: Package Width
+          package_length: Package Length
+          integration_identifier: Integration Identifier
+          tacked: Tacked
+          account_number: Account Number
+          general_account_number: General Account Number
+          stock_location: Stock Location
+      users:
+        tabs:
+          basic_details:
+            landing_pages:
+              home: Home
+              orders: Orders
+              pick_orders: Pick Orders
+              ship_orders: Ship Orders
+        forms:
+          new_user:
+            landing_pages:
+              dashboard: Dashboard
+              orders: Orders
+              pick_orders: Pick Orders
+              ship_orders: Ship Orders
+      system_settings:
+        system_settings_edit:
+          value: Value
+          'no': 'No'
+          'yes': 'Yes'
+      shipping_destinations:
+        shipping_destinations_edit:
+          country_code: Country Code
+          item_weight_required: Item Weight Required
+          item_county_of_origin_required: Item County Of Origin Required
+          harmonization_code_required: Harmonization Code Required
+      exchange_rates:
+        exchange_rate_edit:
+          from_currency: From Currency
+          to_currency: To Currency
+          exchange_rate: Exchange Rate
+      packaging_types:
+        packaging_types_edit:
+          company_id: Company ID
+          packaging_type: Packaging Type
+          name: Name
+          width: Width
+          height: Height
+          length: Length
+    shipping_matrices:
+      import_matrices: Import Matrices
+      import_warning: ! 'Warning: This will replace all existing matrices'
+      import_file: Import File
+      country: Country
+      next_day: Next Day
+      order_subtotal_from: Order Subtotal From
+      order_subtotal_to: Order Subtotal To
+      weight_from: Weight From
+      weight_to: Weight To
+      shipping_cost: Shipping Cost
+      shipping_service: Shipping Service
+    status_change:
+      old_status: Old Status
+      new_status: New Status
+      select_date: Select Date
+      enter_user_password: Enter User Password
+    exchange_rates:
+      from_currency: From Currency
+      to_currency: To Currency
+      exchange_rate: Exchange Rate
+      edit_exchange_rate: Edit Exchange Rate
+  dpd_services:
+    S: Saturday
+    O: Overnight
+    2: 2 Day
+    T: Timed
+    '2': 2 Day

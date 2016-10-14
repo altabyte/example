@@ -1,0 +1,51 @@
+<%
+   if shipping_service.new_record?
+     url = "/shipping_methods/#{shipping_service.shipping_method_id}/create_shipping_service"
+   else
+     url = "/shipping_methods/#{shipping_service.id}/update_shipping_service"
+   end
+%>
+
+<%= semantic_form_for shipping_service, :remote => true, :url => url, :html => {:method => "post", :id => "shipping_service_form", :class => 'form-horizontal'} do |f| %>
+    <%= f.inputs do %>
+        <% unless f.object.new_record? %>
+            <%= f.input :id, :as => :hidden %>
+        <% end %>
+        <%= f.input :name, :label => t('.name') %>
+        <%= f.input :location, :as => :select, :label => t('.location'), :as => :select, :collection => selectable_locations(f.object.company_id), :include_blank => true %>
+        <% if shipping_service.shipping_method.code == "RM" %>
+            <%= f.input :service_reference, :label => t('.service_reference') %>
+            <%= f.input :royal_mail_service, :label => t('.service') %>
+            <%= f.input :royal_mail_service_class, :label => t('.service_class') %>
+            <%= f.input :royal_mail_service_format, :label => t('.format') %>
+            <%= f.input :royal_mail_service_enhancement, :label => t('.enhancement') %>
+            <%= f.input :default_weight, :label => t('.default_weight') %>
+        <% elsif shipping_service.shipping_method.code == "FDX" %>
+            <%= f.input :fedex_service_type, :label => t('.service_type'), :as => :select, :collection => fedex_service_type_collection, :include_blank => false %>
+            <%= f.input :fedex_package_type, :label => t('.package_type'), :as => :select, :collection => fedex_package_type_collection, :include_blank => false %>
+            <%= f.input :fedex_package_height, :label => t('.package_height') %>
+            <%= f.input :fedex_package_width, :label => t('.package_width') %>
+            <%= f.input :fedex_package_length, :label => t('.package_length') %>
+        <% elsif shipping_service.shipping_method.code == "DPD-IE" %>
+            <%= f.input :integration_identifier, :label => t('.integration_identifier') %>
+            <%= f.input :tracked, :label => t('.tacked'), :as => :select, :collection => [["Yes", "1"], ["No", "0"]], :include_blank => false %>
+            <%= f.input :account_number, :label => t('.general_account_number') %>
+            <%= f.input :dpd_service, :label => t('.service'), :as => :select, :collection => dpd_services_collection, :include_blank => false %>
+            <table>
+              <%= f.semantic_fields_for :shipping_service_account_details do |h| %>
+                  <tr>
+                    <td><%= h.input :account_number, :label => "#{h.object.stock_location.name} #{t('.account_number')}" %></td>
+                  </tr>
+              <% end %>
+            </table>
+            <span style="float: right;">Default: 2 Day Service</span>
+        <% else %>
+            <%= f.input :integration_identifier, :label => t('.integration_identifier') %>
+            <%= f.input :tracked, :label => t('.tacked'), :as => :select, :collection => [["Yes", "1"], ["No", "0"]], :include_blank => false %>
+            <%= f.input :account_number, :label => t('.account_number') %>
+        <% end %>
+    <% end %>
+    <%= maintenance_toolbar_save %>
+<% end %>
+
+

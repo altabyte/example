@@ -1,0 +1,86 @@
+
+
+<% if @order.present? %>
+
+    <%= render :partial => 'orders/header_info', :locals => {:order => @order, :block_style => 'top: -150px; position: relative;'} %>
+
+    <%= semantic_form_for @order, :remote => true, :url => 'order_weighing/update_weight' do |f| %>
+        <% unless SystemSetting.check_setting('enable_shipping_matrix', true, @current_user.company_id) %>
+            <%= maintenance_toolbar do %>
+            <%= maintenance_table_button_to_function(t('.save_order'), "", "generic-button btn btn-primary", "submit-form") %>
+            <br/>
+        <% end %>
+        <% end %>
+
+        </br>
+        </br>
+
+        <%= f.inputs do %>
+            <%= f.input :id, :as => :hidden %>
+            <%= f.input :shipping_weight, :label => t('.shipping_weight'), :as => :string, :input_html => {:class => 'number_only'} %>
+            <%= f.input :override_shipping_service_id, :label => t('.override_shipping_service_id'), :as => :hidden %>
+            <%= f.input :company_packaging_type_id, :as => :hidden %>
+            <%= f.input :package_height, :as => :hidden %>
+            <%= f.input :package_width, :as => :hidden %>
+            <%= f.input :package_length, :as => :hidden %>
+        <% end %>
+
+
+    <% end %>
+
+    <% if SystemSetting.check_setting('enable_shipping_matrix', true, @current_user.company_id) %>
+              <% if @packaging_types.size > 0 %>
+            <div id='packaging_types'>
+              Select Packaging Type:
+              <div class="btn-group" data-toggle="buttons-radio">
+                    <%= @packaging_types.each do |packaging_type| %>
+                        <button type="button" name="packaging_type_btn" class="btn btn-default packaging_type_btn" id="packaging_type_btn_<%= packaging_type.id %>"><%= packaging_type.name %></button>
+                    <% end %>
+
+
+              </div>
+            </div>
+
+            <div id='loading_rates' style="display: none; width: 100%; text-align: center;">
+              <p><h4>Getting Available Rates.... Please Wait</h4></p>
+              <%= image_tag(asset_path('ajax_spinner_b_r.gif')) %>
+            </div>
+
+            <div id='ad_hoc_packaging_size' style="display: none;">
+
+              <table>
+                <tr>
+                  <td>
+                    <label for='ad_hoc_packaging_size_depth'>Depth (cm)</label>
+                    <input id='ad_hoc_packaging_size_depth'>
+                    <label for='ad_hoc_packaging_size_width'>Width (cm)</label>
+                    <input id='ad_hoc_packaging_size_width'>
+                    <label for='ad_hoc_packaging_size_length'>Length (cm)</label>
+                    <input id='ad_hoc_packaging_size_length'>
+                  </td>
+                  <td>
+
+                  </td>
+                </tr>
+
+              </table>
+
+              <button id='get_ad_hoc_rates' class="btn btn-default">Get Rates</button>
+            </div>
+
+            <div id='available_shipping_services'></div>
+
+            <br>
+            <br>
+            <br>
+            <% else %>
+
+            <p><h5>No packing types configured.  Please create some on System Settings</h5></p>
+
+        <% end %>
+
+
+    <% end %>
+<% else %>
+    <h4><%= t('.order_not_found_or_status_not_picked') %></h4>
+<% end %>

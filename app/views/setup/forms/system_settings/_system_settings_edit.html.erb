@@ -1,0 +1,20 @@
+<script type="text/javascript">
+    var setting_id = '<%= system_setting.id %>';
+</script>
+<%= semantic_form_for system_setting, :url => "/system_settings/#{system_setting.id}/update", :remote => true, :html => {:method => "post", :id => 'system_settings_basic_details_form', :class => "form-horizontal"} do |f| %>
+    <div style="width:100%;">
+      <div id="basic-form-area">
+        <%= f.semantic_errors %>
+
+        <%= f.inputs do %>
+            <%= f.object.setting_description %>  <br> <br>
+            <% if f.object.setting_type == 'B' %>
+                <%= f.input :value, :label => t('.value'), :as => :select, :collection => [[t(".no"), "N"], [t(".yes"), "Y"]], :include_blank => false %>
+            <% elsif f.object.setting_type == 'S' %>
+                <%= f.input :value, :label => t('.value') %>
+            <% end %>
+        <% end %>
+        <%= maintenance_toolbar_save %>
+<% end %>
+</div>
+</div>

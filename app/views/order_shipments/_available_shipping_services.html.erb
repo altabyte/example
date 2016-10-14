@@ -1,0 +1,16 @@
+<br>
+
+
+
+
+<div id='available_shipping_services_btns'>
+  Select Shipping Service:
+  <div class="btn-group" data-toggle="buttons-radio">
+    <% @shipping_services.each do |service| %>
+        <button type="button" name="shipping_service_sel_btn" class="btn btn-default shipping_service_sel_btn" id="shipping_service_sel_btn_<%= service[:shipping_service_id] %>"><%= "#{service[:name]} (#{number_to_currency(service[:shipping_cost].to_d)})" %></button>
+    <% end %>
+  </div>
+</div>
+
+
+

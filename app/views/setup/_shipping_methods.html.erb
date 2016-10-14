@@ -1,0 +1,24 @@
+<div id="shipping_methods_select_pane">
+  <div>
+    <table id="shipping_methods" class="display" data-source="<%= shipping_methods_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.name') %></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<div id="shipping_methods_edit_pane"></div>
+

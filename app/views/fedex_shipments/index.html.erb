@@ -1,0 +1,45 @@
+<% content_for :head do %>
+    <%= javascript_include_tag 'datatables/fedex_shipments' %>
+<% end %>
+
+<div id="select_pane" style="margin-bottom: 200px;">
+  <div>
+    <table id="fedex_shipments" class="display" data-source="<%= fedex_shipments_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.order_id') %></th>
+        <th><%= t('.date_created') %></th>
+        <th><%= t('.printed') %></th>
+        <th><%= t('.open') %></th>
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+
+
+<div id="pdf_wrapper" style="display: none;">
+  <button id="close_pdf_viewer" class="btn btn-inverse" style="float: right; margin-bottom: 10px;" type="button"><%= t('.close') %></button>
+  <div id="pdf_viewer"></div>
+</div>
+
+<script type="text/javascript">
+
+    var report_types = new Array();
+    report_types.push('UNPRINTED');
+    report_types.push('PRINTED');
+
+</script>

@@ -1,0 +1,16 @@
+<%= semantic_form_for @company_packaging_type, :remote => true, :html => {:id => "company_packaging_type_form", :class => "form-horizontal"} do |f| %>
+    <%= f.inputs do %>
+        <%= f.input :company_id, :label => t('.company_id'), :as => :hidden %>
+        <%= f.input :packaging_type_id, :label => t('.packaging_type'), :as => :select, :collection => @packaging_types, :include_blank => false %>
+        <%= f.input :name, :label => t('.name') %>
+    <% end %>
+    <%= f.inputs :id => 'custom_size_params', :style => 'display:none;' do %>
+        <%= f.input :width, :label => t('.width'), :min => 0 %>
+        <%= f.input :height, :label => t('.height'), :min => 0 %>
+        <%= f.input :length, :label => t('.length'), :min => 0 %>
+    <% end %>
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save %>
+    <% end %>
+
+<% end %>

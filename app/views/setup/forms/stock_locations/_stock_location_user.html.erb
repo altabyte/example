@@ -1,0 +1,12 @@
+<%= semantic_form_for stock_location_user, :remote => true, :url => "/stock_locations/create_stock_location_user", :html => {:method => "post", :id => "stock_location_user_form"} do |f| %>
+    <%= f.inputs do %>
+        <% unless f.object.new_record? %>
+            <%= f.input :id, :as => :hidden %>
+        <% end %>
+        <%= f.input :user_id, :label => t('.name'), :as => :select, :collection => company_users_for_stock_location(f.object.stock_location_id), :include_blank => false %>
+        <%= f.input :stock_location_id, :as => :hidden %>
+    <% end %>
+    <%= maintenance_toolbar_save %>
+<% end %>
+
+

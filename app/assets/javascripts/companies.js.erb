@@ -1,0 +1,75 @@
+$(document).ready(function () {
+    $('#companies').dataTable({
+        "sPaginationType": "full_numbers",
+        bJQueryUI: true,
+        bProcessing: true,
+        bServerSide: true,
+        sAjaxSource: $('#companies').data('source'),
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [1, 2, 3]},
+            {"sWidth": "5%", "aTargets": [2, 3]},
+        ]
+    }).fnSetFilteringDelay();
+
+    $("#companies_filter").append("<img id='new_company' src='" + new_button_src + "' class='new-button'/>");
+
+    $("#companies .edit-button").live("click", function () {
+        var url = '/setup?company_id=' + this.id;
+        url = url.replace('edit_company_', '');
+        window.location = url;
+    });
+
+
+    $('#companies .delete-button').live('click', function (event) {
+        delete_company_row(this.id);
+    });
+
+
+    $('#company_new_dialog_form').live("ajax:success", function (evt, data, status, xhr) {
+        $('#company_new_dialog_form').html(xhr.responseText);
+        $('#company_new_dialog').dialog('close');
+    }).live("ajax:error", function (evt, xhr, status, error) {
+        $('#company_new_dialog_form').html(xhr.responseText);
+    });
+
+    $('#company_new_dialog').live("dialogclose", function () {
+        $('#companies').dataTable().fnDraw();
+    });
+
+    $('#new_company').live('click', function (event) {
+        var url = '/companies/new';
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#company_new_dialog').html(data);
+                $('#company_new_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+    $('#company_new_dialog').dialog({
+        height: 'auto',
+        width: '600px',
+        modal: true,
+        autoOpen: false
+    });
+
+
+});
+
+
+function delete_company_row(id) {
+    var url = '/companies/destroy/' + id;
+    url = url.replace('delete_company_', '');
+    var options = {
+        url: url,
+        text: "Are you sure you want to delete this company?",
+        on_completed: function () {
+            $('#companies').dataTable().fnDraw();
+        }
+    };
+    delete_dialog(options);
+}

@@ -1,0 +1,31 @@
+function delete_dialog(options) {
+
+    if (!options.text) {
+        options.text = '<%= I18n.t('general.maintenance_forms.delete_confirmation')%>';
+    }
+
+    yn_dialog('confirm_action', options.text, function () {
+        showPleaseWait(true);
+        $.ajax({
+            type: 'POST',
+            url: options.url,
+            success: function () {
+                showPleaseWait();
+                alertify.success("Delete Successful");
+                if (options.on_success != null)
+                    options.on_success();
+            },
+            failure: function () {
+                showPleaseWait();
+                if (options.on_failure != null)
+                    options.on_failure();
+            },
+            complete: function () {
+                showPleaseWait();
+                if (options.on_completed != null)
+                    options.on_completed();
+            }
+        });
+    }, null);
+}
+

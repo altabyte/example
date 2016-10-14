@@ -1,0 +1,21 @@
+function setupCustomerAddresses() {
+    setupCustomerAddressesTable();
+}
+
+function setupCustomerAddressesTable() {
+    $('#customer_addresses').dataTable({
+        "sPaginationType": "full_numbers",
+        bJQueryUI: true,
+        bProcessing: true,
+        bServerSide: true,
+        sAjaxSource: $('#customer_addresses').data('source'),
+        bFilter: true,
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [4]},
+            {"sWidth": '5%', "aTargets": [4]}
+        ]
+    }).fnSetFilteringDelay();
+
+
+}
+

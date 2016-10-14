@@ -1,0 +1,39 @@
+<div id="users_select_pane">
+  <div>
+    <table id="users" class="display" data-source="<%= users_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.name') %></th>
+        <th><%= t('.email_address') %></th>
+        <th><%= t('.roles') %></th>
+        <th><%= t('.edit') %></th>
+        <th><%= t('.delete') %></th>
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      </tfoot>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div id="users_edit_pane"></div>
+<div id="new_user_dialog" title="<%= t('.new_user') %>"></div>
+
+<script type="text/javascript">
+
+    var roles = new Array();
+    <% for role in User.available_roles %>
+    roles.push('<%= role.name %>');
+    <% end %>
+
+</script>

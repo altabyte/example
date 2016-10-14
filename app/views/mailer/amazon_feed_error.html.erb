@@ -1,0 +1,17 @@
+<img src="http://my.ordermanager.biz/om_logo.png">
+
+<p><strong>Dear <%= @user.name %></strong></p>
+
+<p>Whilst processing feed id <%= amazon_report.document_id %> errors / warnings were detected on <%= I18n.l(amazon_report.payload_datetime) %>
+<p>
+<p>Messages processed: <%= amazon_report.messages_processed %></p>
+<p>Messages successful: <%= amazon_report.messages_successful %></p>
+<p>Messages with errors: <%= amazon_report.messages_with_error %></p>
+<p>Messages with warning: <%= amazon_report.messages_with_warning %></p>
+
+<p>The XML from Amazon is attached. Please investigate the errors and resolve if necessary</p>
+
+<p>ordermanager.biz</p>
+
+<p>This email account is not monitored, please do not reply.</p>
+

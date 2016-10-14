@@ -1,0 +1,21 @@
+<% content_for :head do %>
+    <%= javascript_include_tag 'order_pick' %>
+<% end %>
+
+<% pick_by_scan = SystemSetting.check_setting('pick_by_sku', true, @current_user.company_id) %>
+
+<script type="text/javascript">
+    var pick_by_scan = <%= pick_by_scan %>;
+    var max_item_weight = <%= SystemSetting.check_setting('max_item_weight', 10, @current_user.company_id).to_i %>;
+</script>
+
+<%= form_tag({:action => 'get_order'}, :remote => true, :'data-update-target' => 'update-container', :id => 'order_picks_form') do %>
+    <h4><label style="font-weight: bolder;" for="order_id"><%= t('.order_id') %></label></h4>
+    <%= text_field_tag('order_id', '') %>
+    <%= submit_tag 'Find Order', :disable_with => 'Please wait...', :class => 'submit btn btn-primary' %>
+<% end %>
+
+<h4 id="save_message"></h4>
+
+<div id="update-container">
+</div>

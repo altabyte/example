@@ -1,0 +1,25 @@
+<%= semantic_form_for user, :remote => true, :html => {:method => "post", :id => 'new_user_form', :class => 'form-horizontal'} do |f| %>
+    <%= f.semantic_errors %>
+
+    <%= f.inputs :class => "column_a" do %>
+        <%= f.input :name, :label => t('users.name') %>
+        <%= f.input :email, :label => t('users.email') %>
+        <%= f.input :role, :label => t('users.role'), :as => :select, :collection => User.available_roles, :input_html => {:multiple => false}, :include_blank => false %>
+        <%= f.input :password, :label => t('users.password') %>
+        <%= f.input :password_confirmation, :label => t('users.password_confirmation') %>
+        <%= f.input :default_landing_page, :label => t('users.landing_page'),
+                    :collection => [
+                            [t('.landing_pages.dashboard'), 'dashboard'],
+                            [t('.landing_pages.orders'), 'orders'],
+                            [t('.landing_pages.pick_orders'), 'order_picks'],
+                            [t('.landing_pages.ship_orders'), 'order_shipments']
+                    ] %>
+        <%= f.input :company_id, :as => :hidden %>
+
+        <%= maintenance_toolbar do %>
+            <%= maintenance_toolbar_save() unless read_only %><br/><br/><br/>
+        <% end %>
+    <% end %>
+<% end %>
+
+

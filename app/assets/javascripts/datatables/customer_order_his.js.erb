@@ -1,0 +1,47 @@
+//= require order_information
+
+function setupOrderHistory() {
+    setupOrderHistoryTable();
+}
+
+function setupOrderHistoryTable() {
+    $('#order_history').dataTable({
+        "sPaginationType": "full_numbers",
+        bJQueryUI: true,
+        bProcessing: true,
+        bServerSide: true,
+        sAjaxSource: $('#order_history').data('source'),
+        bFilter: false,
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [4]},
+            {"sWidth": '5%', "aTargets": [4]}
+        ],
+        "aaSorting": [
+            [0, 'desc']
+        ]
+
+    }).fnSetFilteringDelay();
+
+    $("#order_history .show-button").live("click", function () {
+        openOrderInformation(this.id, 'customer_info');
+
+    });
+
+}
+
+$(document).on('click', '#reprint_rm_label', function () {
+    showPleaseWait(true);
+    $.ajax({
+        url: '/orders/reprint_rm_label?id=' + $('#order_info_header_id').html(),
+        success: function (data) {
+            error_dialog('REPRINT requested');
+            showPleaseWait();
+        },
+        error: function () {
+            error_dialog('REPRINT failed');
+            showPleaseWait();
+        }
+    });
+});
+
+

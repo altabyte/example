@@ -1,0 +1,10 @@
+<%= semantic_form_for @channel, :remote => true, :html => {:id => "channel_new_dialog_form", :class => "form-horizontal"} do |f| %>
+    <%= f.inputs do %>
+        <%= f.input :system_channel_id, :label => t('.system_channel'), :as => :select, :collection => SystemChannel.all.collect { |e| [e.name, e.id] }, :include_blank => false %>
+        <%= f.input :name, :label => t('.name') %>
+    <% end %>
+
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save %>
+    <% end %>
+<% end %>

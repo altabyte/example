@@ -1,0 +1,139 @@
+<% content_for :head do %>
+    <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.7"></script>
+    <%= javascript_include_tag 'datatables/orders' %>
+    <%= javascript_include_tag 'jquery/jquery.tooltipster.min' %>
+<% end %>
+
+<script>
+    var enable_group_stock = <%= SystemSetting.check_setting('enable_group_stock', false, @current_user.company_id) %>;
+    var enable_item_inventories = <%= SystemSetting.check_setting('enable_item_inventories', false, @current_user.company_id) %>;
+</script>
+
+<%
+   company_id = @company_id
+   has_new_shipping_services = ChannelShippingService.
+           joins(:channel).
+           joins("inner join companies on companies.id = channels.company_id").
+           where("shipping_service_id IS NULL").
+           where("companies.id = ?", company_id).count > 0 %>
+
+<% if has_new_shipping_services %>
+    <div id="new_shipping_services">
+    </div>
+<% end %>
+
+<div id="select_pane" style="margin-bottom: 200px;">
+  <div style="float: left;">
+    <%= button_to_function(t('.select_all'), '', :class => 'btn btn-primary select-all') %>
+    <%= button_to_function(t('.select_none'), '', :class => 'btn btn-primary select-none') %>
+    <%= button_to_function(t('.expand_new'), '', {:class => 'btn btn-success expand_new', :style => 'margin-left:40px;'}) %>
+    <%= button_to_function(t('.collapse_all'), '', :class => 'btn btn-success collapse_all') %>
+  </div>
+
+  <div style="float: right;" id='order_action_top'>
+    <select id="order_options_select_top" class='order_options_select'>
+      <% if SystemSetting.check_setting("direct_dispatch", true, @current_user.company_id) %>
+          <option value='pick'><%= t('.pick_selected') %></option>
+          <option value='dispatch'><%= t('.dispatch_selected') %></option>
+      <% else %>
+          <option value='pick'><%= t('.pick_selected') %></option>
+      <% end %>
+    </select>
+    <%= button_to_function(t('.submit'), '', :class => 'btn btn-primary order-action') %>
+  </div>
+
+  <div id="pnl_results"></div>
+
+  <div>
+    <table id="orders" class="display" data-source="<%= orders_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th></th>
+        <th><%= t('.expand') %></th>
+        <th><%= t('.pick_order') %></th>
+        <th><%= t('.order_date') %></th>
+        <th><%= t('.channel_order') %></th>
+        <th><%= t('.customer') %></th>
+        <% if SystemSetting.check_setting('enable_sagepay_integration', false, @current_user.company_id) %>
+            <th><%= t('.CV2') %></th>
+            <th><%= t('.ADD') %></th>
+            <th><%= t('.PC') %></th>
+            <th><%= t('.3D') %></th>
+            <th><%= t('.3RD') %></th>
+        <% end %>
+        <th><%= t('.status') %></th>
+        <th><%= t('.info') %></th>
+
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <% if SystemSetting.check_setting('enable_sagepay_integration', false, @current_user.company_id) %>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        <% end %>
+        <th></th>
+        <th></th>
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+
+  <%= button_to_function(t('.select_all'), '', :class => 'btn btn-primary select-all') %>
+  <%= button_to_function(t('.select_none'), '', :class => 'btn btn-primary select-none') %>
+  <%= button_to_function(t('.expand_new'), '', {:class => 'btn btn-success expand_new', :style => 'margin-left:40px;'}) %>
+  <%= button_to_function(t('.collapse_all'), '', :class => 'btn btn-success collapse_all') %>
+
+
+  <div style="float: right;" id='order_action_bottom_wrapper'>
+    <select id="order_options_select_bottom" class='order_options_select'>
+      <% if SystemSetting.check_setting("direct_dispatch", true, @current_user.company_id) %>
+          <option value='pick'><%= t('.pick_selected') %></option>
+          <option value='dispatch'><%= t('.dispatch_selected') %></option>
+      <% else %>
+          <option value='pick'><%= t('.pick_selected') %></option>
+      <% end %>
+    </select>
+    <%= button_to_function(t('.submit'), '', :class => 'btn btn-primary order-action') %>
+  </div>
+
+</div>
+
+<div id="pdf_wrapper" style="display: none;">
+  <button id="close_pdf_viewer" class="btn btn-inverse" style="float: right; margin-bottom: 10px;" type="button"><%= t('.close') %></button>
+  <div id="pdf_viewer"></div>
+</div>
+
+<div id="order_information_wrapper" style="display: none;">
+  <button id="close_order_information" class="btn btn-inverse" style="margin-bottom: 10px;" type="button"><%= t('.close') %></button>
+  <div id="order_information"></div>
+</div>
+
+<div id='confirm_action' title='<%= t('.confirm_action') %>'></div>
+
+
+<script type="text/javascript">
+
+    var statuses = new Array();
+    <% for status in Order.select(:status).where('status IS NOT NULL').where(:company_id => @context_company_id).group(:status) %>
+    statuses.push('<%= status_name_by_record(status.status) %>');
+    <% end %>
+
+    var sagepay_enabled = <%= SystemSetting.check_setting('enable_sagepay_integration', false, @current_user.company_id) %>;
+
+    var show_new_shipping_methods = <%= has_new_shipping_services %>;
+
+</script>

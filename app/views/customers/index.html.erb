@@ -1,0 +1,49 @@
+<% content_for :head do %>
+    <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.7"></script>
+    <%= javascript_include_tag 'datatables/customers' %>
+    <%= javascript_include_tag 'postcode_anywhere' %>
+<% end %>
+
+<div id="select_pane">
+  <div>
+    <table id="customers" class="display" data-source="<%= customers_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.channel') %></th>
+        <th><%= t('.name') %></th>
+        <th><%= t('.email') %></th>
+        <th><%= t('.edit') %></th>
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+<div id="edit_pane"></div>
+
+<div id="order_information_wrapper" style="display: none;">
+  <button id="close_order_information" class="btn btn-inverse" style="float: left; margin-bottom: 10px;" type="button"><%= t('.close') %></button>
+  <div id="order_information"></div>
+</div>
+
+<script type="text/javascript">
+
+    var channels = new Array();
+    <% for channel in Channel.for_company(@current_user.company_id) %>
+    channels.push('<%= channel.name %>');
+    <% end %>
+
+</script>
+

@@ -1,0 +1,392 @@
+//=require_self
+
+var report_url;
+
+function toggleChecked(status) {
+    $(".check_pick_order").each(function () {
+        $(this).attr("checked", status);
+    })
+}
+
+/* Formatting function for row details */
+function fnFormatDetails(oTable, nTr) {
+    var aData = oTable.fnGetData(nTr);
+    var id = $(aData[0]).attr('value');
+    var sOut;
+
+    $.ajax({
+        type: 'GET',
+        url: '/order_details/' + id + '.json',
+        success: function (result) {
+            sOut = order_details(result);
+            oTable.fnOpen(nTr, sOut, 'details');
+        },
+        failure: function (result) {
+            $('#pnl_results').html('<p>Error getting order details</p>');
+        },
+        dataType: "json"
+    });
+
+}
+
+function create_table_row() {
+    var table_row = '<tr>';
+
+    for (var i = 0; i < arguments.length; i++) {
+        table_row += '<td>' + arguments[i] + '</td>';
+    }
+
+    table_row += '</tr>';
+    return table_row;
+}
+
+function create_table_header_row() {
+    var table_row = '<tr>';
+    table_row += '<th style="width: 15%">Destination</th>';
+    table_row += '<th style="width: 10%">SKU</th>';
+    if (enable_group_stock || enable_item_inventories) {
+        table_row += '<th style="width: 25%">Description</th>';
+    } else {
+        table_row += '<th style="width: 35%">Description</th>';
+    }
+
+    table_row += '<th style="width: 10%">Colour</th>';
+    table_row += '<th style="width: 10%">Size</th>';
+    table_row += '<th style="width: 10%">Qty Ord</th>';
+    table_row += '<th style="width: 10%">Qty Pkd</th>';
+    if (enable_group_stock || enable_item_inventories) {
+        table_row += '<th style="width: 10%">Stock</th>';
+    }
+    table_row += '</tr>';
+    return table_row;
+}
+
+
+function order_details(data) {
+    var tran_panel;
+    tran_panel = '<table id="order_details">';
+    tran_panel += '<tbody>';
+
+    var header_row;
+    header_row = create_table_header_row();
+
+    tran_panel += header_row;
+    if (data.length > 0) {
+        $.each(data, function (i, j) {
+            tran_panel += '<tr>';
+            tran_panel += '<td>' + j.country_string + '</td>';
+            tran_panel += '<td>' + j.item.sku + '</td>';
+            tran_panel += '<td>' + j.item.name + '</td>';
+            tran_panel += '<td>' + (j.item.colour ? j.item.colour : '') + '</td>';
+            tran_panel += '<td>' + (j.item.size ? j.item.size : '') + '</td>';
+            tran_panel += '<td>' + j.quantity_ordered + '</td>';
+            tran_panel += '<td>' + j.quantity_picked + '</td>';
+            if (enable_group_stock) {
+                tran_panel += '<td>j.group_stock</td>';
+            } else if (enable_item_inventories) {
+                tran_panel += '<td>__TOTAL_STOCK__</td>';
+            }
+            tran_panel += '</tr>';
+
+            if (enable_item_inventories) {
+
+                var total_stock = 0;
+
+                if (j.item_inventories.length > 0) {
+                    $.each(j.item_inventories, function (i, ii) {
+                        tran_panel += '<tr style="color:magenta;font-weight: bolder;">';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td colspan="2" style="text-align: right">' + ii.stock_location.name + '</td>';
+                        tran_panel += '<td>' + ii.current_stock + '</tr>';
+
+                        total_stock += ii.current_stock;
+                    })
+                }
+
+                tran_panel = tran_panel.replace('__TOTAL_STOCK__', total_stock);
+            }
+        });
+    }
+    tran_panel += '</tbody>';
+    tran_panel += '</table>';
+
+    return tran_panel;
+}
+
+function check_for_report_url() {
+    if (report_url) {
+        var report_now = report_url;
+        report_url = "";
+        if (!isChromeApp) {
+            var myPDF = new PDFObject(
+                    {
+                        url: report_now,
+                        width: "100%",
+                        height: $(window).height() - 275 + "px",
+                        pdfOpenParams: {
+                            navpanes: 1,
+                            statusbar: 0,
+                            toolbar: 0,
+                            view: "FitV"
+                        }
+                    }).embed("pdf_viewer");
+
+            $("#order_shipments_wrapper_div").hide();
+            $("#pdf_wrapper").show();
+        } else {
+            isChromeApp.source.postMessage({command: 'get_report', url: report_now}, isChromeApp.origin);
+            var tbl = $('#order_shipping').dataTable();
+            tbl.fnDraw();
+        }
+    }
+}
+
+function build_weights_summary(data) {
+    var weights_div = $('#shipment_weight_summary');
+    weights_div.empty();
+
+    var length = data.shipping_summary.length;
+
+    if (length > 0) {
+        var summary_table = '<table><tr><th>Weight Summary:</th>';
+        var i;
+        for (i = 0; i < length; i++) {
+            summary_table += '<th>' + data.shipping_summary[i].service + '</th>';
+        }
+        summary_table += '</tr><tr><td>Total Weight (kg)</td>';
+        for (i = 0; i < length; i++) {
+            summary_table += '<td>' + data.shipping_summary[i].total_weight + '</td>';
+        }
+        summary_table += '</tr><tr><td>Orders</td>';
+        for (i = 0; i < length; i++) {
+            summary_table += '<td>' + data.shipping_summary[i].units + '</td>';
+        }
+        summary_table += '</tr><tr><td>Avg Order Weight</td>';
+        for (i = 0; i < length; i++) {
+            summary_table += '<td>' + data.shipping_summary[i].avg_weight + '</td>';
+        }
+        summary_table += '</tr></table>';
+        weights_div.html(summary_table);
+    }
+}
+
+$(document).ready(function () {
+
+    $('.pick_select_none').bind('click', function () {
+        toggleChecked(false);
+    });
+
+    $('.pick_select_all').bind('click', function () {
+        toggleChecked(true);
+    });
+
+    $('.print_pick_notes').bind('click', function () {
+        var selected = new Array();
+        $('input:checked').each(function () {
+            selected.push($(this).attr('value'));
+        });
+        $url = '/reports/pick_notes?';
+        $url += $.param({order_ids: selected});
+        window.location = $url
+    });
+
+
+    var oTable = $('#order_shipping').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "iDisplayLength": 50,
+        "aaSorting": [
+            [1, 'desc']
+        ],
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [0, 4, 5, 6, 7, 8, 9, 10]},
+            {"sWidth": "5%", "aTargets": [5]},
+        ],
+        "sAjaxSource": $('#order_shipping').data('source'),
+        fnDrawCallback: function (oSettings) {
+            check_for_report_url();
+        },
+        fnRowCallback: function (nRow, aaData, iDisplayIndex) {
+            if (aaData[9]) {
+                $('td', nRow).css('background-color', 'lightcoral');
+            }
+
+            if (aaData[11]) {
+                $('td', nRow).css('background-color', aaData[11]);
+                $('td', nRow).css('color', aaData[12]);
+            }
+
+
+            return nRow;
+        },
+        fnServerData: function (sSource, aoData, fnCallback) {
+            $.ajax({
+                "dataType": 'json',
+                "type": "GET",
+                "url": sSource,
+                "data": aoData,
+                "success": function (result) {
+                    build_weights_summary(result);
+                    fnCallback(result);
+                }
+            })
+        }
+    }).fnSetFilteringDelay();
+
+    /* Add event listener for opening and closing details
+     * Note that the indicator for showing which row is open is not controlled by DataTables,
+     * rather it is done here
+     */
+    $('#order_shipping tbody tr td:not(:first-child, :last-child)').live('click', function () {
+        var nTr = $(this).parents('tr')[0];
+        if (oTable.fnIsOpen(nTr)) {
+            /* This row is already open - close it */
+            this.src = "<%= asset_path 'details_open.png' %>";
+            oTable.fnClose(nTr);
+        }
+        else {
+            /* Open this row */
+            this.src = "<%= asset_path 'details_close.png' %>";
+            fnFormatDetails(oTable, nTr)
+        }
+    });
+
+    $('.order-action').bind('click', function () {
+        var selected = new Array();
+        $('input:checked').each(function () {
+            selected.push($(this).attr('value'));
+        });
+
+        if (selected.length == 0) {
+            error_dialog('No Orders Selected');
+        } else {
+
+            if ($('#order_options_select').val() == "change_service") {
+                yn_dialog('confirm_action', '<%= I18n.t('order_shipments.index.confirm_service_change') %>', function () {
+                    showPleaseWait(true);
+                    $.ajax({
+                        type: 'POST',
+                        url: "order_shipments/change_shipping_method",
+                        data: {
+                            order_ids: selected,
+                            shipping_service_id: $('#order_shipping_methods').val()
+                        },
+                        success: function (result) {
+                            if (result.success) {
+                                var tbl = $('#order_shipping').dataTable();
+                                tbl.fnDraw();
+                                showPleaseWait(false);
+                                alertify.success('Shipping services changed')
+                            } else {
+                                error_dialog('There has been an error updating shipping services');
+                                var tbl = $('#order_shipping').dataTable();
+                                tbl.fnDraw();
+                                showPleaseWait(false);
+                            }
+
+                            $('#order_options_select').val('dispatch');
+                            action_change();
+                        },
+                        failure: function (result) {
+                            error_dialog('An error unknown occurred');
+                            showPleaseWait(false);
+                        },
+                        dataType: "json",
+                        async: false
+                    });
+                }, null);
+            } else {
+                yn_dialog('confirm_action', '<%= I18n.t('order_shipments.index.confirm_dispatch') %>', function () {
+                    showPleaseWait(true);
+                    $.ajax({
+                        type: 'POST',
+                        url: "order_shipments/ship_orders",
+                        data: {order_ids: selected},
+                        success: function (result) {
+                            if (result.location) {
+                                report_url = result.location
+                            }
+                            var tbl = $('#order_shipping').dataTable();
+                            tbl.fnDraw();
+                            showPleaseWait(false);
+                            alertify.success('Shipment Dispatched')
+                        },
+                        error: function (result) {
+                            error_dialog('An error unknown occurred');
+                            showPleaseWait(false);
+                        },
+                        dataType: "json",
+                        async: false
+                    });
+                }, null);
+            }
+        }
+    });
+
+    $("#order_options_select").change(function () {
+        action_change()
+    });
+
+
+    $('#close_pdf_viewer').on('click', function () {
+        $("#order_shipments_wrapper_div").show();
+        $("#pdf_wrapper").hide();
+        var tbl = $('#order_shipping').dataTable();
+        tbl.fnDraw();
+    });
+
+    $('#edit_address_dialog').dialog({
+        height: 'auto',
+        width: '90%',
+        modal: true,
+        autoOpen: false
+    });
+
+    $('#customer_address_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#edit_customer_address_div').html(xhr.responseText);
+                $('#edit_address_dialog').dialog('close');
+                var tbl = $('#order_shipping').dataTable();
+                tbl.fnDraw();
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#edit_customer_address_div').html(xhr.responseText);
+            });
+
+    $('#order_shipping .edit-button').live('click', function (event) {
+        var url = '/customers/' + this.id + '/edit_shipping_address';
+        url = url.replace('edit_order_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#edit_address_dialog').html(data);
+                $('#edit_address_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+});
+
+function action_change() {
+    if (($('#order_options_select').val() == "change_service")) {
+        $('#order_shipping_methods').show();
+    }
+    else {
+        $('#order_shipping_methods').hide();
+    }
+}
+
+
+
+
+

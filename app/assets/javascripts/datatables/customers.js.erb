@@ -1,0 +1,137 @@
+//=require datatables/customer_order_his
+//=require datatables/customer_addresses
+
+
+function InitSearch() {
+    $('#customers_filter').prepend("<label for='channel_filter'>Channel Filter:</label>" +
+    "<span id='channel_filter'></span>");
+    $('#customers').dataTable().columnFilter(
+            {
+                aoColumns: [
+                    null,
+                    {sSelector: "#channel_filter", type: "select", values: channels},
+                    null,
+                    null
+                ]
+            }
+    );
+}
+
+$(function () {
+    root = this;
+    root.oTable = $('#customers').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "bAutoWidth": false,
+        "aaSorting": [
+            [2, 'desc']
+        ],
+        "sAjaxSource": $('#customers').data('source'),
+        "aoColumnDefs": [
+            {"sWidth": "15%", "aTargets": [0]},
+            {"sWidth": "5%", "aTargets": [3]},
+            {"sWidth": "40%", "aTargets": [1, 2]},
+            {"bSortable": false, "aTargets": [3]}
+        ],
+        fnInitComplete: function () {
+            InitSearch();
+        }
+    }).fnSetFilteringDelay();
+});
+
+
+
+$(document).ready(function () {
+    $("#customers .edit-button").live("click", function () {
+        var url = '/customers/' + this.id + '/edit';
+        url = url.replace('edit_customer_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#edit_pane').html(data);
+                $('#edit_pane').show();
+                $('#select_pane').hide();
+                $("#customer_tabs").zozoTabs({
+                    theme: "silver",
+                    animation: {
+                        effects: "none"
+                    }
+                });
+                setupCustomerMaintenance();
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+
+    });
+
+    $('#customer_back').live('click', function () {
+        $('#edit_pane').html('');
+        $('#select_pane').show();
+        $('#edit_pane').hide();
+        var tbl = $('#customers').dataTable();
+        tbl.dataTable().fnDraw(false);
+    });
+
+    // Basic Details
+    $('#basic_details_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#basic_details_tab .z-content-inner').html(xhr.responseText);
+                save_successful();
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#basic_details_tab .z-content-inner').html(xhr.responseText);
+            });
+
+    $('#customer_addresses .edit-button').live('click', function (event) {
+        var url = '/customers/' + this.id + '/edit_customer_address';
+        url = url.replace('edit_customer_address_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#edit_address_dialog').html(data);
+                $('#edit_address_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+    $('#customer_address_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#edit_customer_address_div').html(xhr.responseText);
+                $('#edit_address_dialog').dialog('close');
+                save_successful();
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#edit_customer_address_div').html(xhr.responseText);
+            });
+
+    $('#edit_address_dialog').live("dialogclose", function () {
+        $('#customer_addresses').dataTable().fnDraw(false);
+    });
+
+});
+
+function setupCustomerMaintenance() {
+    $('#edit_address_dialog').dialog({
+        height: 'auto',
+        width: '90%',
+        modal: true,
+        autoOpen: false
+    });
+
+
+    setupOrderHistory();
+    setupCustomerAddresses();
+}
+
+
+

@@ -1,0 +1,21 @@
+<% info_panel = Information.information_data(@context_company_id, session[:current_location_id]) %>
+
+<% if info_panel[:show_panel] %>
+    <div id='information_panel' style="text-align: center;" xmlns="http://www.w3.org/1999/html">
+      <% if info_panel[:new_orders] %>
+          <%= link_to(t('shared.information.new_orders_found'), {:controller => "orders", :action => "index", :show => 'new'}, :class => 'btn btn-info') %>
+      <% end %>
+      <% if info_panel[:missing_tracking_info] %>
+          <%= link_to(t('shared.information.order(s)_without_tracking_information_found'), {:controller => "order_shipments", :action => "dispatch_console"}, :class => 'btn btn-info') %>
+      <% end %>
+      <% if info_panel[:company_errors] %>
+          <%= link_to(t('shared.information.errors_detected'), {:controller => "company_logs", :action => "index"}, :class => 'btn btn-danger') %>
+      <% end %>
+      <% if info_panel[:fedex_shipments] %>
+          <%= link_to(t('shared.information.fedex_shipments'), {:controller => "fedex_shipments", :action => "index"}, :class => 'btn btn-info') %>
+      <% end %>
+      <% if info_panel[:pending_orders] %>
+          <%= link_to(t('shared.information.pending_orders'), {:controller => "orders", :action => "pending_orders"}, :class => 'btn btn-danger') %>
+      <% end %>
+    </div>
+<% end %>

@@ -1,0 +1,59 @@
+<a id="back" href="#" class="btn btn-inverse back_button"><%= t('.back') %></a>
+
+<%= semantic_form_for shipping_method, :remote => true, :html => {:method => "post", :id => 'basic_details_form', :class => "form-horizontal"} do |f| %>
+    <div style="width:100%;">
+      <div id="basic-form-area">
+        <%= f.semantic_errors %>
+        <%= f.inputs do %>
+            <%= f.input :id, :as => :hidden %>
+            <%= f.input :name, :label => t('.name'), :input_html => {:disabled => true} %>
+        <% end %>
+<% end %>
+
+
+</div>
+
+<div>
+
+  <table id="shipping_services_table" class="display" data-source="<%= "/shipping_methods/#{shipping_method.id}/list_shipping_services" %>">
+    <thead>
+    <tr>
+      <th style='width: 20%;'><%= t('.name') %></th>
+      <th style='width: 10%;'><%= t('.location') %></th>
+      <% if shipping_method.code == "RM" %>
+          <th><%= t('service_reference') %></th>
+          <th><%= t('.service') %></th>
+
+          <th><%= t('.class') %></th>
+          <th><%= t('.format') %></th>
+          <th><%= t('.enhancement') %></th>
+      <% elsif shipping_method.code == "FDX" %>
+          <th><%= t('.service_type') %></th>
+          <th><%= t('.package_type') %></th>
+      <% elsif shipping_method.code == "DPD-IE" %>
+          <th><%= t('.integration_identifier') %></th>
+          <th><%= t('.tracked') %></th>
+          <th><%= t('.account_number') %></th>
+          <th><%= t('.service') %></th>
+      <% else %>
+          <th><%= t('.integration_identifier') %></th>
+          <th><%= t('.tracked') %></th>
+          <th><%= t('.account_number') %></th>
+      <% end %>
+      <th style='width: 5%;'></th>
+      <th style='width: 5%;'></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  <div id="edit_shipping_service_dialog" title="<%= t('.edit_shipping_service') %>"></div>
+</div>
+</div>
+
+
+<script type="text/javascript">
+
+    var method_code = '<%= shipping_method.code %>';
+
+</script>

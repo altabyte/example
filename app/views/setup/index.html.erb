@@ -1,0 +1,96 @@
+<% content_for :head do %>
+    <%= javascript_include_tag('setup') %>
+    <%= stylesheet_link_tag('setup') %>
+    <%= javascript_include_tag 'bootstrap-filestyle.min' %>
+<% end %>
+
+<script type="text/javascript">
+    var new_button_src = '<%=asset_path('icons/icon_add.png')%>';
+</script>
+
+<div style="height: 30px;">
+  <div style="display: none; width: 100%; text-align: center; font-size: 20px;" id="save_successful"><%= t('general.save_successful') %></div>
+</div>
+
+<div id="company_setup_tabs" class="z-tabs-loading">
+  <ul>
+    <li data-link="setup_basic_details"><a id="btn_basic_details"><%= t('.basic_details_tab') %></a></li>
+    <li data-link="setup_users"><a id="btn_users"><%= t('.users_tab') %></a></li>
+    <li data-link="setup_stock_locations"><a id="btn_stock_locations"><%= t('.stock_locations_tab') %></a></li>
+    <li data-link="setup_channels"><a id="btn_channels"><%= t('.channels_tab') %></a></li>
+    <li data-link="setup_shipping_methods"><a id="btn_shipping_methods"><%= t('.shipping_methods_tab') %></a></li>
+    <li data-link="setup_packaging_types"><a id="btn_packaging_types"><%= t('.packaging_types_tab') %></a></li>
+    <li data-link="setup_shipping_destinations">
+      <a id="btn_shipping_destinations"><%= t('.shipping_destinations_tab') %></a></li>
+    <li data-link="setup_fedex_settings"><a id="btn_fedex_settings"><%= t('.fedex_settings_tab') %></a></li>
+    <li data-link="setup_exchange_rates"><a id="btn_exchange_rates"><%= t('.exchange_rates') %></a></li>
+    <li data-link="setup_system_settings"><a id="btn_system_settings"><%= t('.system_settings_tab') %></a></li>
+    <% if SystemSetting.check_setting('enable_shipping_matrix', true, @current_user.company_id) %>
+        <li data-link="setup_shipping_matrices"><a id="btn_shipping_matrices"><%= t('.shipping_matrices_tab') %></a>
+        </li>
+    <% end %>
+    <li data-link="setup_erase_data"><a id="btn_erase_data"><%= t('.erase_data_tab') %></a></li>
+    <li data-link="bulk_status_change"><a id="btn_bulk_status_change"><%= t('.bulk_status_change') %></a></li>
+
+  </ul>
+  <div>
+    <div id="basic_details_tab">
+      <%= render :partial => 'setup/basic_details', :locals => {:company => @company} %>
+    </div>
+
+    <div id="users_tabs">
+      <%= render :partial => 'setup/users', :locals => {:company => @company} %>
+    </div>
+
+    <div id="stock_locations_tab">
+      <%= render :partial => 'setup/stock_locations', :locals => {:company => @company} %>
+    </div>
+
+    <div id="channels_tab">
+      <%= render :partial => 'setup/channels', :locals => {:company => @company} %>
+    </div>
+
+
+    <div id="shipping_methods_tab">
+      <%= render :partial => 'setup/shipping_methods', :locals => {:company => @company} %>
+    </div>
+
+    <div id="packaging_types_tab">
+      <%= render :partial => 'setup/packaging_types', :locals => {:company => @company} %>
+    </div>
+
+    <div id="shipping_destinations_tab">
+      <%= render :partial => 'setup/shipping_destinations', :locals => {:company => @company} %>
+    </div>
+
+    <div id="fedex_settings_tab">
+      <%= render :partial => 'setup/fedex_settings', :locals => {:company => @company} %>
+    </div>
+
+    <div id="exchange_rates_tab">
+      <%= render :partial => 'setup/exchange_rates', :locals => {:company => @company} %>
+    </div>
+
+
+    <div id="system_settings_tab">
+      <%= render :partial => 'setup/system_settings', :locals => {:company => @company} %>
+    </div>
+
+    <% if SystemSetting.check_setting('enable_shipping_matrix', true, @current_user.company_id) %>
+        <div id="shipping_matrices_tab">
+          <%= render :partial => 'setup/shipping_matrices', :locals => {:company => @company} %>
+        </div>
+    <% end %>
+
+    <div id="erase_data_tab">
+      <%= render :partial => 'setup/erase_data', :locals => {:company => @company} %>
+    </div>
+
+    <div id="bulk_status_change_tab">
+      <%= render :partial => 'setup/status_change', :locals => {:company => @company} %>
+    </div>
+
+  </div>
+  <span class="z-spinner"></span>
+
+</div>

@@ -1,0 +1,63 @@
+function setupStatusChange() {
+    var result_message = $("#status_change_result_message");
+    var timestamp = $("#status_change_date_timestamp");
+    var password = $('#status_change_password');
+
+
+    $(document).on('click', '#change_status', function () {
+        result_message.hide();
+        if (timestamp.val()) {
+            if (password.val()) {
+
+                var old_status = $('#old_status').val();
+                var new_status = $('#new_status').val();
+
+                if (new_status == old_status) {
+                    error_dialog('Old and New statuses are the same');
+                } else {
+                    var text = 'Are you sure you want to change all statuses from ' + old_status + ' to ' + new_status + ' before ' + timestamp.val() + '?';
+
+                    alertify.confirm(text, function (e, str) {
+                        // str is the input text
+                        if (e) {
+                            showPleaseWait(true);
+                            $.ajax({
+                                url: '/companies/status_change.json',
+                                format: 'JSON',
+                                data: {
+                                    status_change_date_timestamp: timestamp.val(),
+                                    old_status: old_status,
+                                    new_status: new_status,
+                                    user_password: password.val()
+                                },
+                                success: function (data) {
+                                    password.val('');
+                                    showPleaseWait();
+                                    result_message.html(data.message);
+                                    result_message.show();
+
+                                },
+                                error: function () {
+                                    showPleaseWait();
+                                    console.log('error');
+                                }
+                            });
+                        }
+                    }).set({
+                        labels: {
+                            ok: "!!!YES!!!",
+                            cancel: "NO"
+                        }
+                    }).set('closable', false);
+                }
+
+
+            } else {
+                error_dialog('No Password Entered');
+            }
+        } else {
+            error_dialog('No Date Selected');
+        }
+    });
+
+}

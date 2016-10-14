@@ -1,0 +1,19 @@
+<%= semantic_form_for exchange_rate, :url => "/companies/update_exchange_rate/#{exchange_rate.id}", :remote => true, :html => {:method => "post", :id => 'edit_exchange_rate_form', :class => "form-horizontal"} do |f| %>
+    <div style="width:100%;">
+      <div id="basic-form-area">
+        <%= f.semantic_errors %>
+        <div style="float: right; margin-left: 10px;">
+          <img id='download_exchange_rate' src='<%= asset_path('icons/cloud_downloadx2.png') %>' title="Download latest exchange rate">
+        </div>
+        <%= f.inputs do %>
+            <%= f.input :from_currency, :label => t('.from_currency'), :input_html => {:disabled => true} %>
+            <%= f.input :to_currency, :label => t('.to_currency'), :input_html => {:disabled => true} %>
+            <%= f.input :exchange_rate, :label => t('.exchange_rate') %>
+
+        <% end %>
+        <%= maintenance_toolbar_save %>
+<% end %>
+
+
+</div>
+</div>

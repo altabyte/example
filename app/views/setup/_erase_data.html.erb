@@ -1,0 +1,29 @@
+<div id='cleardown_data' style="margin-bottom: 50px; padding-bottom: 50px;">
+  <p style="font-size: 1.4em; color: red">ERASE DATA<br></p>
+
+  <p style="font-size: 1.2em; color: red">
+    WARNING: This will remove all data on and before the selected date!! This process CANNOT be
+    reversed.
+  </p>
+  The following data will be erased:
+  <ul>
+    <li>Orders</li>
+    <li>Reports / Documents</li>
+    <li>Customers</li>
+  </ul>
+
+
+  <label for="clear_down_date_timestamp"><%= t('.select_date') %></label>
+  <input id='clear_down_date_timestamp' class="ui-datepicker">
+
+  <br><br>
+
+  <label for="clear_down_password"><%= t('.enter_user_password') %></label>
+  <input id='clear_down_password' type="password">
+  <br><br>
+  <button class="btn btn-danger" id='clear_down'>ERASE DATA</button>
+  <br><br>
+
+  <div id='erase_data_result_message' style="font-size: 1.2em"></div>
+
+</div>

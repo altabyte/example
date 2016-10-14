@@ -1,0 +1,20 @@
+<div class="customer_address_content customer_address_tab_content">
+  <div id="customer_addresses_table">
+    <table id="customer_addresses" class="display" data-source="<%= "/customers/#{customer.id}/list_customer_addresses" %>">
+      <thead>
+      <tr>
+        <th><%= t('.address_type') %></th>
+        <th><%= t('.town') %></th>
+        <th><%= t('.country') %></th>
+        <th><%= t('.post_code') %></th>
+        <th><%= t('.edit') %></th>
+      </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="edit_address_dialog" title="<%= t('.edit_customer_address') %>"></div>

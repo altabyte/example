@@ -1,0 +1,28 @@
+<div id="packaging_types_select_pane">
+  <div>
+    <table id="packaging_types" class="display" data-source="<%= company_packaging_types_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.name') %></th>
+        <th><%= t('.size') %></th>
+        <th><%= t('.delete') %></th>
+
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div id="new_packaging_type_dialog" title="<%= t('.new') %>"></div>
+

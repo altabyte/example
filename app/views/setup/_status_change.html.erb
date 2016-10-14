@@ -1,0 +1,30 @@
+<div id='status_change' style="margin-bottom: 50px; padding-bottom: 50px;">
+  <p style="font-size: 1.4em; color: red">BULK STATUS CHANGE<br></p>
+
+  <p style="font-size: 1.2em; color: red">
+    WARNING: This will change all statuses with an order date on and before the selected date!! This process CANNOT be
+    reversed.
+  </p>
+
+  <label for="old_status"><%= t('.old_status') %></label>
+
+  <%= select_tag(:old_status, options_for_select(status_select)) %>
+  <br><br>
+  <label for="new_status"><%= t('.new_status') %></label>
+  <%= select_tag(:new_status, options_for_select(status_select)) %>
+  <br><br>
+
+  <label for="status_change_date_timestamp"><%= t('.select_date') %></label>
+  <input id='status_change_date_timestamp' class="ui-datepicker">
+
+  <br><br>
+
+  <label for="status_change_password"><%= t('.enter_user_password') %></label>
+  <input id='status_change_password' type="password">
+  <br><br>
+  <button class="btn btn-danger" id='change_status'>CHANGE STATUSES</button>
+  <br><br>
+
+  <div id='status_change_result_message' style="font-size: 1.2em"></div>
+
+</div>

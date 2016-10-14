@@ -1,0 +1,79 @@
+var unopened = false;
+
+function InitSearch() {
+    $('#reports_filter').prepend("<label for='report_type_filter'><%= I18n.t('reports.index.report_type_filter') %>:</label>" +
+    "<span id='report_type_filter'></span>");
+    $('#reports').dataTable().columnFilter(
+            {
+                aoColumns: [
+                    null,
+                    {sSelector: "#report_type_filter", type: "select", values: report_types},
+                    null,
+                    null
+                ]
+            }
+    );
+    $('#report_type_filter').next().hide();
+}
+
+$(document).ready(function () {
+
+    if (getURLParameter('show') == 'unopened') {
+        unopened = true;
+    }
+    ;
+
+    var oTable = $('#reports').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "iDisplayLength": 10,
+        "aaSorting": [
+            [1, 'desc']
+        ],
+        "aoColumnDefs": [
+            {"sWidth": "5%", "aTargets": [4]},
+            {"bSortable": false, "aTargets": [4]}
+        ],
+        "sAjaxSource": $('#reports').data('source'),
+        "fnServerParams": function (aoData) {
+            aoData.push({"name": "unopened", "value": unopened});
+        },
+        fnInitComplete: function () {
+            InitSearch();
+        }
+    }).fnSetFilteringDelay();
+
+    $('#close_pdf_viewer').on('click', function () {
+        $("#select_pane").show();
+        $("#pdf_wrapper").hide();
+    });
+
+
+    $("#reports .show-button").live("click", function () {
+        var url = '/reports/' + this.id;
+        url = url.replace('show_report_', '');
+
+
+        var myPDF = new PDFObject(
+                {
+                    url: url,
+                    width: "100%",
+                    height: $(window).height() - 275 + "px",
+                    pdfOpenParams: {
+                        navpanes: 1,
+                        statusbar: 0,
+                        toolbar: 0,
+                        view: "FitV"
+                    }
+                }).embed("pdf_viewer");
+
+        $("#select_pane").hide();
+        $("#pdf_wrapper").show();
+
+    });
+
+});
+

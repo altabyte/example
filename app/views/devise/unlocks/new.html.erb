@@ -1,0 +1,22 @@
+<div id="sign-in">
+  <div id="reset-password-container">
+    <h1>Resend unlock <br/>instructions</h1>
+
+    <div id="signinlogo">
+      <div id="reset-unlock">
+        <%= form_for(resource, :as => resource_name, :url => unlock_path(resource_name), :html => {:method => :post}) do |f| %>
+            <%= devise_error_messages! %>
+            <fieldset>
+              <%= f.label :email %>
+              <br/>
+              <%= f.email_field :email, {:placeholder => 'enter email address'} %>
+            </fieldset>
+            <div id="reset-unlock-links">
+              <%= f.submit "Resend unlock instructions" %>
+        <% end %>
+        <%= render :partial => "devise/shared/links" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

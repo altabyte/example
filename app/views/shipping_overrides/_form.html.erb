@@ -1,0 +1,33 @@
+<%= semantic_form_for @shipping_override do |f| %>
+    <%= maintenance_errors do %>
+        <%= f.semantic_errors *f.object.errors.keys %>
+    <% end %>
+
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save %>
+        <%= maintenance_toolbar_back(shipping_overrides_path) %>
+    <% end %>
+
+    <%= f.inputs do %>
+        <%= f.input :channel, :label => t('.channel') %>
+        <%= f.input :order_attribute, :label => t('.order_attribute'), :as => :select, :collection => order_attribute_collection, :include_blank => false %>
+        <%= f.input :qualifier, :label => t('.qualifier'), :as => :select, :collection => qualifier_select_collection, :include_blank => false %>
+        <%= f.input :value, :label => t('.value') %>
+        <%= f.input :shipping_service, :label => t('.shipping_service'), :include_blank => false %>
+    <% end %>
+
+<% end %>
+
+<script type="text/javascript">
+
+    $('#shipping_override_order_attribute').change(function () {
+        if ($('#shipping_override_order_attribute').val() == 'sku') {
+            $('#shipping_override_qualifier').val("=");
+            $('#shipping_override_qualifier_input').hide();
+        } else {
+            $('#shipping_override_qualifier_input').show();
+        }
+    });
+
+
+</script>

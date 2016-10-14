@@ -1,0 +1,32 @@
+<% if @services_count > 0 %>
+
+    <h3><%= t('.new_shipping_services_found') %></h3>
+    <h4><%= t('.please_update_these_before_continuing') %></h4>
+
+    <table>
+
+      <tr style="font-weight: bold">
+        <td><%= t('.channel') %></td>
+        <td style="padding-left: 20px;"><%= t('.shipping_text') %></td>
+        <td style="padding-left: 20px;"><%= t('.shipping_service') %></td>
+      </tr>
+
+
+      <% @services.each do |service| %>
+          <tr>
+            <td>
+              <%= service.channel.name %>
+            </td>
+            <td style="padding-left: 20px;">
+              <%= service.shipping_text %>
+            </td>
+            <td style="padding-left: 20px;" data-service_id="<%= service.id %>">
+              <%= collection_select(service.id, 'shipping_service_id', company_shipping_services(@company_id), :id, :name, {:prompt => true}, {:class => 'shipping_service_select'}) %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+
+    <input class="btn btn-primary save-button" data-disable-with="Save" name="commit" type="submit" id="save_new_shipping_services" value="Save">
+
+<% end %>

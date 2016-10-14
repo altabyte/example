@@ -1,0 +1,32 @@
+<div id="shipping_destination_select_pane">
+  <div>
+    <table id="shipping_destinations" class="display" data-source="<%= shipping_destinations_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.country_code') %></th>
+        <th><%= t('.item_weight_required') %></th>
+        <th><%= t('.item_county_of_origin_required') %></th>
+        <th><%= t('.harmonization_code_required') %></th>
+        <th><%= t('.delete') %></th>
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div id="shipping_destination_new_dialog" title="<%= t('.new') %>"></div>
+

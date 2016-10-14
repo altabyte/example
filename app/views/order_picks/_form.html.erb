@@ -1,0 +1,88 @@
+<% pick_by_scan = SystemSetting.check_setting('pick_by_sku', true, @current_user.company_id) %>
+
+<script type="text/javascript">
+    var country_requires_info = <%= raw @country_requires_info.to_json %>;
+    var pick_by_scan = <%= pick_by_scan %>;
+</script>
+
+
+<% if order.present? %>
+    <%= render :partial => 'orders/header_info', :locals => {:order => order, :block_style => 'top: -150px; position: relative;'} %>
+    <%= form_tag :id => "order_picks", :remote => true do %>
+
+        <%= maintenance_toolbar do %>
+            <% unless pick_by_scan %>
+                <%= maintenance_table_button_to_function(t('.pick_all'), "", "generic-button btn btn-primary", "pick-all") %>
+            <% end %>
+            <%= maintenance_table_button_to_function(t('.save_order'), "", "generic-button btn btn-primary", "submit-form") %>
+            <br/>
+            <br/><br/>
+        <% end %>
+
+        <% county_of_origin, item_weight, harmonization_code = false, false, false %>
+
+        <% if @country_requires_info.present? %>
+            <% county_of_origin = @country_requires_info.item_county_of_origin_required %>
+            <% item_weight = @country_requires_info.item_weight_required %>
+            <% harmonization_code = @country_requires_info.harmonization_code_required %>
+        <% end %>
+
+        <% if pick_by_scan %>
+            <div id="scan_error" style="display:none; color: red;
+                    font-size: 16px;
+                    font-weight: bold;
+                    background: black;
+                    padding: 5px;">
+              <%= t('.sku_not_found') %>
+            </div>
+            <h4><label style="font-weight: bold;" for="scan_sku"><%= t('.scan_sku') %></label></h4>
+            <input type="text" id="scan_sku">
+            <br><br>
+        <% end %>
+
+        <% column_widths = []
+           column_widths[0] = 0
+           column_widths[1] = 0
+           column_widths[6] = 10
+           column_widths[5] = 10
+           column_widths[4] = item_weight ? 15 : 0
+           column_widths[3] = harmonization_code ? 15 : 0
+           column_widths[2] = county_of_origin ? 15 : 0
+           column_widths[1] = 100 - column_widths.sum
+        %>
+
+        <table id='tbl_picks' class="table table-striped table-bordered">
+          <tr>
+            <th style="width: <%= column_widths[1] %>%"><%= t('.sku') %></th>
+            <% if county_of_origin %>
+                <th style="width: <%= column_widths[2] %>%"><%= t('.country_of_origin') %></th>
+            <% end %>
+            <% if harmonization_code %>
+                <th style="width: <%= column_widths[3] %>%"><%= t('.harmonization_code') %></th>
+            <% end %>
+            <% if item_weight %>
+                <th style="width: <%= column_widths[4] %>%"><%= t('.item_weight') %></th>
+            <% end %>
+            <th style="width: <%= column_widths[5] %>%"><%= t('.quantity_required') %></th>
+            <th style="width: <%= column_widths[6] %>%"><%= t('.quantity_picked') %></th>
+          </tr>
+          <% for order_detail in order.order_details %>
+              <%= render :partial => 'order_picks/order_pick_line',
+                         :locals => {:order_detail => order_detail,
+                                     :pick_by_scan => pick_by_scan,
+                                     :item_weight => item_weight,
+                                     :harmonization_code => harmonization_code,
+                                     :county_of_origin => county_of_origin
+                         } %>
+          <% end %>
+        </table>
+    <% end %>
+
+    <br>
+    <br>
+    <br>
+<% else %>
+    <h4><%= t('.order_not_found') %></h4>
+<% end %>
+
+

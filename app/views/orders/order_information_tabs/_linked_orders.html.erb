@@ -1,0 +1,26 @@
+<div style="font-weight: bold; margin-bottom: 20px;font-size: 20px; text-align: center"><%= t('.linked_orders') %> </div>
+
+<table id="linked_orders_table" class="table table-bordered table-striped table-condensed" style="width: 100%;">
+
+  <tr>
+    <th><%= t('.order_id') %></th>
+    <th><%= t('.order_number') %></th>
+    <th><%= t('.created_date') %></th>
+    <th><%= t('.status') %></th>
+    <th style="width: 5%;"><%= t('.more_info') %></th>
+  </tr>
+
+  <% linked_orders.each do |linked_order| %>
+
+      <tr>
+         <td><%=linked_order.id%></td>
+         <td><%=linked_order.channel_order_id%></td>
+         <td><%=I18n.l(linked_order.created_at, :format => :default)%></td>
+         <td><%=linked_order.status_name%></td>
+         <td><span class='icon icon-info-sign linked_order_more_info' id='show_linked_order_info_<%=linked_order.id%>'></span></td>
+
+      </tr>
+
+  <% end %>
+</table>
+

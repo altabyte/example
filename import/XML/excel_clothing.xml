@@ -1,0 +1,153 @@
+<Configurations>
+  <SuperUser>
+    <Name>Super User</Name>
+    <email_address>super@ordermanager.biz</email_address>
+    <Password>PleasePlease1</Password>
+    <Role>SuperUser</Role>
+    <HomePage>orders</HomePage>
+  </SuperUser>
+  <Companies>
+    <Company>
+      <Name>Excel Clothing</Name>
+      <AddressLine1>PO Box 183</AddressLine1>
+      <Town>Newtownards</Town>
+      <County>County Down</County>
+      <PostCode>BT23 4YD</PostCode>
+      <Country>GB</Country>
+      <ClientShare>excelclothing</ClientShare>
+      <Users>
+        <User>
+          <Name>William Gilliland</Name>
+          <email_address>william@excelclothing.com</email_address>
+          <Password>Ashvale1</Password>
+          <Role>Admin</Role>
+        </User>
+        <User>
+          <Name>User</Name>
+          <email_address>user@excelclothing.com</email_address>
+          <Password>Please1</Password>
+          <Role>User</Role>
+        </User>
+      </Users>
+      <StockLocations>
+        <StockLocation>
+          <Name>NEWTOWNARDS</Name>
+          <Reference>1</Reference>
+        </StockLocation>
+        <StockLocation>
+          <Name>BANGOR</Name>
+          <Reference>2</Reference>
+        </StockLocation>
+      </StockLocations>
+      <Channels>
+        <Channel SystemChannelName='MAGENTO'>
+          <Name>WWW</Name>
+          <Connection1>www.excelclothing.com</Connection1>
+          <Connection2>order_management</Connection2>
+          <Connection3>default</Connection3>
+          <Password1>11353568</Password1>
+          <UseCompanyAddress>Y</UseCompanyAddress>
+          <ProductMaster>Y</ProductMaster>
+          <Statuses>
+            <Status>
+              <Name>Pending</Name>
+              <SystemStatusName>PENDING</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Canceled</Name>
+              <SystemStatusName>CANCELLED</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Unshipped</Name>
+              <SystemStatusName>NEW</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Shipped</Name>
+              <SystemStatusName>COMPLETE</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>PartiallyShipped</Name>
+              <SystemStatusName>PART_DISPATCHED</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+          </Statuses>
+        </Channel>
+        <Channel SystemChannelName='AMAZON'>
+          <Name>Amazon</Name>
+          <Connection1>A2HDDKEXOP71DE</Connection1>
+          <Connection2>M_EXCELCLOTH_1026628</Connection2>
+          <Password1>AKIAJIQ5SRF5OLMOKMNA</Password1>
+          <Password2>TF/c/9nTCRtdRb4WrwhhDsxnJU2AgKxgmAnSRTv3</Password2>
+          <UseCompanyAddress>Y</UseCompanyAddress>
+          <ProductMaster>N</ProductMaster>
+          <Statuses>
+            <Status>
+              <Name>Pending</Name>
+              <SystemStatusName>PENDING</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Pending Payment</Name>
+              <SystemStatusName>PENDING</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>pending_amazon</Name>
+              <SystemStatusName>PENDING</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Pending PayPal</Name>
+              <SystemStatusName>PENDING</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Processing</Name>
+              <SystemStatusName>NEW</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>On Hold</Name>
+              <SystemStatusName>PENDING</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Complete</Name>
+              <SystemStatusName>COMPLETE</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Canceled</Name>
+              <SystemStatusName>CANCELLED</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Closed</Name>
+              <SystemStatusName>CANCELLED</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Suspected Fraud</Name>
+              <SystemStatusName>PENDING</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>Payment Review</Name>
+              <SystemStatusName>PENDING</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+            <Status>
+              <Name>pending_payment</Name>
+              <SystemStatusName>PENDING</SystemStatusName>
+              <IsOutBound>N</IsOutBound>
+            </Status>
+          </Statuses>
+        </Channel>
+      </Channels>
+    </Company>
+  </Companies>
+</Configurations>

@@ -1,0 +1,53 @@
+<% if user_signed_in? & session[:current_location_id].present? %>
+    <script>
+        max_order_id = <%= @current_user.max_order_id %>;
+    </script>
+    <%= nav_bar :fixed => :top, :responsive => true do %>
+        <%= menu_group do %>
+            <%= menu_item t('shared.navigation.home'), root_path, :id => 'btn_home' %>
+            <%= drop_down(t('shared.navigation.orders'), 'btn_dd_orders') do %>
+                <%= menu_item "1 > #{t('shared.navigation.orders')}", orders_path, :id => 'btn_orders' %>
+                <%= menu_item "2 > #{t('shared.navigation.pick_orders')}", order_picks_path, :id => 'btn_fulfillment' %>
+                <%= menu_item "3 > #{t('shared.navigation.weigh_orders')}", {:controller => 'order_weighing', :action => 'index'}, :id => 'btn_weighing' %>
+                <%= menu_item "4 > #{t('shared.navigation.ship_orders')}", order_shipments_path, :id => 'btn_shipments' %>
+                <li><%= link_to("5 > #{t('shared.navigation.tracking_console')}", {:controller => 'order_shipments', :action => 'dispatch_console'}, :id => 'btn_tracking') %> </li>
+                <li><%= link_to("6 > #{t('shared.navigation.shipment_check')}", {:controller => 'orders', :action => 'shipment_check'}, :id => 'btn_shipment_check') %> </li>
+            <% end %>
+            <%= menu_item t('shared.navigation.customers'), customers_path, :id => 'btn_customers' %>
+            <%= menu_item t('shared.navigation.reports'), reports_path, :id => 'btn_reports' %>
+            <% if @current_user.check_role?("SuperUser") or @current_user.check_role?("Admin") %>
+                <%= drop_down(t('shared.navigation.system'), 'btn_dd_setup') do %>
+                    <%= menu_item t('shared.navigation.setup'), '/setup', :id => 'btn_setup' %>
+                    <%= menu_item t('shared.navigation.logs'), company_logs_path, :id => 'btn_logs' %>
+                <% end %>
+            <% end %>
+            <%= drop_down(t('shared.navigation.help'), 'btn_dd_help') do %>
+                <%= menu_item t('shared.navigation.support'), 'https://ordermanager.zendesk.com', {:id => 'btn_support', :target => '_blank'} %>
+                <%= menu_item t('shared.navigation.knowledgebase'), 'https://ordermanager.zendesk.com/hc', {:id => 'btn_knowledgebase', :target => '_blank'} %>
+                <%= menu_item t('shared.navigation.google_app'), 'https://chrome.google.com/webstore/detail/order-manager/ckcdeemhogaaaaflophiblpppgefmenm', {:id => 'btn_google_app', :target => '_blank'} %>
+            <% end %>
+            <%= menu_item t('shared.navigation.change_location'), {:controller => :home, :action => :set_location}, :id => 'btn_change_location' %>
+            <%= menu_item t('shared.navigation.logout'), destroy_user_session_path, :method => :delete, :id => 'btn_logout' %>
+        <% end %>
+    <% end %>
+
+    <%= nav_bar :fixed => :bottom do %>
+        <div id='footer'>
+          <div id="copyright">
+            <img src=<%= asset_path('om_logo.png') %>>
+          </div>
+
+          <%= menu_group :pull => :right do %>
+              <%= menu_text "#{t('shared.navigation.location')}: #{session[:current_location_name]}" %>
+              <%= menu_text "#{t('shared.navigation.user')}: #{@current_user.name}" %>
+              <%= menu_text (t('shared.navigation.version') + ': ' + Version.current_version) %>
+          <% end %>
+        </div>
+    <% end %>
+<% elsif user_signed_in? %>
+    <%= nav_bar :fixed => :top, :responsive => true do %>
+        <%= menu_group do %>
+            <%= menu_item t('shared.navigation.logout'), destroy_user_session_path, :method => :delete, :id => 'btn_logout' %>
+        <% end %>
+    <% end %>
+<% end %>

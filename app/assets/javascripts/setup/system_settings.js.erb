@@ -1,0 +1,81 @@
+function SystemSettingsInitSearch() {
+    $('#system_settings_filter').prepend("<label for='group_filter'><%= I18n.t('system_settings.index.group_filter') %>:</label>" +
+    "<span id='group_filter'></span>");
+    $('#system_settings').dataTable().columnFilter(
+            {
+                aoColumns: [
+                    null,
+                    {sSelector: "#group_filter", type: "select", values: group_types},
+                    null,
+                    null
+                ]
+            }
+    );
+}
+
+
+
+function setupSystemSettings() {
+    root = this;
+    root.oTable = $('#system_settings').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "bAutoWidth": false,
+        "sAjaxSource": $('#system_settings').data('source'),
+        "aoColumnDefs": [
+            {"sWidth": "5%", "aTargets": [4]},
+            {"bSortable": false, "aTargets": [3, 4]}
+        ],
+        fnInitComplete: function () {
+            SystemSettingsInitSearch();
+        }
+    }).fnSetFilteringDelay();
+};
+
+
+
+$(document).ready(function () {
+
+    $('#edit_system_setting_dialog').dialog({
+        height: 'auto',
+        width: 'auto',
+        modal: true,
+        autoOpen: false
+    });
+
+
+    $("#system_settings .edit-button").live("click", function () {
+        var url = '/system_settings/' + this.id + '/edit';
+        url = url.replace('edit_system_setting_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#edit_system_setting_dialog').html(data);
+                $('#edit_system_setting_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+
+    });
+
+    // Basic Details
+    $('#system_settings_basic_details_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#system_settings').dataTable().fnDraw(false);
+                $('#edit_system_setting_dialog').html(xhr.responseText);
+                $('#edit_system_setting_dialog').dialog('close');
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#edit_system_setting_dialog').html(xhr.responseText);
+            });
+
+
+});
+
+

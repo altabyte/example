@@ -1,0 +1,15 @@
+<div id="users_basic_details_tab">
+  <script type="text/javascript">
+      var item_id = '<%=@user.id%>';
+  </script>
+  <style type="text/css">
+      div#item_edit_pane {
+          margin-top: 40px;
+      }
+  </style>
+  <a id="btn_back" href="#" class="btn btn-inverse"><%= t('users.form.back') %></a>
+
+  <p></p>
+</div>
+<%= render :partial => 'setup/forms/users/tabs/basic_details', :locals => {:user => @user, :read_only => read_only} %>
+</div>

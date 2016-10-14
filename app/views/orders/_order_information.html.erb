@@ -1,0 +1,11 @@
+<%= stylesheet_link_tag('aftership') %>
+
+<div id='order_information_container'>
+  <%= render :partial => 'orders/order_information_tabs/order_information_tabs', :locals => {:order => order} %>
+</div>
+
+
+<script>
+    var sa_longitude = '<%= order.shipping_address.longitude %>';
+    var sa_latitude = '<%= order.shipping_address.latitude %>';
+</script>

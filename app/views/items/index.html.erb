@@ -1,0 +1,17 @@
+<%= javascript_include_tag('datatables/items') %>
+
+<div>
+  <table id="items" class="display" data-source="<%= items_url(format: "json") %>">
+    <thead>
+    <tr>
+      <th><%= t('.sku') %></th>
+      <th><%= t('.name') %></th>
+      <th><%= t('.colour') %></th>
+      <th><%= t('.size') %></th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+  </table>
+</div>

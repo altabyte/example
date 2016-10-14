@@ -1,0 +1,32 @@
+<a id="channel_back" href="#" class="btn btn-inverse back_button"><%= t('.back') %></a>
+
+<div id="channel_edit_tabs">
+  <ul>
+    <li data-link="channel_basic_details_tab">
+      <a id="btn_channel_basic_details_tab"><%= t('.channel_basic_details_tab') %></a></li>
+    <li data-link="channel_shipping_services_tab">
+      <a id="btn_channel_shipping_services_tab"><%= t('.channel_shipping_services_tab') %></a></li>
+    <li data-link="channel_status_tab"><a id="btn_channel_status_tab"><%= t('.channel_status_tab') %></a></li>
+    <li data-link="channel_log_tab"><a id="btn_channel_log_tab"><%= t('.channel_logs') %></a></li>
+  </ul>
+
+  <div>
+    <div id="channel_basic_details_tab">
+      <%= render :partial => 'setup/forms/channel/channel_basic_details', :locals => {:channel => @channel} %>
+    </div>
+    <div id="channel_shipping_services_tab">
+      <%= render :partial => 'setup/forms/channel/channel_shipping_services', :locals => {:channel => @channel} %>
+    </div>
+    <div id="channel_status_tab">
+      <%= render :partial => 'setup/forms/channel/channel_status', :locals => {:channel => @channel} %>
+    </div>
+    <div id="channel_log_tab">
+      <a id="channel_log_reload" class="btn channel_log_reload" style="margin-bottom: 20px;"><%= t('.reload_log') %></a>
+
+      <div id="channel_log_content">
+        <%= render :partial => 'setup/forms/channel/channel_log', :locals => {:channel => @channel} %>
+      </div>
+      <a id="channel_log_reload_btm" class="btn channel_log_reload" style="margin-top: 20px;"><%= t('.reload_log') %></a>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,13 @@
+<%= semantic_form_for @shipping_destination, :remote => true, :html => {:id => "shipping_destination_new_dialog_form", :class => "form-horizontal"} do |f| %>
+    <%= f.inputs do %>
+        <%= f.input :company_id, :as => :hidden %>
+        <%= f.input :country_code, :label => t('.country_code'), :as => Country %>
+        <%= f.input :item_weight_required, :label => t('.item_weight_required') %>
+        <%= f.input :item_county_of_origin_required, :label => t('.item_county_of_origin_required') %>
+        <%= f.input :harmonization_code_required, :label => t('.harmonization_code_required') %>
+    <% end %>
+
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save %>
+    <% end %>
+<% end %>

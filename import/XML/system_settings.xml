@@ -1,0 +1,149 @@
+<Settings>
+  <Setting>
+    <Code>pn_with_integrated_labels</Code>
+    <Description>Print Integrated Labels On Pick Notes</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>paper_pick_info</Code>
+    <Description>Print Picking Info (Picked By etc.) on Pick Notes</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>direct_dispatch</Code>
+    <Description>Allow orders to be dispatched from order screen.</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>export_orders</Code>
+    <Description>Export orders To XML during download</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>sn_with_integrated_labels</Code>
+    <Description>Print Integrated Labels On Shipment Notes</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>print_delivery_note_with_pick_list</Code>
+    <Description>Print Shipping Notes With Pick List</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>display_shipping_note</Code>
+    <Description>Display Shipping Note Upon Order Shipment</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>pick_by_sku</Code>
+    <Description>Pick Item By SKU (blind picking)</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>postcode_anywhere_key</Code>
+    <Description>Postcode Anywhere Key</Description>
+    <Group>Order Processing</Group>
+    <Value></Value>
+    <Type>S</Type>
+  </Setting>
+  <Setting>
+    <Code>enable_shipping_matrix</Code>
+    <Description>Enable Shipping Matrices</Description>
+    <Group>Order Processing</Group>
+    <Value>N</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>enable_sagepay_integration</Code>
+    <Description>Enable SagePay Integration</Description>
+    <Group>Order Processing</Group>
+    <Value>N</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>print_terms_with_shipment_notes</Code>
+    <Description>Print Terms PDF with Shipment Notes</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>print_terms_with_pick_notes</Code>
+    <Description>Print Terms PDF with Pick Notes</Description>
+    <Group>Order Processing</Group>
+    <Value>Y</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>integrated_label_start_cord</Code>
+    <Description>Integrated Label Horizontal Start Cordinate</Description>
+    <Group>Order Processing</Group>
+    <Value>200</Value>
+    <Type>S</Type>
+  </Setting>
+  <Setting>
+    <Code>enable_item_inventories</Code>
+    <Description>Enable item inventories display</Description>
+    <Group>Stock</Group>
+    <Value>N</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>enable_group_stock</Code>
+    <Description>Enable group stock display</Description>
+    <Group>Stock</Group>
+    <Value>N</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>order_barcode_on_pick_list</Code>
+    <Description>Print Order Barcode On Pick List</Description>
+    <Group>Order Processing</Group>
+    <Value>N</Value>
+    <Type>B</Type>
+  </Setting>
+  <Setting>
+    <Code>max_order_weight</Code>
+    <Description>Maximum Order Weight (kgs)</Description>
+    <Group>Order Processing</Group>
+    <Value>20</Value>
+    <Type>S</Type>
+  </Setting>
+  <Setting>
+    <Code>max_item_weight</Code>
+    <Description>Maximum Item Weight (kgs)</Description>
+    <Group>Order Processing</Group>
+    <Value>10</Value>
+    <Type>S</Type>
+  </Setting>
+  <Setting>
+    <Code>magento_part_shipment_comment</Code>
+    <Description>Magento Part Shipment Comment</Description>
+    <Group>Order Processing</Group>
+    <Value/>
+    <Type>S</Type>
+  </Setting>
+  <Setting>
+    <Code>magento_full_shipment_comment</Code>
+    <Description>Magento Full Shipment Comment</Description>
+    <Group>Order Processing</Group>
+    <Value/>
+    <Type>S</Type>
+  </Setting>
+</Settings>

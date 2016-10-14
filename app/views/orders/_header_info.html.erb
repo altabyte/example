@@ -1,0 +1,30 @@
+<div style="float: right; <%= block_style %> ">
+  <% if order.shipping_address.country.present?
+       country = (Country.find_country_by_alpha2(order.shipping_address.country).name rescue '')
+     else
+       country = ''
+     end %>
+  <table style="font-size: 1.2em">
+    <tr>
+      <td style="font-weight: bold; text-align: right; padding-right: 5px"><%= t('.order_id') %>:</td>
+      <td id='order_info_order_id'><%= order.id %></td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; text-align: right; padding-right: 5px"><%= t('.channel_order_id') %>:</td>
+      <td><%= order.channel_order_id %></td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; text-align: right; padding-right: 5px"><%= t('.destination') %>:</td>
+      <td><%= country %></td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; text-align: right; padding-right: 5px"><%= t('.default_courier') %>:</td>
+      <td><%= order.actual_shipping_service.shipping_method.name %></td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; text-align: right; padding-right: 5px"><%= t('.default_shipping_service') %>:</td>
+      <td><%= order.actual_shipping_service.name %></td>
+    </tr>
+  </table>
+  <br>
+</div>

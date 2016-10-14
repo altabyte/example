@@ -1,0 +1,11 @@
+<%= semantic_form_for @channel_status, :remote => true, :url => "/channels/#{@channel_status.id}/update_channel_status", :html => {:method => "post", :id => "channel_edit_status_form", :class => "form-horizontal"} do |f| %>
+    <%= @channel_status.status_name %></br></br>
+    <%= f.inputs do %>
+        <%= f.input :status, :label => t('.status'), :as => :select, :collection => status_select, :include_blank => false %>
+    <% end %>
+
+
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save %>
+    <% end %>
+<% end %>

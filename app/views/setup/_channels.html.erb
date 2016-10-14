@@ -1,0 +1,32 @@
+<div id="channel_select_pane">
+  <div>
+    <table id="channels_table" class="display" data-source="<%= channels_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.system_channel') %></th>
+        <th><%= t('.channel_name') %></th>
+        <th></th>
+        <th></th>
+
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div id="channel_edit_pane"></div>
+<div id="channel_new_dialog" title="<%= t('.new') %>"></div>
+

@@ -1,0 +1,36 @@
+<%= javascript_include_tag 'pending_orders' %>
+<a id='retry_pending_orders' class="btn btn-primary" style="float: right;"><%= t('.retry_pending_order') %></a>
+
+
+<div id="retry_message" style="display: none; width: 100%; text-align: center; font-size: 20px;"></div>
+<div id="select_pane" style="margin-bottom: 200px;">
+  <div>
+    <table id="pending_orders" class="display" data-source="<%= orders_pending_orders_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.channel') %></th>
+        <th><%= t('.created_at') %></th>
+        <th><%= t('.reason_pending') %></th>
+        <th></th>
+
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div id='view_payload' title="<%= t('.order_payload') %>">
+  <textarea id='payload_xml_display' disabled='disabled' style="box-shadow:none; -webkit-box-shadow: none;max-width: 1000px;min-width: 800px; min-height: 800px; margin: 0;padding: 0;border: none;font-size: 12px;"></textarea>
+</div>

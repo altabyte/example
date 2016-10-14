@@ -1,0 +1,43 @@
+<% if order.present? %>
+
+    <%= semantic_form_for order, :url => {:action => "update_tracking"}, :html => {:id => 'order_tracking'}, :remote => true do |f| %>
+
+        <%= maintenance_toolbar do %>
+            <%= maintenance_toolbar_save() unless read_only %><br/><br/><br/>
+        <% end %>
+
+        <h4><%= "#{t('.order_id')}: #{order.id}" %></h4>
+        <%= order.shipping_address.to_html.html_safe %>
+        <%= f.input :id, :as => :hidden %>
+        <br/>
+        <br/>
+
+        <%= f.input :tracking_details, :label => t('.tracking_details') %>
+    <% end %>
+<% else %>
+
+    <h4><%= t('.order_not_found') %></h4>
+
+<% end %>
+
+<script type="text/javascript">
+
+    jQuery(function ($) {
+        // create a convenient toggleLoading function
+        var toggleLoading = function () {
+            $("#loading").toggle()
+        };
+
+        $("#order_tracking")
+                .bind("ajax:success", function (xhr, data, status) {
+                    $("#update-container").html("");
+                    $('#order_id').val("").focus();
+                    alertify.success("Shipment Saved");
+                });
+
+
+        $('#order_tracking_details').focus();
+    });
+
+
+</script>

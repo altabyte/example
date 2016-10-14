@@ -1,0 +1,46 @@
+<div style="font-weight: bold; margin-bottom: 20px;font-size: 20px; text-align: center"><%= t('.order_items') %> </div>
+
+<table id="order_information" class="table table-bordered table-striped table-condensed" style="width: 100%;">
+
+  <thead>
+  <tr>
+    <th><%= t('.sku') %></th>
+    <th><%= t('.name') %></th>
+    <th><%= t('.size') %></th>
+    <th><%= t('.colour') %></th>
+    <th><%= t('.qty_ordered') %></th>
+    <th><%= t('.qty_picked') %></th>
+    <th><%= t('.stock') %></th>
+  </tr>
+  </thead>
+
+  <% order.order_details.each do |order_detail| %>
+      <tr>
+        <td><%= order_detail.item.sku %></td>
+        <td><%= order_detail.item.name %></td>
+        <td><%= order_detail.item.size %></td>
+        <td><%= order_detail.item.colour %></td>
+        <td><%= order_detail.quantity_ordered %></td>
+        <td><%= order_detail.picking_information %></td>
+        <% if SystemSetting.check_setting('enable_group_stock', false, @current_user.company_id) and order_detail.show_stock %>
+            <td><%= order_detail.item.group_stock %></td>
+        <% else %>
+            <td></td>
+        <% end %>
+      </tr>
+      <% if order_detail.show_stock %>
+          <% order_detail.item.item_inventories.each do |item_inventory| %>
+              <tr style="color: #009933;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td style="text-align: right;"><%= item_inventory.stock_location.name %></td>
+                <td><%= item_inventory.current_stock %></td>
+              </tr>
+          <% end %>
+      <% end %>
+  <% end %>
+
+</table>

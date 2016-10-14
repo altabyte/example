@@ -1,0 +1,15 @@
+<img src="http://my.ordermanager.biz/om_logo.png">
+
+<p>Hello <%= @resource.email %>!</p>
+
+<p>Your account has been locked due to an excessive amount of unsuccessful sign in attempts.</p>
+
+<p>Click the link below to unlock your account:</p>
+
+<p><%= link_to 'Unlock my account', unlock_url(@resource, :unlock_token => @resource.unlock_token) %></p>
+
+<p>Be productive,</p> </br></br>
+
+<p>ordermanager.biz</p>
+
+<p>This email account is not monitored, please do not reply.</p>

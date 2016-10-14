@@ -1,0 +1,36 @@
+<style type="text/css">
+    form.formtastic fieldset.column_a {
+        margin-left: 0px;
+        width: 380px;
+    }
+
+    .column_a select {
+        min-width: 200px;
+    }
+</style>
+
+<%= semantic_form_for user, :remote => true, :url => "/users/#{user.id}/update_basic_details", :html => {:method => "post", :id => 'users_basic_details_form', :class => 'form-horizontal'} do |f| %>
+
+    <%= f.semantic_errors %>
+
+    <%= f.inputs :class => "column_a" do %>
+        <%= f.input :name, :label => t('users.name') %>
+        <%= f.input :email, :label => t('users.email') %>
+        <%= f.input :role, :label => t('users.role'), :as => :select, :collection => User.available_roles, :input_html => {:multiple => false}, :include_blank => false %>
+        <%= f.input :password, :label => t('users.password') %>
+        <%= f.input :password_confirmation, :label => t('users.password_confirmation') %>
+        <%= f.input :authentication_token, :label => t('users.authentication_token'), :input_html => {:disabled => true} %>
+        <%= f.input :default_landing_page, :label => t('users.landing_page'),
+                    :collection => [
+                            [t('.landing_pages.home'), ''],
+                            [t('.landing_pages.orders'), 'orders'],
+                            [t('.landing_pages.pick_orders'), 'order_picks'],
+                            [t('.landing_pages.ship_orders'), 'order_shipments']
+                    ] %>
+    <% end %>
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save() unless read_only %>
+        <br/><br/><br/>
+    <% end %>
+<% end %>
+

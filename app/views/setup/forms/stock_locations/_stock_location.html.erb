@@ -1,0 +1,21 @@
+<%
+   if stock_location.new_record?
+     url = "/stock_locations/create"
+   else
+     url = "/stock_locations/update"
+   end
+%>
+
+<%= semantic_form_for stock_location, :remote => true, :url => url, :html => {:method => "post", :id => "stock_location_form"} do |f| %>
+    <%= f.inputs do %>
+        <% unless f.object.new_record? %>
+            <%= f.input :id, :as => :hidden %>
+        <% end %>
+        <%= f.input :name, :label => t('.name') %>
+        <%= f.input :reference, :label => t('.reference') %>
+        <%= f.input :stock_only, :label => t('.stock_only') %>
+    <% end %>
+    <%= maintenance_toolbar_save %>
+<% end %>
+
+

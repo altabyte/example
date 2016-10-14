@@ -1,0 +1,73 @@
+function InitSearch() {
+    $('#fedex_shipments_filter').prepend("<label for='report_type_filter'><%= I18n.t('fedex_shipments.index.filter') %>:</label>" +
+    "<span id='report_type_filter'></span>");
+    $('#fedex_shipments').dataTable().columnFilter(
+            {
+                aoColumns: [
+                    null,
+                    {sSelector: "#report_type_filter", type: "select", values: report_types, selected: 'UNPRINTED'},
+                    null,
+                    null
+                ]
+            }
+    );
+    $('#report_type_filter').next().hide();
+    $("#select_filter option[value='']").remove();
+}
+
+$(document).ready(function () {
+
+    var oTable = $('#fedex_shipments').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "iDisplayLength": 10,
+        "aaSorting": [
+            [1, 'desc']
+        ],
+        "aoColumnDefs": [
+            {"sWidth": "5%", "aTargets": [3]},
+//            { "sWidth":"31%", "aTargets":[0,1,2]},
+            {"bSortable": false, "aTargets": [3]}
+        ],
+        "sAjaxSource": $('#fedex_shipments').data('source'),
+        fnInitComplete: function () {
+            InitSearch();
+        }
+    }).fnSetFilteringDelay();
+
+
+    $('#close_pdf_viewer').on('click', function () {
+        $('#fedex_shipments').dataTable().fnDraw(false);
+        $("#select_pane").show();
+        $("#pdf_wrapper").hide();
+    });
+
+
+    $("#fedex_shipments .show-button").live("click", function () {
+        var url = '/fedex_shipments/' + this.id;
+        url = url.replace('get_fedex_label_', '');
+
+
+        var myPDF = new PDFObject(
+                {
+                    url: url,
+                    width: "100%",
+                    height: $(window).height() - 275 + "px",
+                    pdfOpenParams: {
+                        navpanes: 1,
+                        statusbar: 0,
+                        toolbar: 0,
+                        view: "FitV"
+                    }
+                }).embed("pdf_viewer");
+
+        $("#select_pane").hide();
+        $("#pdf_wrapper").show();
+
+    });
+
+});
+

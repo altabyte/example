@@ -1,0 +1,32 @@
+<div id="location_select">
+  <h4><%= t('stock_locations.set_stock_location') %>:</h4>
+  <% @locations.each do |location| %>
+      <button data-location_url="<%= url_for(:controller => 'home', :action => 'update_location', :stock_location_id => location.id) %>" style="text-align: center; font-size: 2em; padding: 30px;border-bottom: 1px solid #dddddd;margin: 20px;" type="button" class="btn btn-default location_button">
+        <% if @current_user.company_id.blank? %><%= location.company.name %>:
+            <% end %><%= location.name %></button>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        if ($('.location_button').length == 1) {
+            var cell = $('.location_button');
+            var location_url = cell.data('location_url');
+
+            if (location_url) {
+                window.location = location_url;
+            }
+        }
+    });
+
+
+    $(document).on(click_event(), '.location_button', function () {
+        var cell = $(this);
+        var location_url = cell.data('location_url');
+
+        if (location_url) {
+            window.location = location_url;
+        }
+    })
+</script>

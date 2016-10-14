@@ -1,0 +1,16 @@
+<%= semantic_form_for @company, :remote => true, :url => "/companies/#{@company.id}/update_fedex_settings", :html => {:method => "post", :id => 'fedex_settings_form', :class => "form-horizontal tabbed-form", :multipart => true} do |f| %>
+    <%= f.semantic_fields_for :fedex_setting do |fedex_setting| %>
+        <%= fedex_setting.inputs(:class => 'left_column') do %>
+            <%= fedex_setting.input :key, :label => t('.key') %>
+            <%= fedex_setting.input :password, :label => t('.password') %>
+            <%= fedex_setting.input :account_number, :label => t('.account_number') %>
+            <%= fedex_setting.input :meter, :label => t('.meter') %>
+            <%= fedex_setting.input :mode, :label => t('.mode'), :as => :select, :collection => [['DEVELOPMENT', 'development'], ['PRODUCTION', 'production']], :include_blank => false %>
+            <%= fedex_setting.input :label_type, :label => t('.label_type'), :as => :select, :collection => label_types.map { |type| [type, type] }, :include_blank => false %>
+        <% end %>
+    <% end %>
+
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save %>
+    <% end %>
+<% end %>

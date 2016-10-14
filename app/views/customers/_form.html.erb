@@ -1,0 +1,22 @@
+<a id="customer_back" href="#" class="btn btn-inverse back_button"><%= t('.back') %></a>
+
+<div id="customer_tabs">
+
+  <ul>
+    <li data-link="basic_details_tab"><a id="btn_basic_details"><%= t('.basic_details') %></a></li>
+    <li data-link="addresses_tab"><a id="btn_addresses"><%= t('.addresses') %></a></li>
+    <li data-link="order_history_tab"><a id="btn_order_history"><%= t('.order_history') %></a></li>
+  </ul>
+  <div>
+    <div id="basic_details_tab">
+      <%= render :partial => 'customers/tabs/basic_details', :locals => {:customer => @customer, :read_only => read_only} %>
+    </div>
+
+    <div id="addresses_tab">
+      <%= render :partial => 'customers/tabs/addresses', :locals => {:customer => @customer, :read_only => read_only} %>
+    </div>
+    <div id="order_history_tab">
+      <%= render :partial => 'customers/tabs/order_history', :locals => {:customer => @customer, :read_only => read_only} %>
+    </div>
+  </div>
+</div>

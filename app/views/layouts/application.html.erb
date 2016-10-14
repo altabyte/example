@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>OrderManager.biz</title>
+  <%= stylesheet_link_tag 'application' %>
+  <%= javascript_include_tag 'application' %>
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+  <link rel="apple-touch-icon" sizes="57x57" href="/apple-touch-icon-57x57.png"/>
+  <link rel="apple-touch-icon" sizes="72x72" href="/apple-touch-icon-72x72.png"/>
+  <link rel="apple-touch-icon" sizes="76x76" href="/apple-touch-icon-76x76.png"/>
+  <link rel="apple-touch-icon" sizes="114x114" href="/apple-touch-icon-114x114.png"/>
+  <link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon-120x120.png"/>
+  <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png"/>
+  <link rel="apple-touch-icon" sizes="152x152" href="/apple-touch-icon-152x152.png"/>
+
+  <%= csrf_meta_tag %>
+  <%= yield :head %>
+</head>
+<script>
+    var max_order_id;
+</script>
+<body>
+<%= render :partial => 'layouts/header' %>
+<div id="main-content">
+  <div id="notification_message" style="display: none;" class="alert alert-warning">
+    <a class="close" data-dismiss="alert">&#215;</a>
+    <span id="notification_message_content"></span>
+  </div>
+
+  <% if user_signed_in? & session[:current_location_id].present? %>
+      <div id='information_panel'><%= render :partial => 'layouts/information' %></div>
+      <script type='text/javascript'>
+          setInterval(update_information_panel, 600000);
+          update_information_panel();
+      </script>
+  <% end %>
+
+  <div id="crumbs"><%= render_breadcrumbs :separator => ' > ', :builder => BreadcrumbsOnRails::Breadcrumbs::OrderManagerBuilder %></div>
+  <%= render :partial => 'layouts/errors' %>
+  <%= yield :layout %>
+</div>
+
+<%= render :partial => 'layouts/navigation' %>
+
+
+</body>
+</html>

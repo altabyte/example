@@ -1,0 +1,49 @@
+<%= semantic_form_for @channel, :url => "/channels/#{@channel.id}/update", :remote => true, :html => {:method => "post", :id => 'channel_basic_details_form', :class => "form-horizontal tabbed-form"} do |f| %>
+    <%= f.inputs(:class => 'left_column') do %>
+        <%= f.input :id, :as => :hidden %>
+        <%= f.input :system_channel_id, :label => t('.system_channel'), :as => :select, :collection => SystemChannel.all.collect { |e| [e.name, e.id] }, :include_blank => false %>
+        <%= f.input :name, :label => t('.channel_name') %>
+        <%= f.input :connection_1, :label => t('.connection_1'), :input_html => {:rows => 1} %>
+        <%= f.input :connection_2, :label => t('.connection_2') %>
+        <%= f.input :connection_3, :label => t('.connection_3') %>
+        <%= f.input :connection_4, :label => t('.connection_4') %>
+        <%= f.input :password_1_new, :as => :password, :label => t('.connection_4') %>
+        <%= f.input :password_2_new, :as => :password, :label => t('.connection_5') %>
+        <%= f.input :password_3_new, :as => :password, :label => t('.connection_5') %>
+        <%= f.input :download_overlap, :label => t('.download_overlap_minutes'), :as => :select, :collection => download_overlap_select, :include_blank => false %>
+        <%= f.input :use_company_address_flag, :as => :select, :collection => yn_select_collection, :include_blank => false %>
+        <%= f.input :product_master, :as => :select, :collection => yn_select_collection, :include_blank => false %>
+        <%= f.input :inventory_feed %>
+        <%= f.input :export_order %>
+    <% end %>
+
+    <%= f.inputs(:class => 'right_column') do %>
+        <%= f.input :admin_user, :as => :select, :collection => User.where(:company_id => f.object.company_id) %>
+        <%= f.input :logo, :as => :file, :label => t('.logo') %>
+        <% if @channel.logo.present? %>
+            <div style="width: 100%; text-align: center; margin-bottom: 20px;">
+              <%= image_tag(company.logo.url(:medium)) %>
+            </div>
+        <% end %>
+        <%= f.input :terms_pdf, :as => :file, :label => t('.terms_pdf') %>
+
+        <%= f.semantic_fields_for :address do |a| %>
+            <%= a.input :id, :as => :hidden %>
+            <%= a.input :name, :label => t('.return_name') %>
+            <%= a.input :address_1, :label => t('.address_1') %>
+            <%= a.input :address_2, :label => t('.address_2') %>
+            <%= a.input :town, :label => t('.town') %>
+            <%= a.input :county, :label => t('.county') %>
+            <%= a.input :post_code, :label => t('.post_code') %>
+            <%= a.input :country, :label => t('.country'), :as => :country %>
+            <%= a.input :telephone, :label => t('.telephone') %>
+            <%= a.input :email, :label => t('.email') %>
+        <% end %>
+
+
+    <% end %>
+
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save %>
+    <% end %>
+<% end %>

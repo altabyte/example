@@ -1,0 +1,15 @@
+<%= semantic_form_for @channel_shipping_service, :remote => true, :url => "/channels/#{@channel_shipping_service.id}/update_shipping_service", :html => {:method => "post", :id => "channel_edit_shipping_service_form", :class => "form-horizontal"} do |f| %>
+    <%= @channel_shipping_service.shipping_text %></br></br>
+    <%= f.inputs do %>
+        <%= f.input :shipping_service, :label => t('.shipping_service'), :include_blank => false %>
+        <%= f.input :useable_text, :label => t('.useable_text'), :input_html => {:style => 'width: 300px;'} %>
+        <%= f.input :highlight_colour, :label => t('.highlight_colour') %>
+        <%= f.input :font_colour, :label => t('.font_colour') %>
+        <%= f.input :next_day, :label => t('.next_day') %>
+    <% end %>
+
+
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save %>
+    <% end %>
+<% end %>

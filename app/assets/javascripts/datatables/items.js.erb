@@ -1,0 +1,23 @@
+//=require_self
+
+
+$(document).ready(function () {
+
+    var oTable = $('#items').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "sAjaxSource": $('#items').data('source'),
+        "aoColumnDefs": [
+            {"sWidth": "15%", "aTargets": [0]},
+            {"sWidth": "10%", "aTargets": [2, 3]}]
+    }).fnSetFilteringDelay();
+
+});
+
+
+
+
+

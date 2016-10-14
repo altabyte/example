@@ -1,0 +1,63 @@
+<%= semantic_form_for @company, :remote => true, :url => "/companies/#{@company.id}/update_basic_details", :html => {:'data-type' => :html, :method => "post", :id => 'basic_details_form', :class => "form-horizontal tabbed-form", :multipart => true} do |f| %>
+
+    <%= f.semantic_errors *f.object.errors.keys %>
+
+    <%= f.inputs(:class => 'left_column') do %>
+        <%= f.input :name, :label => t('.name') %>
+        <%= f.input :address_1, :label => t('.address_1') %>
+        <%= f.input :address_2, :label => t('.address_2') %>
+        <%= f.input :town, :label => t('.town') %>
+        <%= f.input :county, :label => t('.county') %>
+        <%= f.input :post_code, :label => t('.post_code') %>
+        <%= f.input :country, :as => :country, :label => t('.post_code') %>
+        <%= f.input :base_currency, :as => :select, :label => t('.base_currency'), :collection => currency_collection %>
+    <% end %>
+
+    <%= f.inputs(:class => 'right_column') do %>
+        <%= f.input :telephone, :label => t('.telephone') %>
+        <%= f.input :fax, :label => t('.fax') %>
+        <%= f.input :email, :label => t('.email') %>
+
+        <div class="file input optional control-group" id="company_logo_input">
+          <label class=" control-label" for="company_logo">Logo</label>
+
+          <div class="controls">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">
+                        Browse&hellip; <input type="file" name="company[logo]" id="company_logo" multiple>
+                    </span>
+                </span>
+              <span class="file_display"></span>
+            </div>
+          </div>
+        </div>
+        <% if @company.logo.present? %>
+            <div style="width: 100%; text-align: center; margin-bottom: 20px;">
+              <%= image_tag(@company.logo.url(:thumb)) %>
+            </div>
+        <% end %>
+
+        <%= f.input :user_id, :label => 'Admin User', :as => :select, :collection => User.where(:company_id => f.object.id) %>
+        <div class="file input optional control-group" id="company_logo_input">
+          <label class=" control-label" for="company_terms_pdf">Terms PDF</label>
+
+          <div class="controls">
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <span class="btn btn-primary btn-file">
+                        Browse&hellip; <input type="file" name="company[terms_pdf]" id="company_terms_pdf" multiple>
+                    </span>
+                </span>
+              <span class="file_display"></span>
+            </div>
+          </div>
+        </div>
+
+        <%= f.input :aftership_api_key, :label => t('.aftership_api_key') %>
+    <% end %>
+
+    <%= maintenance_toolbar do %>
+        <%= maintenance_toolbar_save %>
+    <% end %>
+<% end %>

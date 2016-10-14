@@ -1,0 +1,95 @@
+<h4><label style="font-weight: bolder;" for="order_id"><%= t('.order_id') %></label></h4>
+<%= text_field_tag('order_id', '') %>
+<h4><label style="font-weight: bolder;" for="tracking_number"><%= t('.tracking_number') %></label></h4>
+<%= text_field_tag('tracking_number', '') %>
+<btn class="submit btn btn-primary" data-disable-with="Please wait..." name="commit" type="submit" id="submit_check">Match</btn>
+
+<br><br>
+<div id="message">
+</div>
+
+<div>
+  <table id="shipment_checks" class="display" data-source="/orders/shipment_check_datatable.json">
+    <thead>
+    <tr>
+      <th><%= t('.order_id') %></th>
+      <th><%= t('.channel_order_id') %></th>
+      <th><%= t('.shipment_date') %></th>
+      <th><%= t('.failed_attempts') %></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
+
+<script type="text/javascript">
+
+    $(function () {
+
+        $('#shipment_checks').dataTable({
+            "sPaginationType": "full_numbers",
+            bJQueryUI: true,
+            bProcessing: true,
+            bServerSide: true,
+            sAjaxSource: $('#shipment_checks').data('source'),
+            bFilter: false,
+            "aoColumnDefs": [
+                {"bSortable": false, "aTargets": [0, 1, 2, 3]}
+            ]
+        });
+
+        $("#order_id").focus().on('keypress', function (event) {
+            if (event.which == 13) {
+                $("#tracking_number").focus();
+            }
+        });
+
+        $("#tracking_number").on('keypress', function (event) {
+            if (event.which == 13) {
+                submit_check();
+            }
+        });
+
+        $("#submit_check").on('click', function (event) {
+            submit_check();
+        });
+    });
+
+    function submit_check() {
+        var msgText = $('#message').removeClass('message_error');
+        msgText.html('');
+        if (!($("#tracking_number").val() && $("#order_id").val())) {
+            msgText.html('Order ID and Tracking Number are required.');
+        } else {
+            showPleaseWait(true);
+            $.ajax({
+                type: 'GET',
+                url: '/orders/do_shipment_check',
+                data: {
+                    order_id: $("#order_id").val(),
+                    tracking_number: $("#tracking_number").val()
+                },
+                success: function (response) {
+                    if (response && response.result) {
+                        alertify.success('Check Successful');
+                        $("#tracking_number").val('');
+                        $("#order_id").val('').focus().select();
+                    } else {
+                        msgText.html(response.message).addClass('message_error');
+                        $("#order_id").focus().select();
+                    }
+                    $('#shipment_checks').dataTable().fnDraw(false);
+                    showPleaseWait(false);
+                },
+                error: function (xhe, text) {
+                    showPleaseWait();
+                    error_dialog(text + ' occurred whilst checking shipping details.');
+                }
+            });
+        }
+    }
+
+
+</script>

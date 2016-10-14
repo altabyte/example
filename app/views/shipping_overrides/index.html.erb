@@ -1,0 +1,36 @@
+<%= maintenance_header(t('.listing')) %>
+<%= maintenance_search(shipping_overrides_path) %>
+<%= maintenance_new(new_shipping_override_path, t('.new')) %>
+
+<%= maintenance_table do %>
+    <%= maintenance_table_head do %>
+        <%= maintenance_table_row do %>
+            <%= maintenance_table_header_cell(t('.channel')) %>
+            <%= maintenance_table_header_cell(t('.order_attribute')) %>
+            <%= maintenance_table_header_cell(t('.qualifier')) %>
+            <%= maintenance_table_header_cell(t('.value')) %>
+            <%= maintenance_table_header_cell(t('.shipping_service')) %>
+            <%= maintenance_table_header_cell("") %>
+            <%= maintenance_table_header_cell("") %>
+            <%= maintenance_table_header_cell("") %>
+        <% end %>
+    <% end %>
+
+    <%= maintenance_table_body do %>
+        <% @shipping_overrides.each do |shipping_override| %>
+            <% channel_name = shipping_override.channel.name rescue '' %>
+            <%= maintenance_table_row do %>
+                <%= maintenance_table_cell(channel_name) %>
+                <%= maintenance_table_cell(shipping_override.order_attribute) %>
+                <%= maintenance_table_cell(shipping_override.qualifier) %>
+                <%= maintenance_table_cell(shipping_override.value) %>
+                <%= maintenance_table_cell(shipping_override.shipping_service.name) %>
+                <%= maintenance_table_cell_edit(edit_shipping_override_path(shipping_override), "edit_#{shipping_override.id}") %>
+                <%= maintenance_table_cell_show(shipping_override, "show_#{shipping_override.id}") %>
+                <%= maintenance_table_cell_delete(shipping_override_path(shipping_override), "delete_#{shipping_override.id}", t('general.are_you_sure')) %>
+            <% end %>
+        <% end %>
+    <% end %>
+<% end %>
+
+<%= maintenance_table_pager(@shipping_overrides, 5) %>

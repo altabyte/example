@@ -1,0 +1,159 @@
+function setupShippingMethods() {
+
+
+    var oTable = $('#shipping_methods').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": false,
+        "bProcessing": true,
+        "bServerSide": true,
+        "iDisplayLength": 10,
+        "aoColumnDefs": [{
+            "sWidth": "5%",
+            "aTargets": [1]
+        }, {
+            "bSortable": false,
+            "aTargets": [1]
+        }],
+        "sAjaxSource": $('#shipping_methods').data('source')
+    }).fnSetFilteringDelay();
+
+    $("#shipping_methods .edit-button").live("click", function () {
+        var url = '/shipping_methods/' + this.id + '/edit';
+        url = url.replace('edit_shipping_method_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#shipping_methods_edit_pane').html(data);
+                $('#shipping_methods_edit_pane').show();
+                $('#shipping_methods_select_pane').hide();
+                setupShippingServiceMaint();
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+    $('#shipping_services_table .edit-button').live('click', function (event) {
+        var url = '/shipping_methods/edit_shipping_service/' + this.id;
+        url = url.replace('edit_shipping_service_', '');
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#edit_shipping_service_dialog').html(data);
+                $('#edit_shipping_service_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+
+    $('#shipping_service_form').live("ajax:success", function (evt, data, status, xhr) {
+        $('#shipping_service_form').html(xhr.responseText);
+        $('#edit_shipping_service_dialog').dialog('close');
+        save_successful();
+    }).live("ajax:error", function (evt, xhr, status, error) {
+        $('#shipping_service_form').html(xhr.responseText);
+    });
+
+    $('#edit_shipping_service_dialog').live("dialogclose", function () {
+        $('#shipping_services_table').dataTable().fnDraw();
+    });
+
+    $('#new_shipping_service').live('click', function (event) {
+        var url = '/shipping_methods/' + $('#shipping_method_id').val() + '/new_shipping_service';
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#edit_shipping_service_dialog').html(data);
+                $('#edit_shipping_service_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+}
+
+function setupShippingServiceMaint() {
+    $('#back').live('click', function () {
+        $('#shipping_methods_edit_pane').html('');
+        $('#shipping_methods_select_pane').show();
+        $('#shipping_methods_edit_pane').hide();
+        var tbl = $('#shipping_methods').dataTable();
+        tbl.dataTable().fnDraw(false);
+    });
+
+
+    if (method_code == "RM") {
+        var col_defs = [{
+            "bSortable": false,
+            "aTargets": [1, 2, 3, 4, 5, 6, 7, 8]
+        }]
+    } else if (method_code == "FDX") {
+        var col_defs = [{
+            "bSortable": false,
+            "aTargets": [1, 2, 3, 4, 5]
+        }]
+    }
+    else if (method_code == "DPD-IE") {
+        var col_defs = [{
+            "bSortable": false,
+            "aTargets": [1, 2, 3, 4, 5, 6, 7]
+        }]
+    }
+
+    else {
+        var col_defs = [{
+            "bSortable": false,
+            "aTargets": [1, 2, 3, 4, 5, 6]
+        }]
+    }
+
+
+    var oTable = $('#shipping_services_table').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "iDisplayLength": 10,
+        "aoColumnDefs": col_defs,
+        "bAutoWidth": false,
+        "sAjaxSource": $('#shipping_services_table').data('source')
+    }).fnSetFilteringDelay();
+
+    $("#shipping_services_table_filter").append("<img id='new_shipping_service' src='" + new_button_src + "' class='new-button'/>");
+
+    $('#shipping_services_table .delete-button').live('click', function (event) {
+        delete_shipping_method(this.id);
+    });
+
+    $('#edit_shipping_service_dialog').dialog({
+        height: 'auto',
+        modal: true,
+        width: 'auto',
+        autoOpen: false
+    });
+
+
+}
+
+function delete_shipping_method(id) {
+    var url = '/shipping_methods/delete_shipping_service/' + id;
+    url = url.replace('delete_shipping_service_', '');
+
+    var options = {
+        url: url,
+        text: "Are you sure you want to delete this shipping method?",
+        on_completed: function () {
+            $('#shipping_services_table').dataTable().fnDraw();
+        }
+    };
+    delete_dialog(options);
+}

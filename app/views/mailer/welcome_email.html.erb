@@ -1,0 +1,17 @@
+<img src="http://my.ordermanager.biz/om_logo.png">
+
+<p><strong>Welcome <%= @user.name %></strong></p>
+
+<p>A user account have been created for @ my.ordermanager.biz you by <%= User.find(@user.creating_user_id).name rescue "an unknown account" %></p>
+
+<p>You can login via: <a href="http://my.ordermanager.biz/">my.ordermanager.biz</a></p>
+
+<p>Your username is: <%= @user.email %></p>
+<p>Your password is: <%= @user.password %></p>
+
+<p>Be productive,</p> </br></br>
+
+<p>ordermanager.biz</p>
+
+<p>This email account is not monitored, please do not reply.</p>
+

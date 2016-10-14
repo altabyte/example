@@ -1,0 +1,151 @@
+<table style="width: 100%;">
+  <tr>
+    <td style="width: 50%">
+      <span style="font-weight: bold"><%= t('.order_manager_id') %>: </span><span id='order_info_header_id'><%= order.id %></span>
+    </td>
+    <td>
+      <span style="font-weight: bold"><%= t('.order_reference') %>: </span><%= order.channel_order_id %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span style="font-weight: bold"><%= t('.order_source') %>: </span><%= order.channel.name %>
+    </td>
+    <td>
+      <span style="font-weight: bold"><%= t('.customer') %>: </span><%= order.customer.full_name %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span style="font-weight: bold"><%= t('.order_total') %>: </span><%= number_to_currency(order.order_total) %>
+    </td>
+    <td>
+      <span style="font-weight: bold"><%= t('.order_status') %>: </span><%= order.status_name %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <span style="font-weight: bold"><%= t('.order_date') %>: </span><%= I18n.l(order.order_date, :format => :default) %>
+    </td>
+    <td>
+      <span style="font-weight: bold"><%= t('.payment_information') %>: </span><%= order.payment_information %>
+    </td>
+  </tr>
+</table>
+<br>
+<div id="shipping_details">
+  <table style="width: 100%;">
+    <tr>
+      <td style="width: 50%">
+        <span style="font-weight: bold"><%= t('.default_shipping_service') %>: </span><%= order.shipping_service.name %>
+      </td>
+      <td>
+        <span style="font-weight: bold"><%= t('.actual_shipping_service') %>: </span><%= order.actual_shipping_service.name rescue "Shipping Service No Longer Exists" %>
+      </td>
+    </tr>
+
+    <% if order.tracking_details.present? %>
+        <tr>
+          <td style="width: 50%">
+
+            <span style="font-weight: bold"><%= t('.tracking_information') %>:</span>
+            <% if order.shipping_service.present? %>
+                <% if order.shipping_service.shipping_method.tracking_url.present?
+                     tracking_url = order.shipping_service.shipping_method.tracking_url.gsub("#TRACKING_NUMBER#", order.tracking_details)
+                %>
+                    <a href="#" onclick="popWin('<%= tracking_url %>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')"><%= order.tracking_details %></a>
+
+                <% else %>
+
+                    <%= order.tracking_details %>
+                <% end
+                   if order.shipping_service.shipping_method.code == 'RM' and order.order_shipments.present? and order.order_shipments.first.stock_location_id == @current_location.id and order.order_shipments.first.created_at > 1.day.ago %>
+                    </br>
+                    <button id="reprint_rm_label" class="btn btn-primary" style="margin: 10px 0 10px 0" type="button"><%= t('.reprint_label') %></button>
+                <% end else %>
+                <%= order.tracking_details %>
+            <% end %>
+
+          </td>
+          <td>
+
+          </td>
+        </tr>
+
+        <% if order.aftership_token.present? %>
+            <tr>
+              <td colspan="2" style="font-size: 15px;">
+                <span style="font-weight: bold"><%= t('.aftership_status') %>:</span>
+                <% if order.aftership_signed_by.present? %>
+                    <%= order.aftership_status %>
+                <% else %>
+                    Status not sent by Aftership
+                <% end %>
+              </td>
+              <% if order.delivered_date.present? %>
+                <tr>
+                  <td colspan="2" style="font-size: 15px; padding-top: 10px;">
+                    <span style="font-weight: bold"><%= t('.aftership_date') %>: </span><%= I18n.l(order.delivered_date, :format => :default) %>
+                  </td>
+                </tr>
+            <% end %>
+            <% if order.aftership_signed_by.present? %>
+                <tr>
+                  <td colspan="2" style="font-size: 15px; padding-top: 10px;">
+                    <span style="font-weight: bold"><%= t('.atership_signed_by') %>: </span><%= order.aftership_signed_by %>
+                  </td>
+                </tr>
+            <% end %>
+            <tr>
+
+              <td colspan="2">
+                <span style="font-weight: bold"><%= t('.aftership_url') %>: </span>
+                <a href="#" onclick="popWin('<%= "https://www.aftership.com/#{order.aftership_token}" %>','trackorder','width=800,height=600,resizable=yes,scrollbars=yes')">https://www.aftership.com/<%= order.aftership_token %></a>
+              </td>
+            </tr>
+        <% end %>
+    <% end %>
+
+
+  </table>
+
+
+  <div id="address_details">
+    <table style="width: 100%; margin-top: 15px;">
+      <tr>
+        <td style="font-weight: bold; width: 50%"><%= t('.billing_address') %></td>
+        <td style="font-weight: bold;"><%= t('.shipping_address') %></td>
+      </tr>
+      <tr>
+        <td><%= (order.billing_address.to_html.html_safe rescue 'Error Getting Address/None Present') %></td>
+        <td><%= (order.shipping_address.to_html.html_safe rescue 'Error Getting Address/None Present') %></td>
+      </tr>
+    </table>
+  </div>
+
+  <div id="payment_details"></div>
+
+
+  <% if order.order_errors.present? %>
+      <div style="font-weight: bold; margin-bottom: 20px; color: #ff0000; font-size: 20px; text-align: center;margin-top: 20px;"><%= t('.errors') %> </div>
+
+      <table id="order_errors" class="table table-bordered table-striped table-condensed" style="width: 100%;">
+
+        <thead>
+        <tr>
+          <th style="width: 10%"><%= t('.process') %></th>
+          <th><%= t('.error') %></th>
+        </tr>
+        </thead>
+
+        <% order.order_errors.each do |order_error| %>
+            <tr>
+              <td><%= order_error.process %></td>
+              <td><%= order_error.error %></td>
+            </tr>
+        <% end %>
+
+      </table>
+
+  <% end %>
+</div>

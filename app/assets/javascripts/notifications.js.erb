@@ -1,0 +1,92 @@
+//= require jquery/jquery.notification
+
+
+function showNotification(body) {
+
+    var options = {
+        iconUrl: "/alertIcon.png",
+        title: 'OrderManager.biz',
+        body: body,
+        tag: 'orderManagerNotification'
+    };
+
+    $.notification(options);
+}
+
+function notificationsSupported() {
+    return $.notification.permissionLevel() != "unsupported";
+}
+
+function notificationsGranted() {
+    return $.notification.permissionLevel() == "granted";
+}
+
+function notificationsDenied() {
+    return $.notification.permissionLevel() == "denied";
+}
+
+function notificationsNotRequested() {
+    return $.notification.permissionLevel() == "default";
+}
+
+function notificationsRequestPermission() {
+    $.notification.requestPermission(function () {
+        if (notificationsDenied()) {
+            $('#notification_message_content').html("Notifications denied. Change notifications permission in you browser's settings.");
+            $('#notification_message').show().removeClass('alert-warning').addClass('alert-error');
+        } else if (notificationsGranted()) {
+            $('#notification_message_content').html('Notifications enabled - thank you');
+            $('#notification_message').removeClass('alert-warning').addClass('alert-success').show();
+        }
+    })
+}
+
+$().ready(function () {
+    if (notificationsSupported() && notificationsNotRequested()) {
+        $('#notification_message_content').html("We would like to notify you when new orders arrive - click here to enable.");
+        $('#notification_message').show();
+    }
+
+    if (notificationsNotRequested()) {
+        $('#notification_message').on('click', function () {
+            notificationsRequestPermission();
+        })
+    }
+
+    if (max_order_id) {
+        startOrderIdCheck();
+    }
+});
+
+function startOrderIdCheck() {
+    setTimeout(doOrderIdCheck, 300000);
+}
+
+function doOrderIdCheck() {
+    blockTable = false;
+    $.ajax({
+        type: 'GET',
+        url: '/home/check_for_new_orders',
+        success: function (result) {
+            if (result && result.max_order_id) {
+                console.log("Current Max Order ID: " + max_order_id);
+                console.log("Last Max Order ID: " + result.max_order_id);
+
+                if (result.max_order_id > max_order_id) {
+                    showNotification('There are new orders available.');
+                    max_order_id = result.max_order_id;
+                }
+            }
+            startOrderIdCheck();
+        },
+        complete: function () {
+            blockTable = true;
+        }
+    });
+}
+
+
+function testNotifications() {
+    showNotification('Test Message From Order Manager');
+}
+

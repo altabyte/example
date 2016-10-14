@@ -1,0 +1,33 @@
+<script>var company_id = <%= company.id %>;</script>
+<div id="exchange_rates_select_pane">
+
+  <div style="float: right;">
+    <img id='download_exchange_rates' src='<%= asset_path('icons/cloud_downloadx2.png') %>' title="Download latest exchange rates">
+  </div>
+  Exchange rates relative to company base currency
+  <div>
+    <table id="exchange_rates" class="display" data-source="/companies/<%= company.id %>/list_exchange_rates.json">
+      <thead>
+      <tr>
+        <th><%= t('.to_currency') %></th>
+        <th><%= t('.exchange_rate') %></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div id="edit_exchange_rate_dialog" title="<%= t('.edit_exchange_rate') %>"></div>
+

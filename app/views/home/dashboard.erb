@@ -1,0 +1,162 @@
+<%= stylesheet_link_tag 'home' %>
+<div id='enterprise_dashboard'>
+  <table id='enterprise_dashboard_table'>
+    <tr>
+      <td>
+        <div class="infobox infobox-blue">
+          <div class="infobox-icon">
+            <div class="icon icon-folder-open"></div>
+          </div>
+          <div class="infobox-data">
+            <span class="infobox-data-number"><%= @data[:life_time_orders] %></span>
+
+            <div class="infobox-content"><%= t('.life_time_orders') %></div>
+          </div>
+        </div>
+
+      </td>
+      <td>
+        <div class="infobox infobox-red">
+          <div class="infobox-icon">
+            <div class="icon icon-ok"></div>
+          </div>
+          <div class="infobox-data">
+            <span class="infobox-data-number"><%= @data[:new_orders] %></span>
+
+            <div class="infobox-content"><%= t('.new_orders') %></div>
+          </div>
+
+        </div>
+      </td>
+      <td>
+        <div class="infobox infobox-green">
+          <div class="infobox-icon">
+            <div class="icon icon-user"></div>
+          </div>
+          <div class="infobox-data">
+            <span class="infobox-data-number"><%= @data[:customers] %></span>
+
+            <div class="infobox-content"><%= t('.customers') %></div>
+          </div>
+
+        </div>
+      </td>
+    </tr>
+
+    <tr>
+
+      <td>
+
+      </td>
+
+      <td>
+        <div class="infobox infobox-orange">
+          <div class="infobox-icon">
+            <div class="icon icon-shopping-cart"></div>
+          </div>
+          <div class="infobox-data">
+            <span class="infobox-data-number"><%= @data[:pending_orders] %></span>
+
+            <div class="infobox-content"><%= t('.pending_orders') %></div>
+          </div>
+        </div>
+
+      </td>
+
+      <td>
+
+      </td>
+    </tr>
+
+    <% unless @current_user.check_role?("User") %>
+
+        <tr>
+
+          <td>
+            <div class="infobox infobox-purple">
+              <div class="infobox-icon">
+                <div class="icon icon-shopping-cart"></div>
+              </div>
+              <div class="infobox-data">
+                <span class="infobox-data-number"><%= @data[:todays_order_count] %></span>
+
+                <div class="infobox-content"><%= t('.todays_order_count') %></div>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <div class="infobox infobox-purple">
+              <div class="infobox-icon">
+                <div class="icon icon-shopping-cart"></div>
+              </div>
+              <div class="infobox-data">
+                <span class="infobox-data-number"><%= @data[:weeks_order_count] %></span>
+
+                <div class="infobox-content"><%= t('.weeks_order_count') %></div>
+              </div>
+            </div>
+
+          </td>
+
+          <td>
+            <div class="infobox infobox-purple">
+              <div class="infobox-icon">
+                <div class="icon icon-shopping-cart"></div>
+              </div>
+              <div class="infobox-data">
+                <span class="infobox-data-number"><%= @data[:months_order_count] %></span>
+
+                <div class="infobox-content"><%= t('.months_order_count') %></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+
+        <tr>
+
+          <td>
+            <div class="infobox infobox-wood">
+              <div class="infobox-icon">
+                <div class="icon icon-shopping-cart"></div>
+              </div>
+              <div class="infobox-data">
+                <span class="infobox-data-number"><%= number_to_currency(@data[:todays_order_value]) %></span>
+
+                <div class="infobox-content"><%= t('.todays_order_value') %></div>
+              </div>
+            </div>
+          </td>
+
+          <td>
+            <div class="infobox infobox-wood">
+              <div class="infobox-icon">
+                <div class="icon icon-shopping-cart"></div>
+              </div>
+              <div class="infobox-data">
+                <span class="infobox-data-number"><%= number_to_currency(@data[:weeks_order_value]) %></span>
+
+                <div class="infobox-content"><%= t('.weeks_order_value') %></div>
+              </div>
+            </div>
+
+          </td>
+
+          <td>
+            <div class="infobox infobox-wood">
+              <div class="infobox-icon">
+                <div class="icon icon-shopping-cart"></div>
+              </div>
+              <div class="infobox-data">
+                <span class="infobox-data-number"><%= number_to_currency(@data[:months_order_value]) %></span>
+
+                <div class="infobox-content"><%= t('.months_order_value') %></div>
+              </div>
+            </div>
+          </td>
+        </tr>
+
+    <% end %>
+  </table>
+</div>

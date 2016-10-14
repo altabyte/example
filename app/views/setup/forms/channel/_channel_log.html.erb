@@ -1,0 +1,14 @@
+<table>
+  <% channel_log = tail_log(channel) %>
+  <% if channel_log.present? %>
+      <% tail_log(channel).each_line do |line| %>
+          <tr>
+            <td><%= line %></td>
+          </tr>
+      <% end %>
+  <% else %>
+      <tr>
+        <td><%= t('.no_log_data_to_display') %></td>
+      </tr>
+  <% end %>
+</table>

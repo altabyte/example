@@ -1,0 +1,76 @@
+//=require dialogs
+
+function InitSearch() {
+    $('#company_logs_filter').prepend("<label for='log_level_filter'><%= I18n.t('company_logs.index.log_level_filter') %>:</label>" +
+    "<span id='log_level_filter'></span>");
+    $('#company_logs').dataTable().columnFilter(
+            {
+                aoColumns: [
+                    null,
+                    {sSelector: "#log_level_filter", type: "select", values: report_types},
+                    null,
+                    null
+                ]
+            }
+    );
+    $('#log_level_filter').next().hide();
+//
+//    if (getURLParameter('log_level')) {
+//        $('#company_logs_filter').val(getURLParameter('log_level'));
+//        $('#company_logs').dataTable().fnFilter(getURLParameter('log_level'), 1)
+//    }
+}
+
+$(document).ready(function () {
+
+    var oTable = $('#company_logs').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "iDisplayLength": 10,
+        "aoColumnDefs": [
+            {"sWidth": "10%", "aTargets": [0, 1]}
+        ],
+        "sAjaxSource": $('#company_logs').data('source'),
+        fnInitComplete: function () {
+            InitSearch();
+        },
+        "fnRowCallback": function (nRow, aaData, iDisplayIndex) {
+            if (aaData[3] == "0") {
+                $('td', nRow).addClass('unread_message');
+            }
+            return nRow;
+        }
+    }).fnSetFilteringDelay();
+
+    $("#clear_logs").on('click', function () {
+        var url = '/company_logs/clear.json';
+
+        var options = {
+            url: url,
+            text: '<%= I18n.t('company_logs.index.clear_logs_confirmation') %>',
+            on_completed: function () {
+                $('#company_logs').dataTable().fnDraw();
+            }
+        };
+        delete_dialog(options);
+    });
+
+    $("#mark_as_read").on('click', function () {
+        var url = '/company_logs/mark_as_read.json';
+
+        var options = {
+            url: url,
+            text: '<%= I18n.t('company_logs.index.mark_logs_as_read_confirmation') %>',
+            on_completed: function () {
+                $('#company_logs').dataTable().fnDraw();
+            }
+        };
+        delete_dialog(options);
+    })
+
+
+});
+

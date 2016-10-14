@@ -1,0 +1,85 @@
+<% content_for :head do %>
+    <%= javascript_include_tag 'datatables/order_shipping' %>
+    <%= javascript_include_tag 'postcode_anywhere' %>
+<% end %>
+
+<script>
+    var enable_group_stock = <%= SystemSetting.check_setting('enable_group_stock', false, @current_user.company_id) %>;
+    var enable_item_inventories = <%= SystemSetting.check_setting('enable_item_inventories', false, @current_user.company_id) %>;
+</script>
+
+<div id="order_shipments_wrapper_div" style="margin-bottom: 200px;">
+
+  <%= button_to_function(t('.select_all'), '', :class => 'btn btn-primary select-all') %>
+  <%= button_to_function(t('.select_none'), '', :class => 'btn btn-primary select-none') %>
+
+
+  <div id='shipment_weight_summary'></div>
+
+  <div style="float: right;">
+    <label for="order_options_select"><%= t('.action') %>:</label>
+    <select id="order_options_select">
+      <option value='dispatch'><%= t('.dispatch_selected') %></option>
+      <option value='change_service'><%= t('.change_delivery_service') %></option>
+    </select>
+
+    <select id="order_shipping_methods" style="display: none;">
+      <%= options_from_collection_for_select(@shipping_services, :id, :name) %>
+    </select>
+
+    <%= button_to_function(t('.submit'), '', :class => 'btn btn-primary order-action', :id => 'order-action') %>
+  </div>
+
+  <div id="pnl_results"></div>
+
+  <div>
+    <table id="order_shipping" class="display" data-source="<%= order_shipments_url(format: "json") %>">
+      <thead>
+      <tr>
+        <th></th>
+        <th><%= t('.order_date') %></th>
+        <th><%= t('.channel_order') %></th>
+        <th><%= t('.customer') %></th>
+        <th><%= t('.destination') %></th>
+        <th><%= t('.weight') %></th>
+        <th><%= t('.order_value') %></th>
+        <th><%= t('.courier') %></th>
+        <th><%= t('.service') %></th>
+        <th><%= t('.shipment_error') %></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+
+
+  <%= button_to_function(t('.select_all'), '', :class => 'btn btn-primary select-all') %>
+  <%= button_to_function(t('.select_none'), '', :class => 'btn btn-primary select-none') %>
+
+</div>
+
+<div id='confirm_action' title='<%= t('.confirm_action') %>'></div>
+
+<div id='edit_address_dialog' title='Edit Shipping Address'></div>
+
+<div id="pdf_wrapper" style="display: none;">
+  <button id="close_pdf_viewer" class="btn btn-inverse" style="float: right; margin-bottom: 10px;" type="button"><%= t('.close') %></button>
+  <div id="pdf_viewer"></div>
+</div>
+
+<script type="text/javascript">
+
+    $('.select-all').click(function () {
+        toggleChecked(true);
+    });
+
+    $('.select-none').click(function () {
+        toggleChecked(false);
+    });
+
+
+</script>

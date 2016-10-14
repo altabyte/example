@@ -1,0 +1,23 @@
+<div style="font-weight: bold; margin-bottom: 20px;font-size: 20px; text-align: center"><%= t('.sage_pay_information') %> </div>
+
+<table id="sagepay_score" class="table table-bordered table-striped table-condensed" style="width: 100%;">
+
+  <thead>
+  <tr>
+    <th><%= t('.CV2') %></th>
+    <th><%= t('.address') %></th>
+    <th><%= t('.post_code') %></th>
+    <th><%= t('.3d_secure') %></th>
+    <th><%= t('.third_man') %></th>
+  </tr>
+  </thead>
+
+  <% sagepay_result = sagepay_display(order.order_fraud_score) %>
+  <tr>
+    <td><%= sagepay_result[:cv2result] %></td>
+    <td><%= sagepay_result[:address_result] %></td>
+    <td><%= sagepay_result[:postcode_result] %></td>
+    <td><%= sagepay_result[:threed_secure_status] %></td>
+    <td><%= sagepay_result[:thirdman_action] %></td>
+  </tr>
+</table>

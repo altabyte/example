@@ -1,0 +1,577 @@
+//= require order_information
+
+
+var report_url;
+var tr;
+var oTable;
+
+function InitSearch() {
+
+    var orders_filter = $('#orders_filter');
+    orders_filter.prepend("<div id='order_status_filter'><label for='order_status_select'>Status Filter:</label>" +
+    "<span id='order_status_select'></span></div>");
+    $('#orders').dataTable().columnFilter(
+            {
+                aoColumns: [
+                    {sSelector: "#order_status_select", type: "select", values: statuses},
+                    null,
+                    null,
+                    null
+                ]
+            }
+    );
+
+
+    orders_filter.prepend('<div id="quick_filter" style="float: left;">'
+    + '<input autocomplete="off" class="btn btn-primary display_pickable" onclick=";" type="button" value="Display Pickable">'
+    + '<input autocomplete="off" class="btn btn-primary display_in_progress" onclick=";" type="button" value="Display In Progress"></div>');
+
+
+    if (getURLParameter('show') == 'new') {
+        $('#select_filter').val('NEW');
+        $('#orders').dataTable().fnFilter('NEW', 1)
+    }
+
+}
+
+$(document).on('click', '.display_pickable', function () {
+    if (!$(this).hasClass('active')) {
+        resetQuickFilterToggle();
+        $(this).button('toggle');
+        $('#orders').dataTable().fnFilter('PICKABLE', 2)
+    } else {
+        resetStatusFilter();
+        var tbl = $('#orders').dataTable();
+        tbl.fnDraw();
+    }
+});
+
+$(document).on('click', '.display_in_progress', function () {
+    if (!$(this).hasClass('active')) {
+        resetQuickFilterToggle();
+        $(this).button('toggle');
+        $('#orders').dataTable().fnFilter('INPROGRESS', 2)
+    } else {
+        resetStatusFilter();
+        var tbl = $('#orders').dataTable();
+        tbl.fnDraw();
+    }
+});
+
+
+function resetStatusFilter() {
+    var oSettings = oTable.fnSettings();
+    oSettings.aoPreSearchCols[2].sSearch = '';
+    resetQuickFilterToggle();
+    $('#order_status_filter').show();
+}
+
+function resetQuickFilterToggle() {
+    $('#order_status_filter').hide();
+    $('#quick_filter input').removeClass('active');
+}
+
+
+/* Formating function for row details */
+function fnFormatDetails(oTable, nTr) {
+    var aData = oTable.fnGetData(nTr);
+    var id = aData[0];
+    var sOut;
+
+    $.ajax({
+        type: 'GET',
+        url: '/order_details/' + id + '.json',
+        success: function (result) {
+            sOut = order_details(result);
+            oTable.fnOpen(nTr, sOut, 'details');
+        },
+        failure: function (result) {
+            $('#pnl_results').html('<p>Error getting order details</p>');
+        },
+        dataType: "json"
+    });
+
+}
+
+function create_table_row() {
+    var table_row = '<tr>';
+
+    for (var i = 0; i < arguments.length; i++) {
+        table_row += '<td>' + arguments[i] + '</td>';
+    }
+
+    table_row += '</tr>';
+    return table_row;
+}
+
+function popWin(url, wind, para) {
+    var win = window.open(url, wind, para);
+    win.focus();
+}
+
+function create_table_header_row() {
+    var table_row = '<tr>';
+    table_row += '<th style="width: 10%">Destination</th>';
+    table_row += '<th style="width: 15%">SKU</th>';
+    if (enable_group_stock || enable_item_inventories) {
+        table_row += '<th style="width: 25%">Description</th>';
+    } else {
+        table_row += '<th style="width: 35%">Description</th>';
+    }
+
+    table_row += '<th style="width: 10%">Colour</th>';
+    table_row += '<th style="width: 10%">Size</th>';
+    table_row += '<th style="width: 10%">Qty Ord</th>';
+    table_row += '<th style="width: 10%">Qty Pkd</th>';
+    if (enable_group_stock || enable_item_inventories) {
+        table_row += '<th style="width: 10%">Stock</th>';
+    }
+    table_row += '</tr>';
+    return table_row;
+}
+
+function order_details(data) {
+    var tran_panel;
+    tran_panel = '<table id="order_details">';
+    tran_panel += '<tbody>';
+
+    var header_row;
+    header_row = create_table_header_row();
+
+    tran_panel += header_row;
+    if (data.length > 0) {
+        $.each(data, function (i, j) {
+            tran_panel += '<tr>';
+            tran_panel += '<td>' + j.country_string + '</td>';
+            tran_panel += '<td>' + j.item.sku + '</td>';
+            tran_panel += '<td>' + j.item.name + '</td>';
+            tran_panel += '<td>' + (j.item.colour ? j.item.colour : '') + '</td>';
+            tran_panel += '<td>' + (j.item.size ? j.item.size : '') + '</td>';
+            tran_panel += '<td>' + j.quantity_ordered + '</td>';
+            tran_panel += '<td>' + j.quantity_picked + '</td>';
+            if (enable_group_stock) {
+                tran_panel += '<td>j.group_stock</td>';
+            } else if (enable_item_inventories) {
+                tran_panel += '<td>__TOTAL_STOCK__</td>';
+            }
+            tran_panel += '</tr>';
+
+            if (enable_item_inventories) {
+
+                var total_stock = 0;
+
+                if (j.item_inventories.length > 0) {
+                    $.each(j.item_inventories, function (i, ii) {
+                        tran_panel += '<tr style="color:magenta;font-weight: bolder;">';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td></td>';
+                        tran_panel += '<td colspan="2" style="text-align: right">' + ii.stock_location.name + '</td>';
+                        tran_panel += '<td>' + ii.current_stock + '</tr>';
+
+                        total_stock += ii.current_stock;
+                    })
+                }
+
+                tran_panel = tran_panel.replace('__TOTAL_STOCK__', total_stock);
+            }
+        });
+    }
+    tran_panel += '</tbody>';
+    tran_panel += '</table>';
+
+    return tran_panel;
+}
+
+$(function () {
+
+    check_for_new_shipping_services(show_new_shipping_methods);
+
+});
+
+function check_for_new_shipping_services(has_new_services) {
+    if (has_new_services) {
+        show_new_ship_services();
+    } else {
+        show_order_table();
+    }
+}
+
+function show_new_ship_services() {
+    $('#select_pane').hide();
+
+    error_dialog("Please select the appropriate shipping services for the new channel shipping services.  If you are unsure, please contact your shipping manager.");
+
+    var url = '/channel_shipping_services/list_new_services';
+
+    $.ajax({
+        url: url,
+        success: function (data) {
+            $('#new_shipping_services').html(data);
+            $('#new_shipping_services').show();
+        },
+        failure: function () {
+            console.log('error');
+        }
+    });
+
+}
+
+$(document).on('click', '#save_new_shipping_services', function () {
+    var values = [];
+    var cont = true;
+    $('.shipping_service_select').each(function () {
+        var value = $(this).val();
+        if (!value) cont = false;
+        values.push({
+            service_id: $(this).parent().data('service_id'),
+            shipping_service_id: value
+        })
+    });
+
+    if (cont) {
+        var url = '/channel_shipping_services/save_new_services';
+        $.ajax({
+            url: url,
+            data: {values: values},
+            type: 'POST',
+            success: function (data, textStatus, jqXHR) {
+                if (data) {
+                    $('#new_shipping_services').html(data);
+                    $('#new_shipping_services').show();
+                } else {
+                    $('#new_shipping_services').html('');
+                    $('#new_shipping_services').hide('');
+                    check_for_new_shipping_services(false);
+                }
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    } else {
+        error_dialog("All new channel shipping services MUST be matched to the appropriate shipping service before continuing.");
+    }
+
+});
+
+function show_order_table() {
+
+    $('#select_pane').show();
+    $('.select-all').click(function () {
+        toggleChecked(true);
+    });
+
+    $('.select-none').click(function () {
+        toggleChecked(false);
+    });
+
+    $('.expand_new').click(function () {
+        expand_new();
+    });
+
+    $('.collapse_all').click(function () {
+        collapse_all();
+    });
+
+
+    if (getURLParameter('show') == 'new') {
+        var src = $('#orders').data('source') + "?show=new";
+    } else {
+        var src = $('#orders').data('source');
+    }
+
+
+    if (sagepay_enabled) {
+        var column_defs = [
+            {"bVisible": false, "aTargets": [0]},
+            {"sWidth": "15%", "aTargets": [11]},
+            {"sWidth": "3%", "aTargets": [1, 2]},
+            {"sWidth": "25%", "aTargets": [5]},
+            {"sWidth": "15%", "aTargets": [3, 4, 11]},
+            {"bSortable": false, "aTargets": [1, 2, 6, 7, 8, 9, 10, 12]}
+        ]
+    } else {
+        var column_defs = [
+            {"bVisible": false, "aTargets": [0]},
+            {"sWidth": "3%", "aTargets": [1, 2]},
+            {"sWidth": "5%", "aTargets": [7]},
+            {"sWidth": "25%", "aTargets": [5]},
+            {"sWidth": "20%", "aTargets": [4]},
+            {"sWidth": "15%", "aTargets": [3]},
+            {"bSortable": false, "aTargets": [1, 2, 6]}
+        ]
+    }
+
+    oTable = $('#orders').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "iDisplayLength": 25,
+        "aaSorting": [
+            [3, 'desc']
+        ],
+        "bAutoWidth": false,
+        "aoColumnDefs": column_defs,
+        "sAjaxSource": src,
+        fnInitComplete: function () {
+            InitSearch();
+        },
+        fnDrawCallback: function (oSettings) {
+            check_for_report_url();
+        },
+        fnRowCallback: function (nRow, aaData, iDisplayIndex) {
+            if (sagepay_enabled) {
+                if (aaData[12]) {
+                    $('td', nRow).css('background-color', aaData[12]);
+                    $('td', nRow).css('color', aaData[13]);
+                }
+            } else {
+                if (aaData[7]) {
+                    $('td', nRow).css('background-color', aaData[7]);
+                    $('td', nRow).css('color', aaData[8]);
+                }
+            }
+
+            return nRow;
+        }
+    }).fnSetFilteringDelay();
+
+    $('.statusTooltip').tooltipster();
+
+    $('.order-action').bind('click', function () {
+                var selected = new Array();
+                $('input:checked').each(function () {
+                    selected.push($(this).attr('value'));
+                });
+
+                if (selected.length == 0) {
+                    error_dialog('No Orders Selected');
+                } else {
+                    var action = $(this).parent().find('.order_options_select').val();
+
+                    if (action == "pick") {
+                        yn_dialog('confirm_action', '<%= I18n.t('orders.index.comfirm_pick') %>', function () {
+                            showPleaseWait(true);
+                            $.ajax({
+                                type: 'POST',
+                                url: "order_picks/update_order_status",
+                                data: {order_ids: selected},
+                                success: function (result) {
+                                    if (result.location) {
+                                        report_url = result.location;
+                                        var tbl = $('#orders').dataTable();
+                                        tbl.fnDraw();
+                                    } else if (result.message) {
+                                        error_dialog(result.message)
+                                    }
+                                    var tbl = $('#orders').dataTable();
+                                    tbl.fnDraw();
+                                    showPleaseWait(false);
+                                },
+                                failure: function (result) {
+                                    $('#pnl_results').html('<p>Error getting order details</p>');
+                                    showPleaseWait(false);
+                                },
+                                dataType: "json",
+                                async: false
+                            });
+                        }, null);
+
+                    } else {
+
+                        yn_dialog('confirm_action', '<%= I18n.t('orders.index.confirm_dispatch') %>', function () {
+                            showPleaseWait(true);
+                            $.ajax({
+                                type: 'POST',
+                                url: "order_shipments/update_order_status",
+                                data: {order_ids: selected},
+                                success: function (result) {
+                                    var tbl = $('#orders').dataTable();
+                                    tbl.fnDraw();
+                                    showPleaseWait(false);
+                                },
+                                failure: function (result) {
+                                    $('#pnl_results').html('<p>Error getting order details</p>');
+                                    showPleaseWait(false);
+                                },
+                                dataType: "json",
+                                async: false
+                            });
+                        }, null);
+                    }
+                }
+            }
+    );
+
+
+    if ($('#order_options_select_top option').size() == 1) {
+        $('.order_options_select').hide();
+        $('.order-action').attr('value', $('#order_options_select_top option').html());
+    }
+}
+
+
+function statusChange() {
+
+}
+
+function expand_new() {
+    collapse_all();
+    $('#orders tbody tr').each(function () {
+        if ($(this).find('td:nth-child(11)').html() == 'NEW' || $(this).find('td:nth-child(11) select :selected').text() == 'NEW') {
+            var nTr = $(this)[0];
+            expand_row(nTr);
+        }
+    })
+}
+
+function collapse_all() {
+    $('#orders tbody tr').each(function () {
+        var nTr = $(this)[0];
+        if (oTable.fnIsOpen(nTr)) {
+            close_row(nTr);
+        }
+    })
+}
+
+function check_for_report_url() {
+    if (report_url) {
+        var report_now = report_url;
+        report_url = "";
+        if (!isChromeApp) {
+            var myPDF = new PDFObject(
+                    {
+                        url: report_now,
+                        width: "100%",
+                        height: $(window).height() - 275 + "px",
+                        pdfOpenParams: {
+                            navpanes: 1,
+                            statusbar: 0,
+                            toolbar: 0,
+                            view: "FitV"
+                        }
+                    }).embed("pdf_viewer");
+
+            $("#select_pane").hide();
+            $("#pdf_wrapper").show();
+        } else {
+            isChromeApp.source.postMessage({command: 'get_report', url: report_now}, isChromeApp.origin);
+            var tbl = $('#orders').dataTable();
+            tbl.fnDraw();
+        }
+    }
+}
+
+$(document).ready(function () {
+    $("#orders .show-button").live("click", function (event) {
+        event.preventDefault();
+        openOrderInformation(this.id, 'orders');
+    });
+
+    $('#close_pdf_viewer').on('click', function () {
+        $("#select_pane").show();
+        $("#pdf_wrapper").hide();
+        var tbl = $('#orders').dataTable();
+        tbl.fnDraw();
+    });
+
+    $('#orders tbody tr .expand_row').live(click_event(), function () {
+        var nTr = $(this).parent().parent()[0];
+        expand_row(nTr);
+    });
+
+});
+
+function expand_row(row) {
+    if (oTable.fnIsOpen(row)) {
+        close_row(row);
+    }
+    else {
+        open_row(row);
+    }
+}
+
+function open_row(row) {
+    $(row).find('.expand_row').removeClass('icon-down').addClass('icon-up');
+    fnFormatDetails(oTable, row);
+}
+
+function close_row(row) {
+    $(row).find('.expand_row').removeClass('icon-up').addClass('icon-down');
+    oTable.fnClose(row);
+}
+
+$(document).on('click', '.details', function () {
+    expand_row($(this).parent().prev()[0]);
+});
+
+$('#order_status_select').click(statusChange());
+
+function toggleChecked(status) {
+    $(".check_pick_order").each(function () {
+        $(this).attr("checked", status);
+    })
+}
+
+$(document).on('change', ".status_change_select", function (select) {
+    var order_id = $(this).attr('data-order_id');
+    var new_status = $(this).val();
+
+
+    yn_dialog('confirm_action', '<%= I18n.t('orders.index.status_change_confirmation') %>', function () {
+        $.ajax({
+            type: 'POST',
+            url: "orders/update_order_status",
+            data: {
+                order_id: order_id,
+                new_status: new_status
+            },
+            success: function (result) {
+                alertify.success("Status Changed");
+                $('#orders').dataTable().fnDraw(false);
+            },
+            error: function (result) {
+                error_dialog('Error updating order status' + result.responseText)
+                $('#orders').dataTable().fnDraw(false);
+            },
+            dataType: "json",
+            async: false
+        });
+    }, function () {
+        $('#orders').dataTable().fnDraw(false);
+    });
+
+});
+
+$(document).on('click', '#reprint_rm_label', function () {
+    showPleaseWait(true);
+    $.ajax({
+        url: '/orders/reprint_rm_label?id=' + $('#order_info_header_id').html(),
+        success: function (data) {
+            error_dialog('REPRINT requested');
+            showPleaseWait();
+        },
+        error: function () {
+            error_dialog('REPRINT failed');
+            showPleaseWait();
+        }
+    });
+});
+
+$(document).on('click','.linked_order_more_info', function() {
+    var id = this.id;
+    id = id.replace('show_linked_order_info_','');
+    openOrderInformation(id, 'orders');
+});
+
+
+
+
+
+
+

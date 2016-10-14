@@ -1,0 +1,29 @@
+<script type="text/javascript">
+    var scale_ip_address = '<%= @scale_ip_address %>';
+</script>
+
+<%= javascript_include_tag 'scale_test' %>
+<%= stylesheet_link_tag 'scale_test' %>
+
+<div></div>
+
+<% if @scale_ip_address.present? %>
+
+    <div id="buttons">
+      <button id="disconnect">Disconnect</button>
+      <button id="connect">Connect</button>
+      <input id="text" type="text"/>
+      <button id="send">Send</button>
+    </div>
+
+    <div id="dataLog">
+
+    </div>
+
+    <div id='curr_weight' style="float: right; font-size: 200px"></div>
+
+<% else %>
+
+    No Scale IP Set
+
+<% end %>

@@ -1,0 +1,40 @@
+<% tracking_info = '' %>
+
+<div id="order_information_tabs">
+  <ul>
+    <li><a><%= t('.order_information') %></a></li>
+    <li><a><%= t('.shipping_address_map') %></a></li>
+    <li><a><%= t('.items') %></a></li>
+    <% if SystemSetting.check_setting('enable_sagepay_integration', false, @current_user.company_id) and order.order_fraud_score.present? %>
+        <li><a><%= t('.sage_pay') %></a></li>
+    <% end %>
+    <% if order.linked_orders.present? %>
+        <li><a><%= t('.linked_orders') %></a></li>
+    <% end %>
+  </ul>
+  <div style="height: 600px; overflow: scroll;">
+    <div id="order_information" style="z-index: 0;">
+      <%= render :partial => 'orders/order_information_tabs/order_information_tab', :locals => {:order => order} %>
+    </div>
+
+    <div id="shipping_address_map" style="z-index: 0;">
+      <div id="gmap" style="width: 1000px; height: 600px;"></div>
+    </div>
+
+    <div id="items" style="height: 600px; overflow: scroll; z-index: 0;">
+      <%= render :partial => 'orders/order_information_tabs/order_items', :locals => {:order => order} %>
+    </div>
+
+    <% if SystemSetting.check_setting('enable_sagepay_integration', false, @current_user.company_id) and order.order_fraud_score.present? %>
+        <div id="sage_pay" style="height: 600px; overflow: scroll; z-index: 0">
+          <%= render :partial => 'orders/order_information_tabs/sagepay', :locals => {:order => order} %>
+        </div>
+    <% end %>
+    <% if order.linked_orders.present? %>
+        <div id="linked_orders" style="height: 600px; overflow: scroll; z-index: 0">
+          <%= render :partial => 'orders/order_information_tabs/linked_orders', :locals => {:linked_orders => order.linked_orders} %>
+        </div>
+    <% end %>
+  </div>
+</div>
+

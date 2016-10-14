@@ -1,0 +1,18 @@
+<%= maintenance_header(t('.show')) %>
+
+<%= maintenance_toolbar do %>
+    <%= maintenance_toolbar_edit(edit_shipping_override_path()) %>
+    <%= maintenance_toolbar_back(shipping_overrides_path) %>
+<% end %>
+
+<%= semantic_form_for @shipping_override do |f| %>
+
+    <%= f.inputs do %>
+        <%= f.input :channel, :label => t('.channel'), :input_html => {:disabled => true} %>
+        <%= f.input :order_attribute, :label => t('.order_attribute'), :as => :select, :collection => order_attribute_collection, :input_html => {:disabled => true} %>
+        <%= f.input :qualifier, :label => t('.qualifier'), :as => :select, :collection => qualifier_select_collection, :input_html => {:disabled => true} %>
+        <%= f.input :value, :label => t('.value'), :input_html => {:disabled => true} %>
+        <%= f.input :shipping_service, :label => t('.shipping_service'), :input_html => {:disabled => true} %>
+    <% end %>
+
+<% end %>

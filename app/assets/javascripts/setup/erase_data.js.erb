@@ -1,0 +1,52 @@
+function setupEraseData() {
+    var result_message = $("#erase_data_result_message");
+    var timestamp = $("#clear_down_date_timestamp");
+    var password = $('#clear_down_password');
+
+    $(document).on('click', '#clear_down', function () {
+        result_message.hide();
+        if (timestamp.val()) {
+            if (password.val()) {
+
+                var text = 'Are you sure you want to clear down all data before ' + timestamp.val() + '?';
+
+                alertify.confirm(text, function (e, str) {
+                    // str is the input text
+                    if (e) {
+                        showPleaseWait(true);
+                        $.ajax({
+                            url: '/companies/clear_down_data.json',
+                            format: 'JSON',
+                            data: {
+                                clear_down_date_timestamp: timestamp.val(),
+                                user_password: password.val()
+                            },
+                            success: function (data) {
+                                password.val('');
+                                showPleaseWait();
+                                result_message.html(data.message);
+                                result_message.show();
+
+                            },
+                            error: function () {
+                                showPleaseWait();
+                                console.log('error');
+                            }
+                        });
+                    }
+                }).set({
+                    labels: {
+                        ok: "!!!YES!!!",
+                        cancel: "NO"
+                    }
+                }).set('closable', false);
+
+            } else {
+                error_dialog('No Password Entered');
+            }
+        } else {
+            error_dialog('No Date Selected');
+        }
+    });
+
+}

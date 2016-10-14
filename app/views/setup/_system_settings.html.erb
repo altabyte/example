@@ -1,0 +1,37 @@
+<div id="system_settings_select_pane">
+  <div>
+    <table id="system_settings" class="display" data-source="<%= system_settings_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.group') %></th>
+        <th><%= t('.setting_code') %></th>
+        <th><%= t('.setting_description') %></th>
+        <th><%= t('.value') %></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div id="edit_system_setting_dialog" title="<%= t('.edit_system_setting') %>"></div>
+
+<script type="text/javascript">
+
+    var group_types = new Array();
+    <% for groups in SystemSetting.group(:setting_group) %>
+    group_types.push('<%= groups.setting_group %>');
+    <% end %>
+
+</script>

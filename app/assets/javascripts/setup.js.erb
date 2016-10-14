@@ -1,0 +1,86 @@
+//=require setup/channels
+//=require setup/erase_data
+//=require setup/shipping_destinations
+//=require setup/shipping_methods
+//=require setup/users
+//=require setup/stock_locations
+//=require setup/packaging_types
+//=require setup/shipping_matrices
+//=require setup/system_settings
+//=require setup/status_change
+//=require setup/exchange_rates
+
+$(document).ready(function () {
+    $("#company_setup_tabs").zozoTabs({
+        theme: "silver",
+        orientation: "vertical",
+        animation: {
+            duration: 800,
+            effects: "none"
+        }
+    });
+
+
+    $('#basic_details_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#basic_details_tab > .z-content-inner').html(xhr.responseText);
+                setupFileSelect();
+                save_successful()
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#basic_details_tab > .z-content-inner').html(xhr.responseText);
+                setupFileSelect();
+            });
+
+    $('#fedex_settings_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#fedex_settings_tab > .z-content-inner').html(xhr.responseText);
+                save_successful();
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#fedex_settings_tab > .z-content-inner').html(xhr.responseText);
+                $('#fedex_settings_tab > .z-content-inner').html(xhr.responseText);
+            });
+
+    $('#ui-datepicker-div').hide();
+
+    setup_channel_maint();
+    setupEraseData();
+    setupShippingDestinations();
+    setupStatusChange();
+    setupPackagingTypes();
+    setupShippingMatrices();
+    setupShippingMethods();
+    setupUsers();
+    setupStockLocations();
+    setupSystemSettings();
+    setupExchangeRates();
+
+    setupFileSelect();
+
+});
+
+$(document).on('change', '.btn-file :file', function () {
+    var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+    input.trigger('fileselect', [numFiles, label]);
+});
+
+
+
+function setupFileSelect() {
+    $('.btn-file :file').on('fileselect', function (event, numFiles, label) {
+
+        var input = $(this).parents('.input-group').find('.file_display'),
+                log = numFiles > 1 ? numFiles + ' files selected' : label;
+
+        if (input.length) {
+            input.html(log);
+        } else {
+            if (log) alert(log);
+        }
+
+    });
+}
+

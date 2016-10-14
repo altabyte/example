@@ -1,0 +1,107 @@
+function setupExchangeRates() {
+    root = this;
+    root.oTable = $('#exchange_rates').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "bAutoWidth": false,
+        "sAjaxSource": $('#exchange_rates').data('source'),
+        "aoColumnDefs": [
+            {"sWidth": "5%", "aTargets": [2]},
+            {"bSortable": false, "aTargets": [2]}
+        ]
+    }).fnSetFilteringDelay();
+}
+
+
+
+$(document).ready(function () {
+
+    $('#edit_exchange_rate_dialog').dialog({
+        height: 'auto',
+        width: 'auto',
+        modal: true,
+        autoOpen: false
+    });
+
+
+    $("#exchange_rates .edit-button").live("click", function () {
+        var url = '/companies/edit_exchange_rate/' + this.id;
+        url = url.replace('edit_exchange_rate_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#edit_exchange_rate_dialog').html(data);
+                $('#edit_exchange_rate_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+
+    });
+
+    // Basic Details
+    $('#edit_exchange_rate_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#exchange_rates').dataTable().fnDraw(false);
+                $('#edit_exchange_rate_dialog').html(xhr.responseText);
+                $('#edit_exchange_rate_dialog').dialog('close');
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#edit_exchange_rate_dialog').html(xhr.responseText);
+            });
+
+
+});
+
+
+$(document).on('click', '#download_exchange_rates', function () {
+    yn_dialog(null, 'All current exchange rates will be replaced, are you sure you wish to continue?', function () {
+                showPleaseWait(true);
+                $.ajax({
+                    url: '/companies/get_latest_exchange_rates.json',
+                    success: function (data) {
+                        if (data.result) {
+                            $('#exchange_rates').dataTable().fnDraw(false);
+                            showPleaseWait();
+                        } else {
+                            showPleaseWait();
+                            alertify.error("Error getting exchange rates" + data.message);
+                        }
+                    },
+                    error: function () {
+                        console.log('error');
+                        showPleaseWait();
+                        alertify.error("Error getting exchange rates");
+                    }
+                });
+            }
+    )
+
+});
+
+$(document).on('click', '#download_exchange_rate', function () {
+//    showPleaseWait(true);
+
+    $.ajax({
+        url: 'http://openexchangerates.org/api/latest.json?app_id=806ed6b893e6418999e0979a7233fb87',
+        dataType: 'jsonp',
+        success: function (json) {
+            var fromCurrency = $('#exchange_rate_from_currency').val();
+            var toCurrency = $('#exchange_rate_to_currency').val();
+
+            if (json.rates) {
+                var exchange = json.rates[toCurrency] / json.rates[fromCurrency];
+                $('#exchange_rate_exchange_rate').val(exchange);
+            }
+
+        }
+    });
+});
+
+
+

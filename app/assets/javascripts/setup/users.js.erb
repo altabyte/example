@@ -1,0 +1,132 @@
+//=require dialogs
+function UsersInitSearch() {
+    $('#users_filter').prepend("<label for='user_role_filter'><%= I18n.t('reports.index.user_role_filter') %>:</label>" +
+    "<span id='user_role_filter'></span>");
+    $('#users').dataTable().columnFilter(
+            {
+                aoColumns: [
+                    null,
+                    {sSelector: "#user_role_filter", type: "select", values: roles},
+                    null,
+                    null
+                ]
+            }
+    );
+}
+
+function setupUsers() {
+
+    var oTable = $('#users').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "iDisplayLength": 10,
+        "aaSorting": [
+            [1, 'desc']
+        ],
+        "aoColumnDefs": [
+            {"sWidth": "5%", "aTargets": [3, 4]},
+            {"bSortable": false, "aTargets": [2, 3, 4]}
+        ],
+        "sAjaxSource": $('#users').data('source'),
+        fnInitComplete: function () {
+            UsersInitSearch();
+        }
+    }).fnSetFilteringDelay();
+
+    $("#users .edit-button").live("click", function () {
+        var url = '/users/' + this.id + '/edit';
+        url = url.replace('edit_user_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#users_edit_pane').html(data);
+                $('#users_edit_pane').show();
+                $('#users_select_pane').hide();
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+
+    });
+
+
+    $('#btn_back').live('click', function () {
+        $('#users_edit_pane').html('');
+        $('#users_select_pane').show();
+        $('#users_edit_pane').hide();
+        var tbl = $('#users').dataTable();
+        tbl.dataTable().fnDraw(false);
+    });
+
+    // Basic Details
+    $('#users_basic_details_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#users_edit_pane').html(xhr.responseText);
+                save_successful();
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#users_edit_pane').html(xhr.responseText);
+            });
+
+
+    $("#users_filter").append("<img id='new_user' src='" + new_button_src + "' class='new-button'/>");
+
+    $("#new_user").live("click", function () {
+        $.ajax({
+            url: '/users/new',
+            success: function (data) {
+                $("#new_user_dialog").html(data);
+                $("#new_user_dialog").dialog('open');
+
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+
+    });
+
+    $("#new_user_dialog").dialog({
+        height: 'auto',
+        width: 500,
+        modal: true,
+        autoOpen: false
+    });
+
+
+    $('#new_user_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $("#new_user_dialog").html(xhr.responseText);
+                $("#new_user_dialog").dialog('close');
+                $('#users').dataTable().fnDraw();
+
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $("#new_user_dialog").html(xhr.responseText);
+            });
+
+    $('#users .delete-button').live('click', function (event) {
+        var id = this.id.replace('delete_user_', '');
+        delete_row(id);
+    });
+
+}
+
+function delete_row(id) {
+    var url = '/users/' + id + '/delete_user';
+    url = url.replace('delete_user_', '');
+
+    var options = {
+        url: url,
+        text: "Are you sure you want to delete this user?",
+        on_completed: function () {
+            $('#users').dataTable().fnDraw();
+        }
+    };
+    delete_dialog(options);
+}

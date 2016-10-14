@@ -1,0 +1,17 @@
+<div class="item_tab_content">
+  <%= semantic_form_for customer, :remote => true, :url => "/customers/#{customer.id}/update_basic_details", :html => {:method => "post", :id => 'basic_details_form', :class => "form-horizontal"} do |f| %>
+      <div style="width:100%;">
+        <div id="basic-form-area">
+          <%= f.semantic_errors %>
+          <%= f.inputs do %>
+              <%= f.input :id, :as => :hidden %>
+              <%= f.input :full_name, :label => t('.name'), :input_html => {:disabled => read_only} %>
+              <%= f.input :email, :label => t('.email'), :input_html => {:disabled => read_only} %>
+              <%= f.input :phone_number, :label => t('.phone_number'), :input_html => {:disabled => read_only} %>
+
+              <%= maintenance_toolbar_save %>
+          <% end %>
+  <% end %>
+  </div>
+  </div>
+</div>

@@ -1,0 +1,84 @@
+//= require maplace-0.1.3
+var mode;
+
+function openOrderInformation(id, this_mode) {
+    mode = this_mode;
+    showPleaseWait(true);
+    var url = '/orders/' + id;
+    url = url.replace('show_order_info_', '');
+
+    $.ajax({
+        url: url,
+        success: function (data) {
+            $('#order_information').html(data);
+            $("#order_information_tabs").zozoTabs({
+                theme: "silver",
+                animation: {
+                    effects: "none"
+                },
+                select: onSelect,
+                ready: onReady
+            })
+
+        },
+        error: function () {
+            console.log('error');
+            error_dialog('Error getting order information');
+            showPleaseWait();
+        }
+    });
+}
+
+var onReady = function (event, item) {
+    if (mode == 'orders') {
+        $('#select_pane').hide();
+    } else {
+        $('#edit_pane').hide();
+    }
+    $('#order_information_wrapper').show();
+    showPleaseWait();
+
+};
+
+
+var onSelect = function (event, item) {
+    if (item.tab.index() === 1) {
+        if (sa_longitude && sa_latitude) {
+            new Maplace({
+                locations: [{
+                    lat: sa_latitude,
+                    lon: sa_longitude,
+                    icon: 'http://maps.google.com/mapfiles/markerA.png',
+                    zoom: 15
+                }],
+                controls_on_map: false
+            }).Load();
+        } else {
+            $('#gmap').html('Unable to resolve shipping address geometry or error loading Google maps');
+        }
+    } else if (item.tab.text() == 'Tracking') {
+        showPleaseWait(true);
+        $.ajax({
+            url: 'orders/aftership_tracking/' + $('#order_info_header_id').html(),
+            success: function (data) {
+                $('#tracking_information').html(data);
+                showPleaseWait();
+            },
+            error: function () {
+                console.log('error');
+                error_dialog('Error getting order information');
+                showPleaseWait();
+            }
+        });
+    }
+};
+
+$(document).on('click', '#close_order_information', function () {
+    $('#order_information').html('');
+    $('#order_information_wrapper').hide();
+    if (mode == 'orders') {
+        $('#select_pane').show();
+    } else {
+        $('#edit_pane').show();
+    }
+});

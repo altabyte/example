@@ -1,0 +1,23 @@
+<tr data-order_detail_id="<%= order_detail.id %>">
+  <% if pick_by_scan %>
+      <td>
+        <span style="display:none" id="pick_sku_<%= order_detail.id %>"><%= order_detail.item.sku %></span>
+      </td>
+  <% else %>
+      <td><span id="pick_sku_<%= order_detail.id %>"><%= order_detail.item.sku %></span></td>
+  <% end %>
+  <% if county_of_origin %>
+      <td class='country_code'><%= country_select("order_pick[#{order_detail.id}]country_code", '', :selected => order_detail.item.country_code) %></td>
+  <% end %>
+  <% if harmonization_code %>
+      <td>
+        <input id='order_pick[<%= order_detail.id %>]harmonization_code' class='harmonization_code_<%= order_detail.id %> har_code' style='display:none' name='<%= "order_pick[#{order_detail.id}]harmonization_code" %>' value='<%= order_detail.item.harmonization_code %>'>
+        <%= autocomplete_field_tag("order_pick[#{order_detail.id}]harmonization_code_autocomplete", order_detail.item.harmonization_display, autocomplete_hs_code_description_order_picks_path, :update_elements => {:code => ".harmonization_code_#{order_detail.id}"}) %>
+      </td>
+  <% end %>
+  <% if item_weight %>
+      <td><%= text_field_tag("order_pick[#{order_detail.id}]item_weight", order_detail.item.item_weight, :class => 'number_only item_weight') %> </td>
+  <% end %>
+  <td class='line_ordered_qty'><%= order_detail.remaining_qty %></td>
+  <td><%= text_field_tag("order_pick[#{order_detail.id}]qty_picked", nil, :class => 'number_only line_qty', :disabled => (pick_by_scan or order_detail.remaining_qty == 0), :maxlength => 10) %> </td>
+</tr>

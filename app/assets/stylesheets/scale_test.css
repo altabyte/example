@@ -1,0 +1,42 @@
+#container {
+    background-color: #fff;
+    border: 1px solid grey;
+    border-radius: 5px;
+    min-width: 680px;
+    margin: 10px;
+    padding: 10px;
+}
+
+#dataCanvas {
+    background-color: #fff;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 5px;
+    width: 640px;
+    height: 260px;
+}
+
+#dataLog {
+    background-color: #fff;
+    border: 1px solid grey;
+    border-radius: 5px;
+    padding: 5px;
+    width: 640px;
+    height: 600px;
+    overflow: auto;
+    /*overflow: hidden;*/
+}
+
+#dataLog p {
+    margin: 0;
+    font-size: 75%;
+}
+
+.event {
+    color: #999;
+}
+
+.warning {
+    font-weight: bold;
+    color: #CCC;
+}

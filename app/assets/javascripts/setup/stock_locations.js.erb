@@ -1,0 +1,194 @@
+//=require_self
+//=require dialogs
+function setupStockLocations() {
+
+    var oTable = $('#stock_locations').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "sAjaxSource": $('#stock_locations').data('source'),
+        "aoColumnDefs": [
+            {"sWidth": "5%", "aTargets": [2]},
+            {"bSortable": false, "aTargets": [2]}
+        ]
+    });
+
+    $("#stock_locations_filter").append("<img id='new_stock_location' src='" + new_button_src + "' class='new-button'/>");
+
+    $("#stock_locations .edit-button").live("click", function () {
+        var url = '/stock_locations/' + this.id + '/edit';
+        url = url.replace('edit_stock_location_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#stock_locations_edit_pane').html(data);
+                $('#stock_locations_edit_pane').show();
+                $('#stock_locations_select_pane').hide();
+                setupStockLocationMaint();
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+    $('#stock_location_form').
+            live("ajax:success", function (evt, data, status, xhr) {
+                $('#new_stock_location_dialog').html(xhr.responseText);
+                $('#new_stock_location_dialog').dialog('close');
+                $('#stock_locations').dataTable().fnDraw();
+            }).
+            live("ajax:error", function (evt, xhr, status, error) {
+                $('#new_stock_location_dialog').html(xhr.responseText);
+            });
+
+    $('#stock_locations_basic_details_form').
+            live("ajax:success", function (evt, data, status, xhr) {
+                $('#stock_locations_edit_pane').html(xhr.responseText);
+                save_successful();
+                setupStockLocationTabs();
+                setupStockLocationMaint();
+            }).
+            live("ajax:error", function (evt, xhr, status, error) {
+                $('#stock_locations_edit_pane').html(xhr.responseText);
+                setupStockLocationTabs();
+                setupStockLocationMaint();
+            });
+
+    $('#new_stock_location_dialog').dialog({
+        height: 'auto',
+        modal: true,
+        autoOpen: false
+    });
+
+    $('#new_stock_location').live('click', function (event) {
+        var url = '/stock_locations/new';
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#new_stock_location_dialog').html(data);
+                $('#new_stock_location_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+
+}
+
+function setupStockLocationTabs() {
+    $("#stock_location_tabs").zozoTabs({
+        theme: "silver",
+        animation: {
+            effects: "none"
+        }
+    });
+}
+
+function setupStockLocationMaint() {
+    setupStockLocationTabs();
+
+    $('#back').live('click', function () {
+        $('#stock_locations_edit_pane').html('');
+        $('#stock_locations_select_pane').show();
+        $('#stock_locations_edit_pane').hide();
+        var tbl = $('#stock_locations').dataTable();
+        tbl.dataTable().fnDraw(false);
+    });
+
+
+    var oTable = $('#stock_location_users_table').dataTable({
+        "sPaginationType": "full_numbers",
+        "bJQueryUI": true,
+        "bFilter": true,
+        "bProcessing": true,
+        "bServerSide": true,
+        "iDisplayLength": 10,
+        "aoColumnDefs": [{
+            "sWidth": "5%",
+            "aTargets": [2]
+        }, {"bSortable": false, "aTargets": [2]}],
+        "sAjaxSource": $('#stock_location_users_table').data('source')
+    }).fnSetFilteringDelay();
+
+    $("#stock_location_users_table_filter").append("<img id='new_stock_location_user' src='" + new_button_src + "' class='new-button'/>");
+
+    $('#stock_location_users_table .delete-button').live('click', function (event) {
+        var id = this.id.replace('delete_stock_location_user_', '');
+        delete_user_row(id);
+    });
+
+
+    $('#new_stock_location_user_dialog').dialog({
+        height: 200,
+        modal: true,
+        autoOpen: false
+    });
+
+    $('#stock_location_user_form').
+            live("ajax:success", function (evt, data, status, xhr) {
+                $('#stock_location_user_form').html(xhr.responseText);
+                $('#new_stock_location_user_dialog').dialog('close');
+                var tbl = $('#stock_location_users_table').dataTable();
+                tbl.dataTable().fnDraw(false);
+                setupStockLocationTabs();
+            }).
+            live("ajax:error", function (evt, xhr, status, error) {
+                $('#stock_location_user_form').html(xhr.responseText);
+            });
+
+
+    $('#new_stock_location_user').live('click', function (event) {
+        var url = '/stock_locations/' + stock_location_id + '/new_stock_location_user';
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#new_stock_location_user_dialog').html(data);
+                $('#new_stock_location_user_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+    check_stock_only();
+
+}
+
+
+function delete_user_row(id) {
+    var url = '/stock_locations/delete_stock_location_user/' + id;
+    url = url.replace('delete_stock_location_user_', '');
+
+    var options = {
+        url: url,
+        text: "Are you sure you want to delete this user from this stock location?",
+        on_completed: function () {
+            $('#stock_location_users_table').dataTable().fnDraw();
+        }
+    };
+    delete_dialog(options);
+}
+
+$(document).on('click', '#stock_location_stock_only', function () {
+    check_stock_only();
+});
+
+function check_stock_only() {
+    if ($('#stock_location_stock_only').attr('checked')) {
+        $('#user_access_tab').hide();
+    } else {
+        $('#user_access_tab').show();
+    }
+}
+
+
+
+
+

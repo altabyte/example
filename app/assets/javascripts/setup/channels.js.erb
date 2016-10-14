@@ -1,0 +1,492 @@
+var connection3;
+var connection2;
+
+function setup_channel_maint() {
+    $('#channels_table').dataTable({
+        "sPaginationType": "full_numbers",
+        bJQueryUI: true,
+        bProcessing: true,
+        bServerSide: true,
+        sAjaxSource: $('#channels_table').data('source'),
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [2, 3]},
+            {"sWidth": "5%", "aTargets": [2, 3]}
+        ]
+    }).fnSetFilteringDelay();
+
+    $("#channels_table_filter").append("<img id='new_channel' src='" + new_button_src + "' class='new-button'/>");
+
+    $("#channels_table .edit-button").live("click", function () {
+        connection3 = null;
+        var url = '/channels/' + this.id + '/edit';
+        url = url.replace('edit_channel_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#channel_edit_pane').html(data);
+                $('#channel_edit_pane').show();
+                $('#channel_select_pane').hide();
+                $("#channel_edit_tabs").zozoTabs({
+                    theme: "silver",
+                    animation: {
+                        effects: "none"
+                    }
+                });
+                setupBasicDetails();
+                setupView();
+                setupChannelShippingServices();
+                setupChannelStatuses();
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+
+    });
+
+    $('#channel_back').live('click', function () {
+        $('#channel_edit_pane').html('');
+        $('#channel_select_pane').show();
+        $('#channel_edit_pane').hide();
+        var tbl = $('#channels_table').dataTable();
+        tbl.dataTable().fnDraw(false);
+    });
+
+    $('#channels_table .delete-button').live('click', function (event) {
+        delete_channel_row(this.id);
+    });
+
+
+    $('#channel_new_dialog_form').live("ajax:success", function (evt, data, status, xhr) {
+        $('#channel_new_dialog_form').html(xhr.responseText);
+        $('#channel_new_dialog').dialog('close');
+    }).live("ajax:error", function (evt, xhr, status, error) {
+        $('#channel_new_dialog_form').html(xhr.responseText);
+    });
+
+    $('#channel_new_dialog').live("dialogclose", function () {
+        $('#channels_table').dataTable().fnDraw();
+    });
+
+    $('#new_channel').live('click', function (event) {
+        var url = '/channels/new'
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#channel_new_dialog').html(data);
+                $('#channel_new_dialog').dialog('open');
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+    });
+
+    $('#channel_new_dialog').dialog({
+        height: 'auto',
+        width: '600px',
+        modal: true,
+        autoOpen: false
+    });
+
+}
+
+function delete_channel_row(id) {
+    var url = '/channels/destroy/' + id;
+    url = url.replace('delete_channel_', '');
+
+    var options = {
+        url: url,
+        text: "Are you sure you want to delete this channel?",
+        on_completed: function () {
+            $('#channels_table').dataTable().fnDraw();
+        }
+    };
+    delete_dialog(options);
+}
+
+
+
+$(document).on('click', '.channel_log_reload', function () {
+    var url = '/channels/' + $('#channel_id').val() + '/reload_log';
+    $('#channel_log_content').html('');
+    $.ajax({
+        url: url,
+        success: function (data) {
+            $('#channel_log_content').html(data);
+        },
+        failure: function () {
+            console.log('error');
+        }
+    });
+})
+
+$(document).on('change', '#channel_system_channel_id', function () {
+    changeSystemChannel();
+});
+
+function changeSystemChannel() {
+
+    clear_form_elements("#new_channel");
+    setupView()
+
+}
+
+function clear_form_elements(ele) {
+
+    $(ele).find(':input[name!="channel[name]"]').each(function () {
+        switch (this.type) {
+            case 'password':
+            case 'text':
+                $(this).val('');
+                break;
+        }
+    });
+
+}
+
+function setupView() {
+    $.ajax({
+        type: 'GET',
+        url: '/system_channels/' + $('#channel_system_channel_id').val() + '.json',
+        success: function (result) {
+//
+//            $('#getEbayUserToken').remove();
+//
+
+            $("label[for='channel_connection_1']").text(result.system_channel_setting.setting_1_text);
+            $("label[for='channel_connection_2']").text(result.system_channel_setting.setting_2_text);
+            $("label[for='channel_connection_3']").text(result.system_channel_setting.setting_3_text);
+            $("label[for='channel_connection_4']").text(result.system_channel_setting.setting_4_text);
+            $("label[for='channel_password_1_new']").text(result.system_channel_setting.password_1_text);
+            $("label[for='channel_password_2_new']").text(result.system_channel_setting.password_2_text);
+            $("label[for='channel_password_3_new']").text(result.system_channel_setting.password_3_text);
+
+            if (result.system_channel_setting.setting_1_enabled == 'N') {
+                $('#channel_connection_1_input').hide();
+            } else {
+                $('#channel_connection_1_input').show();
+            }
+
+            if (result.system_channel_setting.setting_2_enabled == 'N') {
+                $('#channel_connection_2_input').hide();
+            } else {
+                $('#channel_connection_2_input').show();
+            }
+
+            if (result.system_channel_setting.setting_3_enabled == 'N') {
+                $('#channel_connection_3_input').hide();
+            } else {
+                $('#channel_connection_3_input').show();
+            }
+
+            if (result.system_channel_setting.setting_4_enabled == 'N') {
+                $('#channel_connection_4_input').hide();
+            } else {
+                $('#channel_connection_4_input').show();
+            }
+
+            if (result.system_channel_setting.password_1_enabled == 'N') {
+                $('#channel_password_1_new_input').hide();
+            } else {
+                $('#channel_password_1_new_input').show();
+            }
+
+            if (result.system_channel_setting.password_2_enabled == 'N') {
+                $('#channel_password_2_new_input').hide();
+            } else {
+                $('#channel_password_2_new_input').show();
+            }
+
+            if (result.system_channel_setting.password_3_enabled == 'N') {
+                $('#channel_password_3_new_input').hide();
+            } else {
+                $('#channel_password_3_new_input').show();
+            }
+
+            if (result.download_overlap_enabled) {
+                $('#channel_download_overlap_input').show();
+            } else {
+                $('#channel_download_overlap_input').hide();
+            }
+
+            if (result.name == 'AMAZON') {
+                connection3 = $('#channel_connection_3');
+
+                var current_mp = $('#channel_connection_3').val();
+
+                var select = '<select id="channel_connection_3" name="channel[connection_3]">' +
+                        '<option value="CA">CA</option>' +
+                        '<option value="CN">CN</option>' +
+                        '<option value="DE">DE</option>' +
+                        '<option value="ES">ES</option>' +
+                        '<option value="FR">FR</option>' +
+                        '<option value="IN">IN</option>' +
+                        '<option value="IT">IT</option>' +
+                        '<option value="JP">JP</option>' +
+                        '<option value="UK">UK</option>' +
+                        '<option value="US">US</option>' +
+                        '</select>';
+
+                $('#channel_connection_3').remove();
+
+                $('#channel_connection_3_input div').append(select);
+
+                if (current_mp) {
+                    $('#channel_connection_3').val(current_mp);
+                }
+
+            } else {
+                if (connection3) {
+                    $('#channel_connection_3').remove();
+                    $('#channel_connection_3_input div').append(connection3);
+                }
+            }
+
+            if (result.name == 'EBAY') {
+
+                connection2 = $('#channel_connection_2');
+
+                var current_site = $('#channel_connection_2').val();
+
+                var select = '<select id="channel_connection_2" name="channel[connection_2]">' +
+                        '<option value="12">Australia</option>' +
+                        '<option value="16">Austria</option>' +
+                        '<option value="123">Belgium (Dutch)</option>' +
+                        '<option value="23">Belgium (French)</option>' +
+                        '<option value="2">Canada</option>' +
+                        '<option value="210">Canada (French)</option>' +
+                        '<option value="71">France</option>' +
+                        '<option value="77">Germany</option>' +
+                        '<option value="201">Hong Kong</option>' +
+                        '<option value="203">India</option>' +
+                        '<option value="205">Ireland</option>' +
+                        '<option value="101">Italy</option>' +
+                        '<option value="207">Malaysia</option>' +
+                        '<option value="146">Netherlands</option>' +
+                        '<option value="211">Philippines</option>' +
+                        '<option value="212">Poland</option>' +
+                        '<option value="216">Singapore</option>' +
+                        '<option value="186">Spain</option>' +
+                        '<option value="193">Switzerland</option>' +
+                        '<option value="3">United Kingdom</option>' +
+                        '<option value="0">United States</option>' +
+                        '<option value="100">US eBay Motors</option>' +
+                        '</select>';
+
+                $('#channel_connection_2').remove();
+
+                $('#channel_connection_2_input div').append(select);
+
+                if (current_site) {
+                    $('#channel_connection_2').val(current_site);
+                }
+
+                connection3 = $('#channel_connection_3');
+
+                var current_mode = $('#channel_connection_3').val();
+
+                var select = '<select id="channel_connection_3" name="channel[connection_3]">' +
+                        '<option value="SANDBOX">SANDBOX</option>' +
+                        '<option value="PRODUCTION">PRODUCTION</option>' +
+                        '</select>';
+
+                $('#channel_connection_3').remove();
+
+                $('#channel_connection_3_input div').append(select);
+
+                if (current_mode) {
+                    $('#channel_connection_3').val(current_site);
+                }
+
+                $('#channel_connection_1').attr('rows', 10);
+
+
+            } else {
+                if (connection2) {
+                    $('#channel_connection_2').remove();
+                    $('#channel_connection_2_input div').append(connection2);
+                }
+
+                if (connection3) {
+                    $('#channel_connection_3').remove();
+                    $('#channel_connection_3_input div').append(connection3);
+                }
+
+                $('#channel_connection_1').attr('rows', 1);
+            }
+
+        },
+        dataType: "json"
+    });
+}
+
+
+function setupChannelShippingServices() {
+    $('#channel_shipping_services').dataTable({
+        "sPaginationType": "full_numbers",
+        bJQueryUI: true,
+        bProcessing: true,
+        bServerSide: true,
+        sAjaxSource: $('#channel_shipping_services').data('source'),
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [3, 4]},
+            {"sWidth": "5%", "aTargets": [3, 4]},
+            {"sWidth": "40%", "aTargets": [0]},
+            {"sWidth": "25%", "aTargets": [1, 2]}
+        ]
+    }).fnSetFilteringDelay();
+
+    $('#edit_channel_shipping_service_dialog').dialog({
+        height: 'auto',
+        width: 'auto',
+        modal: true,
+        autoOpen: false
+    });
+
+    $("#channel_shipping_services .edit-button").live("click", function () {
+        var url = '/channels/' + this.id + '/edit_shipping_service';
+        url = url.replace('edit_channel_shipping_service_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#edit_channel_shipping_service_dialog').html(data);
+                $('#edit_channel_shipping_service_dialog').dialog('open');
+                setupColours();
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+
+    });
+
+    $('#channel_edit_shipping_service_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#edit_channel_shipping_service_dialog').dialog('close');
+                var tbl = $('#channel_shipping_services').dataTable();
+                tbl.dataTable().fnDraw(false);
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#edit_channel_shipping_service_dialog').html(xhr.responseText);
+            });
+
+    $('#channel_shipping_services .delete-button').live('click', function (event) {
+        delete_channel_ss_row(this.id);
+    });
+}
+
+function delete_channel_ss_row(id) {
+    var url = '/channels/destroy_shipping_service/' + id;
+    url = url.replace('delete_channel_shipping_service_', '');
+
+    var options = {
+        url: url,
+        text: "Are you sure you want to delete this user?",
+        on_completed: function () {
+            $('channel_shipping_services').dataTable().fnDraw();
+        }
+    };
+    delete_dialog(options);
+}
+
+function setupBasicDetails() {
+    $('#channel_basic_details_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#channel_basic_details_tab .z-content-inner').html(xhr.responseText);
+                setupView();
+                save_successful();
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#channel_basic_details_tab .z-content-inner').html(xhr.responseText);
+            });
+}
+
+function setupColours() {
+    $("#channel_shipping_service_highlight_colour").spectrum({
+        showPalette: true,
+        showSelectionPalette: true,
+        palette: [],
+        localStorageKey: "spectrum.presets",
+        preferredFormat: "hex",
+        allowEmpty: true
+    });
+    $("#channel_shipping_service_font_colour").spectrum({
+        showPalette: true,
+        showSelectionPalette: true,
+        palette: [],
+        localStorageKey: "spectrum.presets",
+        preferredFormat: "hex",
+        allowEmpty: true
+    });
+}
+
+function setupChannelStatuses() {
+    $('#channel_statuses').dataTable({
+        "sPaginationType": "full_numbers",
+        bJQueryUI: true,
+        bProcessing: true,
+        bServerSide: true,
+        sAjaxSource: $('#channel_statuses').data('source'),
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [2, 3]},
+            {"sWidth": "5%", "aTargets": [2, 3]}
+        ]
+    }).fnSetFilteringDelay();
+
+    $('#edit_channel_status_dialog').dialog({
+        height: 'auto',
+        width: 'auto',
+        modal: true,
+        autoOpen: false
+    });
+
+    $("#channel_statuses .edit-button").live("click", function () {
+        var url = '/channels/' + this.id + '/edit_channel_status';
+        url = url.replace('edit_channel_status_', '');
+
+        $.ajax({
+            url: url,
+            success: function (data) {
+                $('#edit_channel_status_dialog').html(data);
+                $('#edit_channel_status_dialog').dialog('open');
+                setupColours();
+            },
+            failure: function () {
+                console.log('error');
+            }
+        });
+
+    });
+
+    $('#channel_edit_status_form')
+            .live("ajax:success", function (evt, data, status, xhr) {
+                $('#edit_channel_status_dialog').dialog('close');
+                var tbl = $('#channel_statuses').dataTable();
+                tbl.dataTable().fnDraw(false);
+            })
+            .live("ajax:error", function (evt, xhr, status, error) {
+                $('#edit_channel_status_dialog').html(xhr.responseText);
+            });
+
+    $('#channel_statuses .delete-button').live('click', function (event) {
+        delete_channel_status(this.id);
+    });
+
+}
+
+function delete_channel_status(id) {
+    var url = '/channels/destroy_channel_status/' + id;
+    url = url.replace('delete_channel_status_', '');
+
+    var options = {
+        url: url,
+        text: "Are you sure you want to delete this channel status?",
+        on_completed: function () {
+            $('#channel_statuses').dataTable().fnDraw();
+        }
+    };
+    delete_dialog(options);
+}

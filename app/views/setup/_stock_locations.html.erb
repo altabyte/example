@@ -1,0 +1,28 @@
+<div id="stock_locations_select_pane">
+  <div>
+    <table id="stock_locations" class="display" data-source="<%= stock_locations_path(format: "json") %>">
+      <thead>
+      <tr>
+        <th><%= t('.location') %></th>
+        <th><%= t('.reference') %></th>
+        <th><%= t('.edit') %></th>
+      </tr>
+      </thead>
+      <tfoot style="display: none;">
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      </tfoot>
+      <tbody>
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<div id="stock_locations_edit_pane"></div>
+<div id="new_stock_location_dialog" title="<%= t('.new_stock_location') %>"></div>
+

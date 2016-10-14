@@ -1,0 +1,59 @@
+$(document).ready(function () {
+    $('#pending_orders').dataTable({
+        "sPaginationType": "full_numbers",
+        bJQueryUI: true,
+        bProcessing: true,
+        bServerSide: true,
+        sAjaxSource: $('#pending_orders').data('source'),
+        "aoColumnDefs": [
+            {"bSortable": false, "aTargets": [3]},
+            {"sWidth": "5%", "aTargets": [3]}
+
+        ]
+    }).fnSetFilteringDelay();
+
+    $("#view_payload").dialog({
+        height: 'auto',
+        width: 'auto',
+        modal: true,
+        autoOpen: false
+    });
+
+});
+
+
+$(document).on('click', '#retry_pending_orders', function () {
+    $.ajax({
+        type: 'POST',
+        format: 'JSON',
+        url: '/orders/retry_pending_orders',
+        success: function (data) {
+            $('#retry_message').html(data.result);
+            $('#retry_message').show();
+        },
+        failure: function () {
+            console.log('fail!');
+
+        }
+    });
+
+
+});
+
+$(document).on('click', '#pending_orders .show-button', function () {
+    var url = '/orders/get_pending_payload?id=' + this.id;
+    url = url.replace('show_payload_', '');
+
+    $.ajax({
+        url: url,
+        format: 'JSON',
+        success: function (data) {
+            $('#payload_xml_display').html(data.order_payload);
+            $('#view_payload').dialog('open');
+        },
+        failure: function () {
+            console.log('error');
+        }
+    });
+});
+
